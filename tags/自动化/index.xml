@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>自动化 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/</link>
+    <description>Recent content in 自动化 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2026 14:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于 LLM 的版本性能劣化自动定位与修复系统</title>
+      <link>https://bernard035.github.io/posts/llm-performance-regression-auto-repair/</link>
+      <pubDate>Thu, 03 Sep 2026 14:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/llm-performance-regression-auto-repair/</guid>
+      <description>&lt;h1 id=&#34;基于-llm-的版本性能劣化自动定位与修复系统&#34;&gt;基于 LLM 的版本性能劣化自动定位与修复系统&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;版本性能劣化隐蔽性强、定位耗时久、修复周期长。本文介绍一套实现了 &lt;strong&gt;&amp;ldquo;复现 → 定位 → 分析 → 修复&amp;rdquo;&lt;/strong&gt; 全链路闭环的自动化系统：用基于分块的 commit 搜索算法解决劣化定位难题；参考 &lt;strong&gt;OpenEvolve&lt;/strong&gt;（DeepMind &lt;strong&gt;AlphaEvolve&lt;/strong&gt; 的开源实现）的进化式编码智能体思想，构建了**自进化 Agent（Self-Improving Agent）&lt;strong&gt;与&lt;/strong&gt;长期记忆系统（Long-term Memory System）**两大核心子系统。在两个真实生产级劣化 case 中，修复周期从 30+ 天缩短到 7 小时以内；随着自进化机制与持久化记忆的落地，修复稳定性与跨案例经验复用能力均取得显著改善。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;一概览&#34;&gt;一、概览&lt;/h2&gt;
+&lt;p&gt;版本性能劣化问题如同潜藏在暗处的礁石：它隐蔽（往往没有功能错误，只有指标回退）、定位耗时（需要在海量 commit 中找到&amp;quot;真凶&amp;quot;）、修复周期长（常常需要跨团队协作、投入大量人力）。传统的人工排查模式下，一个劣化问题从发现到修复动辄以月计。&lt;/p&gt;
+&lt;p&gt;围绕这一问题，我们实现了版本性能劣化自动修复的 &lt;strong&gt;&amp;ldquo;复现 - 定位 - 分析 - 修复&amp;rdquo;&lt;/strong&gt; 全链路闭环，工作分为两个核心模块：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;commit 劣化定位&lt;/strong&gt;（复现 - 定位）：验证版本间性能劣化，并以 commit 为粒度定位到引入劣化的具体提交；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;AI 自动修复&lt;/strong&gt;（分析 - 修复）：通过 &lt;code&gt;git diff&lt;/code&gt; 获取劣化前后的代码变更，以对话形式驱动 LLM 生成修复代码，再经&amp;quot;编译 - 测试 - 性能基准&amp;quot;闭环验证修复，最终以 patch 形式交付。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;真实-case&#34;&gt;真实 case&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;数据库内核 22.7.0 相对 22.6.8 劣化 7%&lt;/strong&gt;（集中式实例）
+&lt;ul&gt;
+&lt;li&gt;两个版本位于不同分支，历史上发生过主分支切换；&lt;/li&gt;
+&lt;li&gt;大量 commit 无法通过编译 / 测试；&lt;/li&gt;
+&lt;li&gt;相距 1000+ commit、数十万行代码差异，劣化 commit 单笔引入超过 10 万行代码；&lt;/li&gt;
+&lt;li&gt;研发人工排查与修复耗时 &lt;strong&gt;35 天&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据库代理 22.4.3 相对 22.4.2 劣化 17%&lt;/strong&gt;（分布式实例）
+&lt;ul&gt;
+&lt;li&gt;相距 66 个 commit；&lt;/li&gt;
+&lt;li&gt;研发人工修复耗时 &lt;strong&gt;31 天&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;两个 case 均由系统在 &lt;strong&gt;7 小时内&lt;/strong&gt;完成定位与修复。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

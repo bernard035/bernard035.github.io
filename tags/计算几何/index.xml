@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>计算几何 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/</link>
+    <description>Recent content in 计算几何 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 01 Feb 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E8%AE%A1%E7%AE%97%E5%87%A0%E4%BD%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>三棱锥之刻 简单计算几何</title>
+      <link>https://bernard035.github.io/posts/computational-geometry-20210201/</link>
+      <pubDate>Mon, 01 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/computational-geometry-20210201/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/ad5c1233a3d872cb.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;根据发射距离R的不同，可分为四种情况&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;碰不到&lt;/li&gt;
+&lt;li&gt;四个圆&lt;/li&gt;
+&lt;li&gt;圆和三角的交*4&lt;/li&gt;
+&lt;li&gt;正四面体的全部内表面&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;因为第三种情况忘记*4浪费了一个晚上。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/7a6865ce9b0b21e7.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;具体来说就是计算小三角形的面积，再加上一个最小的扇形面积。&lt;/p&gt;
+&lt;p&gt;重合部分的面积等于${S_{\triangle DGK} *3 +\frac{1}{2}S_{扇HDG}&lt;em&gt;r&lt;/em&gt;6}$&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;from math import sqrt, acos, pi
+a, R = map(float, input().split())
+d = sqrt(6) * a / 12  #中心到面的距离
+r = sqrt(R * R - d * d) if d &amp;lt; R else 0  #三角形上的圆的半径
+if R &amp;lt;= d: ans = 0  #碰不到
+elif r &amp;lt;= a / (sqrt(3) * 2):  #四个圆
+    ans = 4 * pi * (R * R - d * d)
+elif R &amp;gt;= a * sqrt(6) / 4:  #全覆盖
+    ans = a * a * sqrt(3)
+else:  #切掉
+    DF = a / (2 * sqrt(3))
+    GF = sqrt(r * r - DF * DF)  #求底面三角形 半底长
+    deg = pi / 3 - acos(DF / r)  # 小扇形的弧度
+    ans = GF * DF * 3
+    shan = deg * 0.5 * r * r
+    ans += 6 * shan
+    ans *= 4  #就漏了这一句
+print(ans)
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/9ce2332c8a0a4f9894c062636433b4fb），发布于 2021-02-01。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sky Garden 计算几何</title>
+      <link>https://bernard035.github.io/posts/sky-garden-computational-geometry-20210131/</link>
+      <pubDate>Sun, 31 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/sky-garden-computational-geometry-20210131/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;有$n$个同心圆，半径分别是$1\sim n$，有$m$条直线将这些同心圆切分成$2m$等分。&lt;/p&gt;
+&lt;p&gt;求所有交点两两之间的最短距离的和。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/fc1e753d63b71669.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;圆心到每个点之间的距离是很好算的$\sum _{r=1}^{n}2mr$&lt;/li&gt;
+&lt;li&gt;单个环内部每个点之间的距离和也是很好算的：枚举两点之间的长度，所有的相邻的点的最短距离和会贡献$2\pi r$，所有的间隔一个点的最短距离和也是$2\pi r$，直到两点恰好在直径两端的时候，贡献$2r$，共计$2\pi r*(m-1)+2mr$，把每个圆的贡献累加，就是$\sum _{r=1}^{n}2\pi r*(m-1)+2mr$&lt;/li&gt;
+&lt;li&gt;考虑外层到内层的点的距离和，首先可以肯定，外层到内层的对应点可以直接走直线，距离$r_2-r_1$，于是就继承了这个点与该内层所有点的最短距离，累加外圈所有点，每多一圈，内层就要多算一遍，而所有的直线也被类加成了立体的锥形。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef double db;
+const int N = 510;
+const db pi = acos(-1);
+db point[N];  // 表示本层的某个点 到本层所有其他点的距离和
+db cir[N];  // 表示当前层的某个点 到本层和内层所有点的距离和
+int main() {
+    db n, m, ans = 0;
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m;
+    ans += (m &amp;gt; 1) * n * (n + 1) * m;  // 直接把圆心到每个点的距离算出来
+    // 等差序列 和我上面说的“锥形”一样
+    db th = pi / (1.0 * m);          // 表示相邻两个点构成的角度
+    for (int i = 1; i &amp;lt;= n; i++) {   // 由内而外
+        for (int j = 1; j &amp;lt; m; j++)  // 对于一个点，枚举一半的点对
+            point[i] += min(2.0 * i, th * j * i);  // 走圆弧 或者 走半径
+        point[i] *= 2;                             // 另外一半的点对
+        point[i] += 2 * i;                         //直径
+        ans += point[i] * m;                       //本层圆上的
+        ans += (cir[i - 1] + (i - 1) * 2.0 * m) * 2.0 * m;  //本层圆通往内部的
+        // 内层一共有（i-1)*2*m个点  外层有2*m个点
+        // 对于每个外层圆上的点 要先降到内层的对应点上
+        // 每个从外层降到内层的pair 都要加上一个额外的 降到内一层的消耗
+        cir[i] = cir[i - 1] + (i - 1) * 2.0 * m + point[i];
+        // 外层+内层 此处做前缀和处理，可避免上面的等差数列求和
+        //ans+=cir[i]
+    }
+    printf(&amp;#34;%.10lf\n&amp;#34;, ans);
+    // printf(&amp;#34;%.10lf\n&amp;#34;, cir[(int)n] * 2 * m + ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;//逆十字 O(n^3)
+#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+double pi=acos(-1);
+int n,m;
+int main(){
+    scanf(&amp;#34;%d%d&amp;#34;,&amp;amp;n,&amp;amp;m);
+    double ans=0;
+    for (int i=1;i&amp;lt;=n;i++)
+        for (int j=i;j&amp;lt;=n;j++)
+            for (int k=0;k&amp;lt;=m;k++)
+                ans+=min(i+j*1.0,i*k*pi/m+j-i)*(k==0||k==m?1:2)*(j==i?1:2);
+    ans*=2*m;
+    if (m!=1){
+        for (int i=1;i&amp;lt;=n;i++) ans+=4*m*i;
+    }
+    printf(&amp;#34;%.15lf\n&amp;#34;,ans/2);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;//O(1)
+#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+const double pi = acos(-1);
+int main() {
+    long double n, m, s = 0, k1, k2, t;
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m;
+    k1 = (1 + n) * n * n / 2 - n * (n + 1) * (2 * n + 1) / 6;
+    k2 = (1 + n) * n * (0.5 + n) / 2 - n * (n + 1) * (2 * n + 1) / 6;
+    s += (1 + n) * n * m;
+    if (m == 1) s = 0;
+    s += 4 * m * m * k1;
+    t = floor(2 * m / pi);
+    s += (2 * pi * t * (t + 1) + (4 * m * (m - t) - 2 * m) * 2) * k2;
+    cout &amp;lt;&amp;lt; fixed &amp;lt;&amp;lt; setprecision(10) &amp;lt;&amp;lt; s;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/d92e342be3b144eb950fa82cfa1ae630），发布于 2021-01-31。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>搜索 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E6%90%9C%E7%B4%A2/</link>
+    <description>Recent content in 搜索 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 21 Apr 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E6%90%9C%E7%B4%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>这是二叉搜索树吗？</title>
+      <link>https://bernard035.github.io/posts/search-20210421/</link>
+      <pubDate>Wed, 21 Apr 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/search-20210421/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e3 + 7;
+const int mod = 1e9 + 7;
+ll a[N], tr[N];
+ll n, p = 0;
+bool err = 0;
+void build(int idx, int rt, int L, int R) {
+    if (err) return;
+
+    int lson = L, rson = L;
+    while (rson &amp;lt;= R) {
+        if (a[rson] &amp;gt;= a[rt]) break;
+        ++rson;
+    }
+    rep(i, rson, R) if (a[i] &amp;lt; a[rt]) {
+        err = 1;
+        return;
+    }
+    if (lson &amp;lt; rson &amp;amp;&amp;amp; a[lson] &amp;lt; a[rt]) {
+        build(idx * 2, lson, lson + 1, rson - 1);
+    }
+    if (rson &amp;lt;= R and a[rson] &amp;gt;= a[rt]) {
+        build(idx * 2 + 1, rson, rson + 1, R);
+    }if (rt &amp;gt;= 1 &amp;amp;&amp;amp; rt &amp;lt;= n) tr[++p] = a[rt];
+}
+void build2(int idx, int rt, int L, int R) {
+    if (err) return;
+
+    int lson = L, rson = L;
+    while (rson &amp;lt;= R) {  // change
+
+        if (a[rson] &amp;lt; a[rt]) break;
+        ++rson;
+    }
+    // cout &amp;lt;&amp;lt; rt &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; L &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; R &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; lson &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; rson &amp;lt;&amp;lt; endl;
+    rep(i, rson, R) if (a[i] &amp;gt;= a[rt]) {
+        err = 1;
+        return;
+    }
+    if (lson &amp;lt; rson &amp;amp;&amp;amp; a[lson] &amp;gt;= a[rt]) {
+        build2(idx * 2, lson, lson + 1, rson - 1);
+    }
+    if (rson &amp;lt;= R and a[rson] &amp;lt; a[rt]) {
+        build2(idx * 2 + 1, rson, rson + 1, R);
+    }if (rt &amp;gt;= 1 &amp;amp;&amp;amp; rt &amp;lt;= n) tr[++p] = a[rt];
+}
+int main() {
+    sc(n);
+    rep(i, 1, n) sc(a[i]);
+    build(1, 1, 2, n);
+    // rep(i, 1, p) printf(&amp;#34;%lld%c&amp;#34;, tr[i], i == p ? &amp;#39;\n&amp;#39; : &amp;#39; &amp;#39;);
+    if (p == n &amp;amp;&amp;amp; !err) {
+        puts(&amp;#34;YES&amp;#34;);
+        // post(1);
+        rep(i, 1, n) printf(&amp;#34;%lld%c&amp;#34;, tr[i], i == n ? &amp;#39;\n&amp;#39; : &amp;#39; &amp;#39;);
+    } else {
+        p = 0;
+        err = 0;
+        memset(tr, 0, sizeof tr);
+        build2(1, 1, 2, n);
+        if (p == n &amp;amp;&amp;amp; !err) {
+            puts(&amp;#34;YES&amp;#34;);
+            p = 0;
+            // post(1);
+            rep(i, 1, n) printf(&amp;#34;%lld%c&amp;#34;, tr[i], i == n ? &amp;#39;\n&amp;#39; : &amp;#39; &amp;#39;);
+        } else {
+            puts(&amp;#34;NO&amp;#34;);
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/d31817068d1f4944b0d5bd93456c1239），发布于 2021-04-21。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sum of Log 记忆化搜索</title>
+      <link>https://bernard035.github.io/posts/sum-of-log-search-20210129/</link>
+      <pubDate>Fri, 29 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/sum-of-log-search-20210129/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;给定$X$和$Y$，要求计算&lt;/p&gt;
+&lt;p&gt;$$\Large{\sum_{i=0}^X\sum_{j=[i=0]}^Y[i&amp;amp;j=0]\lfloor log_2(i+j)+1 \rfloor}$$&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;由于在贡献计算公式中$X,Y$可交换，另外$\large{\sum_{i=0}^X\sum_{j=[i=0]}^Y}$其实就是$\large{\sum_{i=0}^X\sum_{j=0}^Y}$跳过$i,j$同时为零的情况，所以$X,Y$可交换。&lt;/p&gt;
+&lt;p&gt;所以对于题目要算什么的理解，其实就是枚举所有$i&amp;amp;j\ne 0$的$&amp;lt;i,j&amp;gt;$，其对答案的贡献就是$i+j$的二进制串长。&lt;/p&gt;
+&lt;p&gt;记忆化搜索的本质就是搜索树的复用。&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int mod = 1e9 + 7;
+bool a[35], b[35];
+ll dp[35][2][2];
+ll ans = 0;
+ll dfs(int pos, bool limit1, bool limit2, bool zero) {
+    if (pos == -1) return 1;  // 合法返回
+    if (dp[pos][limit1][limit2] != -1) return dp[pos][limit1][limit2];
+    bool up1 = limit1 ? a[pos] : 1;
+    bool up2 = limit2 ? b[pos] : 1;
+    ll tmp1 = 0, tmp2 = 0;
+    for (int i = 0; i &amp;lt;= up1; ++i) {
+        for (int j = 0; j &amp;lt;= up2; ++j) {
+            if (i &amp;amp; j) continue;  // 题目要求
+            ll d = dfs(pos - 1, limit1 &amp;amp;&amp;amp; i == up1, limit2 &amp;amp;&amp;amp; j == up2,
+                       zero || (i ^ j));
+            // 注意这里的 zero || (i ^ j)
+            // 意思是如果当前位之前枚举的都为0，这一位如果是1就将它做最高位，否则就让之前的做最高位，因为只有最高位对答案有贡献
+            if (!zero &amp;amp;&amp;amp; (i ^ j)) tmp1 = (tmp1 + d) % mod;
+            // 如果这是最高位，则把贡献累加一下
+            tmp2 = (tmp2 + d) % mod;  // 记录一下记忆化的答案
+        }
+    }
+    ans = (ans + tmp1 * (pos + 1)) % mod;
+    // 贡献 * 最高位1到最低位的长度
+    dp[pos][limit1][limit2] = tmp2;  // 记忆化
+    return tmp2;
+}
+inline void solve(int x, int y) {
+    int pos1 = 0, pos2 = 0;  // pos1:最大数的二进制位数
+    do a[pos1++] = x &amp;amp; 1 ;while(x &amp;gt;&amp;gt;= 1);
+    while (y) b[pos2++] = y &amp;amp; 1, y &amp;gt;&amp;gt;= 1;
+    dfs(pos1 - 1, 1, 1, 0);
+}
+int main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int t, x, y;
+    cin &amp;gt;&amp;gt; t;
+    while (t--) {
+        memset(dp, -1, sizeof dp);
+        memset(a, 0, sizeof a);
+        memset(b, 0, sizeof b);
+        ans = 0;
+        cin &amp;gt;&amp;gt; x &amp;gt;&amp;gt; y;
+        if (x &amp;lt; y) swap(x, y);
+        solve(x, y);
+        cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;大佬的代码看起来就是我的拆解展开&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

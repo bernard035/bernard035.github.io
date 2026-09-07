@@ -1,0 +1,1445 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>教程 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E6%95%99%E7%A8%8B/</link>
+    <description>Recent content in 教程 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 03 Nov 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E6%95%99%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>算法竞赛代码模板</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20211103/</link>
+      <pubDate>Wed, 03 Nov 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20211103/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;{
+    // Place your snippets for cpp here. Each snippet is defined under a snippet name and has a prefix, body and
+    // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
+    // same ids are connected.
+    // Example:
+    // &amp;#34;Print to console&amp;#34;: {
+    //     &amp;#34;prefix&amp;#34;: &amp;#34;log&amp;#34;,
+    //     &amp;#34;body&amp;#34;: [
+    //         &amp;#34;console.log(&amp;#39;$1&amp;#39;);&amp;#34;,
+    //         &amp;#34;$2&amp;#34;
+    //     ],
+    //     &amp;#34;description&amp;#34;: &amp;#34;Log output to console&amp;#34;
+    // }
+    &amp;#34;ACMinit&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;ACMINIT&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;#include&amp;lt;bits/stdc++.h&amp;gt;&amp;#34;,
+            &amp;#34;#define sc(x) scanf(\&amp;#34;%lld\&amp;#34;, &amp;amp;(x))&amp;#34;,
+            &amp;#34;#define pr(x) printf(\&amp;#34;%lld\\n\&amp;#34;, (x))&amp;#34;,
+            &amp;#34;#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)&amp;#34;,
+            &amp;#34;using namespace std;&amp;#34;,
+            &amp;#34;typedef long long ll;&amp;#34;,
+            &amp;#34;const int N = 1e5 + 7;&amp;#34;,
+            &amp;#34;const int mod = 1e9 + 7;&amp;#34;,
+            &amp;#34;signed main(){&amp;#34;,
+            &amp;#34;\t$0\n\treturn 0;&amp;#34;,
+            &amp;#34;}&amp;#34;
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;算法竞赛代码初始化&amp;#34;
+    },
+    &amp;#34;PI&amp;#34;: {
+        &amp;#34;body&amp;#34;: &amp;#34;const double PI = acos(-1);&amp;#34;,
+        &amp;#34;description&amp;#34;: &amp;#34;圆周率常量&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;PI&amp;#34;
+    },
+    &amp;#34;ReadLL&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;read&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;inline ll read() {&amp;#34;,
+            &amp;#34;    ll s = 0, f = 1;&amp;#34;,
+            &amp;#34;    char ch;&amp;#34;,
+            &amp;#34;    do {&amp;#34;,
+            &amp;#34;        ch = getchar();&amp;#34;,
+            &amp;#34;        if (ch == &amp;#39;-&amp;#39;) f = -1;&amp;#34;,
+            &amp;#34;    } while (ch &amp;lt; 48 || ch &amp;gt; 57);&amp;#34;,
+            &amp;#34;    while (ch &amp;gt;= 48 &amp;amp;&amp;amp; ch &amp;lt;= 57)&amp;#34;,
+            &amp;#34;        s = (s &amp;lt;&amp;lt; 1) + (s &amp;lt;&amp;lt; 3) + (ch ^ 48), ch = getchar();&amp;#34;,
+            &amp;#34;    return s * f;&amp;#34;,
+            &amp;#34;}\n&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;快速读入ll&amp;#34;
+    },
+    &amp;#34;qkpow&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;QKPOWINIT&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;ll qkpow(ll a, ll b) {&amp;#34;,
+            &amp;#34;    ll ans = 1;&amp;#34;,
+            &amp;#34;    while (b) {&amp;#34;,
+            &amp;#34;        if (b &amp;amp; 1) ans = ans * a % mod;&amp;#34;,
+            &amp;#34;        a = a * a % mod;&amp;#34;,
+            &amp;#34;        b &amp;gt;&amp;gt;= 1;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return ans;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;ll getInv(ll a) { return qkpow(a, mod - 2); }  //求一个数的逆元&amp;#34;
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;快速幂/逆元&amp;#34;
+    },
+    &amp;#34;EularSieve&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;bitset&amp;lt;N&amp;gt; isPrime;&amp;#34;,
+            &amp;#34;vector&amp;lt;int&amp;gt; primes;&amp;#34;,
+            &amp;#34;void sieve(int n) {&amp;#34;,
+            &amp;#34;    isPrime.set();&amp;#34;,
+            &amp;#34;    isPrime[0] = isPrime[1] = 0;&amp;#34;,
+            &amp;#34;    for (int i = 2; i &amp;lt;= n; ++i) {&amp;#34;,
+            &amp;#34;        if (isPrime[i]) primes.emplace_back(i);&amp;#34;,
+            &amp;#34;        for (int p : primes) {&amp;#34;,
+            &amp;#34;            if (i * p &amp;gt; n) break;&amp;#34;,
+            &amp;#34;            isPrime[i * p] = 0;&amp;#34;,
+            &amp;#34;            if (i % p == 0) break;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;欧拉筛&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;EularSieve&amp;#34;
+    },
+    &amp;#34;matrixqkpow&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;QKPOWMAT&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;#include &amp;lt;bits/stdc++.h&amp;gt;&amp;#34;,
+            &amp;#34;using namespace std;&amp;#34;,
+            &amp;#34;typedef long long ll;&amp;#34;,
+            &amp;#34;const ll mod = 1e9 + 7;&amp;#34;,
+            &amp;#34;struct node {  //矩阵类&amp;#34;,
+            &amp;#34;\tll matrix[2][2];&amp;#34;,
+            &amp;#34;\tnode() { memset(matrix, 0, sizeof(matrix)); }  //初始化&amp;#34;,
+            &amp;#34;\tvoid one() {matrix[0][0] = 1;matrix[1][1] = 1;}//单位矩阵E&amp;#34;,
+            &amp;#34;\tnode operator*(node other) {//对*重载 定义矩阵乘法&amp;#34;,
+            &amp;#34;\tnode ans;//记录乘积&amp;#34;,
+            &amp;#34;\tfor (int i = 0; i &amp;lt; 2; i++)&amp;#34;,
+            &amp;#34;\t\tfor (int j = 0; j &amp;lt; 2; j++)&amp;#34;,
+            &amp;#34;\t\t\tfor (int k = 0; k &amp;lt; 2; k++) {&amp;#34;,
+            &amp;#34;\t\t\t\tans.matrix[i][j] += matrix[i][k] * other.matrix[k][j];&amp;#34;,
+            &amp;#34;\t\t\t\tans.matrix[i][j] %= mod;&amp;#34;,
+            &amp;#34;\t}&amp;#34;,
+            &amp;#34;\treturn ans;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;};&amp;#34;,
+            &amp;#34;node power(node a, ll b) {//快速幂 矩阵a的b次方&amp;#34;,
+            &amp;#34;\tnode res;&amp;#34;,
+            &amp;#34;\tres.one();  //单位矩阵&amp;#34;,
+            &amp;#34;\twhile (b) {&amp;#34;,
+            &amp;#34;\t\tif (b &amp;amp; 1) res = res * a;&amp;#34;,
+            &amp;#34;\t\ta = a * a;&amp;#34;,
+            &amp;#34;\t\tb &amp;gt;&amp;gt;= 1;&amp;#34;,
+            &amp;#34;\t}&amp;#34;,
+            &amp;#34;\treturn res;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;int main() {&amp;#34;,
+            &amp;#34;\tnode temp;&amp;#34;,
+            &amp;#34;\ttemp.matrix[0][0] = 3;&amp;#34;,
+            &amp;#34;\ttemp.matrix[0][1] = 1;&amp;#34;,
+            &amp;#34;\ttemp.matrix[1][0] = 1;&amp;#34;,
+            &amp;#34;\ttemp.matrix[1][1] = 3;&amp;#34;,
+            &amp;#34;\tll n, flag = 0;&amp;#34;,
+            &amp;#34;\twhile (cin &amp;gt;&amp;gt; n) {&amp;#34;,
+            &amp;#34;\t\tcout &amp;lt;&amp;lt; power(temp, n).matrix[0][0] &amp;lt;&amp;lt; endl;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;return 0;&amp;#34;,
+            &amp;#34;}&amp;#34;
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;矩阵快速幂&amp;#34;
+    },
+    &amp;#34;factor&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;FactorF&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;int work(int num) {&amp;#34;,
+            &amp;#34;    int factor[1600], m = 0;&amp;#34;,
+            &amp;#34;    for (int i = 1; i &amp;lt;= num / i; i++) {&amp;#34;,
+            &amp;#34;        if (num % i == 0) {&amp;#34;,
+            &amp;#34;            factor[++m] = i;&amp;#34;,
+            &amp;#34;            if (i != num / i) factor[++m] = num / i;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return m;&amp;#34;,
+            &amp;#34;}&amp;#34;
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;因数/个数&amp;#34;
+    },
+    &amp;#34;chaichai&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;chaichai&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;/***&amp;#34;,
+            &amp;#34;*               ii.                                         ;9ABH,&amp;#34;,
+            &amp;#34;*              SA391,                                    .r9GG35&amp;amp;G&amp;#34;,
+            &amp;#34;*              &amp;amp;#ii13Gh;                               i3X31i;:,rB1&amp;#34;,
+            &amp;#34;*              iMs,:,i5895,                         .5G91:,:;:s1:8A&amp;#34;,
+            &amp;#34;*               33::::,,;5G5,                     ,58Si,,:::,sHX;iH1&amp;#34;,
+            &amp;#34;*                Sr.,:;rs13BBX35hh11511h5Shhh5S3GAXS:.,,::,,1AG3i,GG&amp;#34;,
+            &amp;#34;*                .G51S511sr;;iiiishS8G89Shsrrsh59S;.,,,,,..5A85Si,h8&amp;#34;,
+            &amp;#34;*               :SB9s:,............................,,,.,,,SASh53h,1G.&amp;#34;,
+            &amp;#34;*            .r18S;..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,....,,.1H315199,rX,&amp;#34;,
+            &amp;#34;*          ;S89s,..,,,,,,,,,,,,,,,,,,,,,,,....,,.......,,,;r1ShS8,;Xi&amp;#34;,
+            &amp;#34;*        i55s:.........,,,,,,,,,,,,,,,,.,,,......,.....,,....r9&amp;amp;5.:X1&amp;#34;,
+            &amp;#34;*       59;.....,.     .,,,,,,,,,,,...        .............,..:1;.:&amp;amp;s&amp;#34;,
+            &amp;#34;*      s8,..;53S5S3s.   .,,,,,,,.,..      i15S5h1:.........,,,..,,:99&amp;#34;,
+            &amp;#34;*      93.:39s:rSGB@A;  ..,,,,.....    .SG3hhh9G&amp;amp;BGi..,,,,,,,,,,,,.,83&amp;#34;,
+            &amp;#34;*      G5.G8  9#@@@@@X. .,,,,,,.....  iA9,.S&amp;amp;B###@@Mr...,,,,,,,,..,.;Xh&amp;#34;,
+            &amp;#34;*      Gs.X8 S@@@@@@@B:..,,,,,,,,,,. rA1 ,A@@@@@@@@@H:........,,,,,,.iX:&amp;#34;,
+            &amp;#34;*     ;9\\. ,8A#@@@@@@#5,.,,,,,,,,,... 9A. 8@@@@@@@@@@M;    ....,,,,,,,,S8&amp;#34;,
+            &amp;#34;*     X3    iS8XAHH8s.,,,,,,,,,,...,..58hH@@@@@@@@@Hs       ...,,,,,,,:Gs&amp;#34;,
+            &amp;#34;*    r8,        ,,,...,,,,,,,,,,.....  ,h8XABMMHX3r.          .,,,,,,,.rX:&amp;#34;,
+            &amp;#34;*   :9, .    .:,..,:;;;::,.,,,,,..          .,,.               ..,,,,,,.59&amp;#34;,
+            &amp;#34;*  .Si      ,:.i8HBMMMMMB&amp;amp;5,....                    .            .,,,,,.sMr&amp;#34;,
+            &amp;#34;*  SS       :: h@@@@@@@@@@#; .                     ...  .         ..,,,,iM5&amp;#34;,
+            &amp;#34;*  91  .    ;:.,1&amp;amp;@@@@@@MXs.                            .          .,,:,:&amp;amp;S&amp;#34;,
+            &amp;#34;*  hS ....  .:;,,,i3MMS1;..,..... .  .     ...                     ..,:,.99&amp;#34;,
+            &amp;#34;*  ,8; ..... .,:,..,8Ms:;,,,...                                     .,::.83&amp;#34;,
+            &amp;#34;*   s&amp;amp;: ....  .sS553B@@HX3s;,.    .,;13h.                            .:::&amp;amp;1&amp;#34;,
+            &amp;#34;*    SXr  .  ...;s3G99XA&amp;amp;X88Shss11155hi.                             ,;:h&amp;amp;,&amp;#34;,
+            &amp;#34;*     iH8:  . ..   ,;iiii;,::,,,,,.                                 .;irHA&amp;#34;,
+            &amp;#34;*      ,8X5;   .     .......                                       ,;iihS8Gi&amp;#34;,
+            &amp;#34;*         1831,                                                 .,;irrrrrs&amp;amp;@&amp;#34;,
+            &amp;#34;*           ;5A8r.                                            .:;iiiiirrss1H&amp;#34;,
+            &amp;#34;*             :X@H3s.......                                .,:;iii;iiiiirsrh&amp;#34;,
+            &amp;#34;*              r#h:;,...,,.. .,,:;;;;;:::,...              .:;;;;;;iiiirrss1&amp;#34;,
+            &amp;#34;*             ,M8 ..,....,.....,,::::::,,...         .     .,;;;iiiiiirss11h&amp;#34;,
+            &amp;#34;*             8B;.,,,,,,,.,.....          .           ..   .:;;;;iirrsss111h&amp;#34;,
+            &amp;#34;*            i@5,:::,,,,,,,,.... .                   . .:::;;;;;irrrss111111&amp;#34;,
+            &amp;#34;*            9Bi,:,,,,......                        ..r91;;;;;iirrsss1ss1111***/&amp;#34;
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;柴柴！&amp;#34;,
+    },
+    &amp;#34;primefactory&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;primefact&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;ll a[N];&amp;#34;,
+            &amp;#34;int PrimeFactory(ll n) {  //分解质因数 要求n&amp;gt;1  输出24=2*2*2*3&amp;#34;,
+            &amp;#34;    int cnt = 0;&amp;#34;,
+            &amp;#34;    for (; n % 2 == 0; a[cnt++] = 2) n /= 2;&amp;#34;,
+            &amp;#34;    for (ll i = 3; i * i &amp;lt;= n; i += 2)&amp;#34;,
+            &amp;#34;        for (; n % i == 0; a[cnt++] = i) n /= i;&amp;#34;,
+            &amp;#34;    if (n != 1) a[cnt++] = n;&amp;#34;,
+            &amp;#34;    sort(a, a + cnt);&amp;#34;,
+            &amp;#34;    return cnt;&amp;#34;,
+            &amp;#34;}  //输入：需要分解的数  非1的因子从小到大排列在数组里 数量为返回&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;分解质因数&amp;#34;
+    },
+    &amp;#34;sscc&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;sscc&amp;#34;,
+        &amp;#34;body&amp;#34;: &amp;#34;ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);&amp;#34;,
+        &amp;#34;description&amp;#34;: &amp;#34;解除cin和scanf putchar的关联，加速输入输出&amp;#34;
+    },
+    &amp;#34;ufs&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;ufs&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;int fa[N];&amp;#34;,
+            &amp;#34;inline void init(int n) {&amp;#34;,
+            &amp;#34;    for (int i = 1; i &amp;lt;= n; ++i) fa[i] = i;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;inline int Find(int x) {&amp;#34;,
+            &amp;#34;    if (x != fa[x]) fa[x] = Find(fa[x]);  //路径压缩&amp;#34;,
+            &amp;#34;    return fa[x];&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;inline void merge(int x, int y) { fa[Find(y)] = Find(x); }&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;简化版并查集&amp;#34;
+    },
+    &amp;#34;DisjointSet&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;int ht[N];&amp;#34;,
+            &amp;#34;int fa[N];&amp;#34;,
+            &amp;#34;int n;  // point numers&amp;#34;,
+            &amp;#34;void init_set() {&amp;#34;,
+            &amp;#34;    for (int i = 1; i &amp;lt;= n; ++i) fa[i] = i, ht[i] = 0;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;int Find(int x) {&amp;#34;,
+            &amp;#34;    if (x != fa[x]) fa[x] = Find(fa[x]);  //路径压缩&amp;#34;,
+            &amp;#34;    return fa[x];&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;int findC(int x) {&amp;#34;,
+            &amp;#34;    int r = x;&amp;#34;,
+            &amp;#34;    while (fa[r] != r) r = fa[r];  //找到根节点&amp;#34;,
+            &amp;#34;    for (int i = x, j; i != r; i = j)&amp;#34;,
+            &amp;#34;        j = fa[i], fa[i] = r;  //把路径上的元素的集改为根节点&amp;#34;,
+            &amp;#34;    return r;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;void merge(int x, int y) {&amp;#34;,
+            &amp;#34;    x = Find(x);&amp;#34;,
+            &amp;#34;    y = Find(y);&amp;#34;,
+            &amp;#34;    if (ht[x] == ht[y])&amp;#34;,
+            &amp;#34;        ht[x] = ht[x] + 1, fa[y] = x;&amp;#34;,
+            &amp;#34;    else if (ht[x] &amp;lt; ht[y])&amp;#34;,
+            &amp;#34;        fa[x] = y;&amp;#34;,
+            &amp;#34;    else&amp;#34;,
+            &amp;#34;        fa[y] = x;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;prefix&amp;#34;: &amp;#34;disjointset&amp;#34;,
+        &amp;#34;description&amp;#34;: &amp;#34;并查集&amp;#34;
+    },
+    &amp;#34;point&amp;#34;: {
+        &amp;#34;prefix&amp;#34;: &amp;#34;point&amp;#34;,
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;struct point {double x, y;} a[N];&amp;#34;,
+            &amp;#34;double getdis(point a, point b) {return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));}&amp;#34;
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;点/求距离&amp;#34;
+    },
+    &amp;#34;BigInt&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;struct BigInteger {&amp;#34;,
+            &amp;#34;    static const int BASE = 100000000;  //和WIDTH保持一致&amp;#34;,
+            &amp;#34;    static const int WIDTH = 8;  //八位一存储,如修改记得修改输出中的%08d&amp;#34;,
+            &amp;#34;    bool sign;                   //符号, 0表示负数&amp;#34;,
+            &amp;#34;    size_t length;               //位数&amp;#34;,
+            &amp;#34;    vector&amp;lt;int&amp;gt; num;             //反序存&amp;#34;,
+            &amp;#34;                                 //构造函数&amp;#34;,
+            &amp;#34;    BigInteger(long long x = 0) { *this = x; }&amp;#34;,
+            &amp;#34;    BigInteger(const string &amp;amp;x) { *this = x; }&amp;#34;,
+            &amp;#34;    BigInteger(const BigInteger &amp;amp;x) { *this = x; }&amp;#34;,
+            &amp;#34;    //剪掉前导0，并且求一下数的位数&amp;#34;,
+            &amp;#34;    void cutLeadingZero() {&amp;#34;,
+            &amp;#34;        while (num.back() == 0 &amp;amp;&amp;amp; num.size() != 1) {&amp;#34;,
+            &amp;#34;            num.pop_back();&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        int tmp = num.back();&amp;#34;,
+            &amp;#34;        if (tmp == 0) {&amp;#34;,
+            &amp;#34;            length = 1;&amp;#34;,
+            &amp;#34;        } else {&amp;#34;,
+            &amp;#34;            length = (num.size() - 1) * WIDTH;&amp;#34;,
+            &amp;#34;            while (tmp &amp;gt; 0) {&amp;#34;,
+            &amp;#34;                length++;&amp;#34;,
+            &amp;#34;                tmp /= 10;&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    //赋值运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator=(long long x) {&amp;#34;,
+            &amp;#34;        num.clear();&amp;#34;,
+            &amp;#34;        if (x &amp;gt;= 0) {&amp;#34;,
+            &amp;#34;            sign = true;&amp;#34;,
+            &amp;#34;        } else {&amp;#34;,
+            &amp;#34;            sign = false;&amp;#34;,
+            &amp;#34;            x = -x;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        do {&amp;#34;,
+            &amp;#34;            num.push_back(x % BASE);&amp;#34;,
+            &amp;#34;            x /= BASE;&amp;#34;,
+            &amp;#34;        } while (x &amp;gt; 0);&amp;#34;,
+            &amp;#34;        cutLeadingZero();&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator=(const string &amp;amp;str) {&amp;#34;,
+            &amp;#34;        num.clear();&amp;#34;,
+            &amp;#34;        sign = (str[0] != &amp;#39;-&amp;#39;);  //设置符号&amp;#34;,
+            &amp;#34;        int x, len = (str.size() - 1 - (!sign)) / WIDTH + 1;&amp;#34;,
+            &amp;#34;        for (int i = 0; i &amp;lt; len; i++) {&amp;#34;,
+            &amp;#34;            int End = str.size() - i * WIDTH;&amp;#34;,
+            &amp;#34;            int start = max((int)(!sign), End - WIDTH);  //防止越界&amp;#34;,
+            &amp;#34;            sscanf(str.substr(start, End - start).c_str(), \&amp;#34; % d \&amp;#34;, &amp;amp;x);&amp;#34;,
+            &amp;#34;            num.push_back(x);&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        cutLeadingZero();&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator=(const BigInteger &amp;amp;tmp) {&amp;#34;,
+            &amp;#34;        num = tmp.num;&amp;#34;,
+            &amp;#34;        sign = tmp.sign;&amp;#34;,
+            &amp;#34;        length = tmp.length;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    //绝对值&amp;#34;,
+            &amp;#34;    BigInteger abs() const {&amp;#34;,
+            &amp;#34;        BigInteger ans(*this);&amp;#34;,
+            &amp;#34;        ans.sign = true;&amp;#34;,
+            &amp;#34;        return ans;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    //正号&amp;#34;,
+            &amp;#34;    const BigInteger &amp;amp;operator+() const { return *this; }&amp;#34;,
+            &amp;#34;    //负号&amp;#34;,
+            &amp;#34;    BigInteger operator-() const {&amp;#34;,
+            &amp;#34;        BigInteger ans(*this);&amp;#34;,
+            &amp;#34;        if (ans != 0) ans.sign = !ans.sign;&amp;#34;,
+            &amp;#34;        return ans;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // + 运算符&amp;#34;,
+            &amp;#34;    BigInteger operator+(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        if (!b.sign) {&amp;#34;,
+            &amp;#34;            return *this - (-b);&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        if (!sign) {&amp;#34;,
+            &amp;#34;            return b - (-*this);&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        BigInteger ans;&amp;#34;,
+            &amp;#34;        ans.num.clear();&amp;#34;,
+            &amp;#34;        for (int i = 0, g = 0;; i++) {&amp;#34;,
+            &amp;#34;            if (g == 0 &amp;amp;&amp;amp; i &amp;gt;= num.size() &amp;amp;&amp;amp; i &amp;gt;= b.num.size()) break;&amp;#34;,
+            &amp;#34;            int x = g;&amp;#34;,
+            &amp;#34;            if (i &amp;lt; num.size()) x += num[i];&amp;#34;,
+            &amp;#34;            if (i &amp;lt; b.num.size()) x += b.num[i];&amp;#34;,
+            &amp;#34;            ans.num.push_back(x % BASE);&amp;#34;,
+            &amp;#34;            g = x / BASE;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        ans.cutLeadingZero();&amp;#34;,
+            &amp;#34;        return ans;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // - 运算符&amp;#34;,
+            &amp;#34;    BigInteger operator-(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        if (!b.sign) {&amp;#34;,
+            &amp;#34;            return *this + (-b);&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        if (!sign) {&amp;#34;,
+            &amp;#34;            return -((-*this) + b);&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        if (*this &amp;lt; b) {&amp;#34;,
+            &amp;#34;            return -(b - *this);&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        BigInteger ans;&amp;#34;,
+            &amp;#34;        ans.num.clear();&amp;#34;,
+            &amp;#34;        for (int i = 0, g = 0;; i++) {&amp;#34;,
+            &amp;#34;            if (g == 0 &amp;amp;&amp;amp; i &amp;gt;= num.size() &amp;amp;&amp;amp; i &amp;gt;= b.num.size()) break;&amp;#34;,
+            &amp;#34;            int x = g;&amp;#34;,
+            &amp;#34;            g = 0;&amp;#34;,
+            &amp;#34;            if (i &amp;lt; num.size()) x += num[i];&amp;#34;,
+            &amp;#34;            if (i &amp;lt; b.num.size()) x -= b.num[i];&amp;#34;,
+            &amp;#34;            if (x &amp;lt; 0) {&amp;#34;,
+            &amp;#34;                x += BASE;&amp;#34;,
+            &amp;#34;                g = -1;&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;            ans.num.push_back(x);&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        ans.cutLeadingZero();&amp;#34;,
+            &amp;#34;        return ans;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // * 运算符&amp;#34;,
+            &amp;#34;    BigInteger operator*(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        int lena = num.size(), lenb = b.num.size();&amp;#34;,
+            &amp;#34;        BigInteger ans;&amp;#34;,
+            &amp;#34;        for (int i = 0; i &amp;lt; lena + lenb; i++) ans.num.push_back(0);&amp;#34;,
+            &amp;#34;        for (int i = 0, g = 0; i &amp;lt; lena; i++) {&amp;#34;,
+            &amp;#34;            g = 0;&amp;#34;,
+            &amp;#34;            for (int j = 0; j &amp;lt; lenb; j++) {&amp;#34;,
+            &amp;#34;                long long x = ans.num[i + j];&amp;#34;,
+            &amp;#34;                x += (long long)num[i] * (long long)b.num[j];&amp;#34;,
+            &amp;#34;                ans.num[i + j] = x % BASE;&amp;#34;,
+            &amp;#34;                g = x / BASE;&amp;#34;,
+            &amp;#34;                ans.num[i + j + 1] += g;&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        ans.cutLeadingZero();&amp;#34;,
+            &amp;#34;        ans.sign = (ans.length == 1 &amp;amp;&amp;amp; ans.num[0] == 0) || (sign == b.sign);&amp;#34;,
+            &amp;#34;        return ans;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    //*10^n 大数除大数中用到&amp;#34;,
+            &amp;#34;    BigInteger e(size_t n) const {&amp;#34;,
+            &amp;#34;        int tmp = n % WIDTH;&amp;#34;,
+            &amp;#34;        BigInteger ans;&amp;#34;,
+            &amp;#34;        ans.length = n + 1;&amp;#34;,
+            &amp;#34;        n /= WIDTH;&amp;#34;,
+            &amp;#34;        while (ans.num.size() &amp;lt;= n) ans.num.push_back(0);&amp;#34;,
+            &amp;#34;        ans.num[n] = 1;&amp;#34;,
+            &amp;#34;        while (tmp--) ans.num[n] *= 10;&amp;#34;,
+            &amp;#34;        return ans * (*this);&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // /运算符 (大数除大数)&amp;#34;,
+            &amp;#34;    BigInteger operator/(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        BigInteger aa((*this).abs());&amp;#34;,
+            &amp;#34;        BigInteger bb(b.abs());&amp;#34;,
+            &amp;#34;        if (aa &amp;lt; bb) return 0;&amp;#34;,
+            &amp;#34;        char *str = new char[aa.length + 1];&amp;#34;,
+            &amp;#34;        memset(str, 0, sizeof(char) * (aa.length + 1));&amp;#34;,
+            &amp;#34;        BigInteger tmp;&amp;#34;,
+            &amp;#34;        int lena = aa.length, lenb = bb.length;&amp;#34;,
+            &amp;#34;        for (int i = 0; i &amp;lt;= lena - lenb; i++) {&amp;#34;,
+            &amp;#34;            tmp = bb.e(lena - lenb - i);&amp;#34;,
+            &amp;#34;            while (aa &amp;gt;= tmp) {&amp;#34;,
+            &amp;#34;                str[i]++;&amp;#34;,
+            &amp;#34;                aa = aa - tmp;&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;            str[i] += &amp;#39;0&amp;#39;;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        BigInteger ans(str);&amp;#34;,
+            &amp;#34;        delete[] str;&amp;#34;,
+            &amp;#34;        ans.sign = (ans == 0 || sign == b.sign);&amp;#34;,
+            &amp;#34;        return ans;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // %运算符&amp;#34;,
+            &amp;#34;    BigInteger operator%(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return *this - *this / b * b;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // ++ 运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator++() {&amp;#34;,
+            &amp;#34;        *this = *this + 1;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // -- 运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator--() {&amp;#34;,
+            &amp;#34;        *this = *this - 1;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // += 运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator+=(const BigInteger &amp;amp;b) {&amp;#34;,
+            &amp;#34;        *this = *this + b;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // -= 运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator-=(const BigInteger &amp;amp;b) {&amp;#34;,
+            &amp;#34;        *this = *this - b;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // *=运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator*=(const BigInteger &amp;amp;b) {&amp;#34;,
+            &amp;#34;        *this = *this * b;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // /= 运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator/=(const BigInteger &amp;amp;b) {&amp;#34;,
+            &amp;#34;        *this = *this / b;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // %=运算符&amp;#34;,
+            &amp;#34;    BigInteger &amp;amp;operator%=(const BigInteger &amp;amp;b) {&amp;#34;,
+            &amp;#34;        *this = *this % b;&amp;#34;,
+            &amp;#34;        return *this;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    // &amp;lt; 运算符&amp;#34;,
+            &amp;#34;    bool operator&amp;lt;(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        if (sign != b.sign)  //正负，负正&amp;#34;,
+            &amp;#34;        {&amp;#34;,
+            &amp;#34;            return !sign;&amp;#34;,
+            &amp;#34;        } else if (!sign &amp;amp;&amp;amp; !b.sign)  //负负&amp;#34;,
+            &amp;#34;        {&amp;#34;,
+            &amp;#34;            return -b &amp;lt; -*this;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        //正正&amp;#34;,
+            &amp;#34;        if (num.size() != b.num.size()) return num.size() &amp;lt; b.num.size();&amp;#34;,
+            &amp;#34;        for (int i = num.size() - 1; i &amp;gt;= 0; i--)&amp;#34;,
+            &amp;#34;            if (num[i] != b.num[i]) return num[i] &amp;lt; b.num[i];&amp;#34;,
+            &amp;#34;        return false;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    bool operator&amp;gt;(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return b &amp;lt; *this;&amp;#34;,
+            &amp;#34;    }  // &amp;gt;  运算符&amp;#34;,
+            &amp;#34;    bool operator&amp;lt;=(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return !(b &amp;lt; *this);&amp;#34;,
+            &amp;#34;    }  // &amp;lt;= 运算符&amp;#34;,
+            &amp;#34;    bool operator&amp;gt;=(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return !(*this &amp;lt; b);&amp;#34;,
+            &amp;#34;    }  // &amp;gt;= 运算符&amp;#34;,
+            &amp;#34;    bool operator!=(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return b &amp;lt; *this || *this &amp;lt; b;&amp;#34;,
+            &amp;#34;    }  // != 运算符&amp;#34;,
+            &amp;#34;    bool operator==(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return !(b &amp;lt; *this) &amp;amp;&amp;amp; !(*this &amp;lt; b);&amp;#34;,
+            &amp;#34;    }  //==运算符&amp;#34;,
+            &amp;#34;    // 逻辑运算符&amp;#34;,
+            &amp;#34;    bool operator||(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return *this != 0 || b != 0;&amp;#34;,
+            &amp;#34;    }  // || 运算符&amp;#34;,
+            &amp;#34;    bool operator&amp;amp;&amp;amp;(const BigInteger &amp;amp;b) const {&amp;#34;,
+            &amp;#34;        return *this != 0 &amp;amp;&amp;amp; b != 0;&amp;#34;,
+            &amp;#34;    }                                                // &amp;amp;&amp;amp; 运算符&amp;#34;,
+            &amp;#34;    bool operator!() { return (bool)(*this == 0); }  // ！ 运算符&amp;#34;,
+            &amp;#34;&amp;#34;,
+            &amp;#34;    //重载&amp;lt;&amp;lt;使得可以直接输出大数&amp;#34;,
+            &amp;#34;    friend ostream &amp;amp;operator&amp;lt;&amp;lt;(ostream &amp;amp;out, const BigInteger &amp;amp;x) {&amp;#34;,
+            &amp;#34;        if (!x.sign) out &amp;lt;&amp;lt; &amp;#39;-&amp;#39;;&amp;#34;,
+            &amp;#34;        out &amp;lt;&amp;lt; x.num.back();&amp;#34;,
+            &amp;#34;        for (int i = x.num.size() - 2; i &amp;gt;= 0; i--) {&amp;#34;,
+            &amp;#34;            char buf[10];&amp;#34;,
+            &amp;#34;            //如WIDTH和BASR有变化,此处要修改为%0(WIDTH)d&amp;#34;,
+            &amp;#34;            sprintf(buf, \&amp;#34; % 08 d \&amp;#34;, x.num[i]);&amp;#34;,
+            &amp;#34;            for (int j = 0; j &amp;lt; strlen(buf); j++) out &amp;lt;&amp;lt; buf[j];&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        return out;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    //重载&amp;gt;&amp;gt;使得可以直接输入大数&amp;#34;,
+            &amp;#34;    friend istream &amp;amp;operator&amp;gt;&amp;gt;(istream &amp;amp;in, BigInteger &amp;amp;x) {&amp;#34;,
+            &amp;#34;        string str;&amp;#34;,
+            &amp;#34;        in &amp;gt;&amp;gt; str;&amp;#34;,
+            &amp;#34;        size_t len = str.size();&amp;#34;,
+            &amp;#34;        int start = 0;&amp;#34;,
+            &amp;#34;        if (str[0] == &amp;#39;-&amp;#39;) start = 1;&amp;#34;,
+            &amp;#34;        if (str[start] == &amp;#39;\\0&amp;#39;) return in;&amp;#34;,
+            &amp;#34;        for (int i = start; i &amp;lt; len; i++) {&amp;#34;,
+            &amp;#34;            if (str[i] &amp;lt; &amp;#39;0&amp;#39; || str[i] &amp;gt; &amp;#39;9&amp;#39;) return in;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        x.sign = !start;&amp;#34;,
+            &amp;#34;        x = str.c_str();&amp;#34;,
+            &amp;#34;        return in;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;};&amp;#34;,
+            &amp;#34;&amp;#34;,
+            &amp;#34;BigInteger ans[100][3][3];&amp;#34;,
+            &amp;#34;BigInteger mpow(BigInteger a, BigInteger b) {&amp;#34;,
+            &amp;#34;    BigInteger res = 1;&amp;#34;,
+            &amp;#34;    for (BigInteger i = 0; i &amp;lt; b; i = i + 1) {&amp;#34;,
+            &amp;#34;        res *= a;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return res;&amp;#34;,
+            &amp;#34;&amp;#34;,
+            &amp;#34;}&amp;#34;
+        ],
+        &amp;#34;prefix&amp;#34;: &amp;#34;bigint&amp;#34;,
+        &amp;#34;description&amp;#34;: &amp;#34;大数类&amp;#34;
+    },
+    &amp;#34;GCCo2o3&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;#pragma GCC optimize(2)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(3)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;Ofast\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;inline\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fgcse\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fgcse-lm\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fipa-sra\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-ftree-pre\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-ftree-vrp\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fpeephole2\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-ffast-math\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fsched-spec\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;unroll-loops\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-falign-jumps\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-falign-loops\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-falign-labels\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fdevirtualize\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fcaller-saves\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fcrossjumping\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fthread-jumps\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-funroll-loops\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fwhole-program\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-freorder-blocks\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fschedule-insns\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;inline-functions\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-ftree-tail-merge\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fschedule-insns2\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fstrict-aliasing\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fstrict-overflow\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-falign-functions\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fcse-skip-blocks\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fcse-follow-jumps\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fsched-interblock\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fpartial-inlining\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;no-stack-protector\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-freorder-functions\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-findirect-inlining\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fhoist-adjacent-loads\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-frerun-cse-after-loop\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;inline-small-functions\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-finline-small-functions\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-ftree-switch-conversion\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-foptimize-sibling-calls\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fexpensive-optimizations\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-funsafe-loop-optimizations\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;inline-functions-called-once\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;-fdelete-null-pointer-checks\&amp;#34;)&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;最强常数优化&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;o2o3&amp;#34;
+    },
+    &amp;#34;ComboNum&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;ll C(ll n, ll m) {//组合数 C(n,m)&amp;#34;,
+            &amp;#34;    if (m &amp;lt; 0) return 0;&amp;#34;,
+            &amp;#34;    if (n &amp;lt; m) return 0;&amp;#34;,
+            &amp;#34;    if (m &amp;gt; n - m) m = n - m;&amp;#34;,
+            &amp;#34;    ll up = 1, down = 1;&amp;#34;,
+            &amp;#34;    for (ll i = 0; i &amp;lt; m; i++) {&amp;#34;,
+            &amp;#34;        up = up * (n - i) % mod;&amp;#34;,
+            &amp;#34;        down = down * (i + 1) % mod;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return up * getInv(down) % mod;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;组合数 Cnm&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;combo&amp;#34;
+    },
+    &amp;#34;DividIntoPrime&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;const int maxn = 1005;&amp;#34;,
+            &amp;#34;ll prime_num[maxn], num;  //质因数的个数&amp;#34;,
+            &amp;#34;ll prime[maxn];&amp;#34;,
+            &amp;#34;void divid(ll n){  //分解正整数n&amp;#34;,
+            &amp;#34;    num = 0;&amp;#34;,
+            &amp;#34;    if (n % 2 == 0) {&amp;#34;,
+            &amp;#34;        ll term = 0;&amp;#34;,
+            &amp;#34;        while (n % 2 == 0) {&amp;#34;,
+            &amp;#34;            term++;&amp;#34;,
+            &amp;#34;            n /= 2;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        prime_num[num] = term;&amp;#34;,
+            &amp;#34;        prime[num++] = 2;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    for (ll i = 3; i * i &amp;lt;= n; i += 2)&amp;#34;,
+            &amp;#34;        if (n % i == 0) {&amp;#34;,
+            &amp;#34;            ll term = 0;&amp;#34;,
+            &amp;#34;            while (n % i == 0) {&amp;#34;,
+            &amp;#34;                term++;&amp;#34;,
+            &amp;#34;                n /= i;&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;            prime_num[num] = term;&amp;#34;,
+            &amp;#34;            prime[num++] = i;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    if (n &amp;gt; 1) {&amp;#34;,
+            &amp;#34;        prime[num] = n;&amp;#34;,
+            &amp;#34;        prime_num[num++] = 1;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;分解质因数&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;divid&amp;#34;
+    },
+    &amp;#34;AppleBox&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;const int maxn = 1005;&amp;#34;,
+            &amp;#34;ll dp[maxn][maxn];&amp;#34;,
+            &amp;#34;ll f(ll m, ll n){  // m个苹果 n个篮子&amp;#34;,
+            &amp;#34;    dp[0][0] = 1;&amp;#34;,
+            &amp;#34;    for (int i = 1; i &amp;lt;= n; ++i)&amp;#34;,
+            &amp;#34;        for (int j = 0; j &amp;lt;= m; ++j)&amp;#34;,
+            &amp;#34;            if (j &amp;gt;= i)  dp[i][j] = (dp[i][j - i] + dp[i - 1][j]) % mod;&amp;#34;,
+            &amp;#34;            else dp[i][j] = dp[j][j];&amp;#34;,
+            &amp;#34;    return dp[n][m];&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;拆分方式种数&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;apple&amp;#34;
+    },
+    &amp;#34;CALC&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;namespace  CALC{&amp;#34;,
+            &amp;#34;    inline ll add(ll x,ll y){return (x+y&amp;gt;=mod)?(x+y-mod):(x+y);}&amp;#34;,
+            &amp;#34;    inline ll mns(ll x,ll y){return (x-y&amp;lt;0)?(x-y+mod):(x-y);}&amp;#34;,
+            &amp;#34;    inline ll mul(ll x,ll y){return x*y%mod;}&amp;#34;,
+            &amp;#34;    inline void upd(ll &amp;amp;x,ll y){x=(x+y&amp;gt;=mod)?(x+y-mod):(x+y);}&amp;#34;,
+            &amp;#34;    inline void dec(ll &amp;amp;x,ll y){x=(x-y&amp;lt;0)?(x-y+mod):(x-y);}&amp;#34;,
+            &amp;#34;    inline ll qpow(ll x,ll sq){ll res=1;for(;sq;sq&amp;gt;&amp;gt;=1,x=mul(x,x))if(sq&amp;amp;1)res=mul(res,x);return res;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;取模下的运算&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;CALC&amp;#34;
+    },
+    &amp;#34;DuJiao&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;#include &amp;lt;bits/stdc++.h&amp;gt;&amp;#34;,
+            &amp;#34;using namespace std;&amp;#34;,
+            &amp;#34;#define rep(i, a, n) for (int i = a; i &amp;lt; n; i++)&amp;#34;,
+            &amp;#34;#define pb push_back&amp;#34;,
+            &amp;#34;typedef long long ll;&amp;#34;,
+            &amp;#34;#define SZ(x) ((ll)(x).size())&amp;#34;,
+            &amp;#34;typedef vector&amp;lt;ll&amp;gt; VI;&amp;#34;,
+            &amp;#34;typedef pair&amp;lt;ll, ll&amp;gt; PII;&amp;#34;,
+            &amp;#34;const ll mod = 1e9+7;&amp;#34;,
+            &amp;#34;ll powmod(ll a, ll b) {&amp;#34;,
+            &amp;#34;    ll res = 1;&amp;#34;,
+            &amp;#34;    a %= mod;&amp;#34;,
+            &amp;#34;    assert(b &amp;gt;= 0);&amp;#34;,
+            &amp;#34;    for (; b; b &amp;gt;&amp;gt;= 1) {&amp;#34;,
+            &amp;#34;        if (b &amp;amp; 1)&amp;#34;,
+            &amp;#34;            res = res * a % mod;&amp;#34;,
+            &amp;#34;        a = a * a % mod;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return res;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;// head&amp;#34;,
+            &amp;#34;&amp;#34;,
+            &amp;#34;ll _, n;&amp;#34;,
+            &amp;#34;namespace linear_seq {&amp;#34;,
+            &amp;#34;const ll N = 10010;&amp;#34;,
+            &amp;#34;ll res[N], base[N], _c[N], _md[N];&amp;#34;,
+            &amp;#34;&amp;#34;,
+            &amp;#34;vector&amp;lt;ll&amp;gt; Md;&amp;#34;,
+            &amp;#34;void mul(ll *a, ll *b, ll k) {&amp;#34;,
+            &amp;#34;    rep(i, 0, k + k) _c[i] = 0;&amp;#34;,
+            &amp;#34;    rep(i, 0, k) if (a[i]) rep(j, 0, k) _c[i + j] =&amp;#34;,
+            &amp;#34;        (_c[i + j] + a[i] * b[j]) % mod;&amp;#34;,
+            &amp;#34;    for (ll i = k + k - 1; i &amp;gt;= k; i--)&amp;#34;,
+            &amp;#34;        if (_c[i])&amp;#34;,
+            &amp;#34;            rep(j, 0, SZ(Md)) _c[i - k + Md[j]] =&amp;#34;,
+            &amp;#34;                (_c[i - k + Md[j]] - _c[i] * _md[Md[j]]) % mod;&amp;#34;,
+            &amp;#34;    rep(i, 0, k) a[i] = _c[i];&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;ll solve(ll n, VI a, VI b) { // a 系数 b 初值 b[n+1]=a[0]*b[n]+...&amp;#34;,
+            &amp;#34;                             //        printf(\&amp;#34; % d\\ n \&amp;#34;,SZ(b));&amp;#34;,
+            &amp;#34;    ll ans = 0, pnt = 0;&amp;#34;,
+            &amp;#34;    ll k = SZ(a);&amp;#34;,
+            &amp;#34;    assert(SZ(a) == SZ(b));&amp;#34;,
+            &amp;#34;    rep(i, 0, k) _md[k - 1 - i] = -a[i];&amp;#34;,
+            &amp;#34;    _md[k] = 1;&amp;#34;,
+            &amp;#34;    Md.clear();&amp;#34;,
+            &amp;#34;    rep(i, 0, k) if (_md[i] != 0) Md.push_back(i);&amp;#34;,
+            &amp;#34;    rep(i, 0, k) res[i] = base[i] = 0;&amp;#34;,
+            &amp;#34;    res[0] = 1;&amp;#34;,
+            &amp;#34;    while ((1ll &amp;lt;&amp;lt; pnt) &amp;lt;= n)&amp;#34;,
+            &amp;#34;        pnt++;&amp;#34;,
+            &amp;#34;    for (ll p = pnt; p &amp;gt;= 0; p--) {&amp;#34;,
+            &amp;#34;        mul(res, res, k);&amp;#34;,
+            &amp;#34;        if ((n &amp;gt;&amp;gt; p) &amp;amp; 1) {&amp;#34;,
+            &amp;#34;            for (ll i = k - 1; i &amp;gt;= 0; i--)&amp;#34;,
+            &amp;#34;                res[i + 1] = res[i];&amp;#34;,
+            &amp;#34;            res[0] = 0;&amp;#34;,
+            &amp;#34;            rep(j, 0, SZ(Md)) res[Md[j]] =&amp;#34;,
+            &amp;#34;                (res[Md[j]] - res[k] * _md[Md[j]]) % mod;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    rep(i, 0, k) ans = (ans + res[i] * b[i]) % mod;&amp;#34;,
+            &amp;#34;    if (ans &amp;lt; 0)&amp;#34;,
+            &amp;#34;        ans += mod;&amp;#34;,
+            &amp;#34;    return ans;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;VI BM(VI s) {&amp;#34;,
+            &amp;#34;    VI C(1, 1), B(1, 1);&amp;#34;,
+            &amp;#34;    ll L = 0, m = 1, b = 1;&amp;#34;,
+            &amp;#34;    rep(n, 0, SZ(s)) {&amp;#34;,
+            &amp;#34;        ll d = 0;&amp;#34;,
+            &amp;#34;        rep(i, 0, L + 1) d = (d + (ll)C[i] * s[n - i]) % mod;&amp;#34;,
+            &amp;#34;        if (d == 0)&amp;#34;,
+            &amp;#34;            ++m;&amp;#34;,
+            &amp;#34;        else if (2 * L &amp;lt;= n) {&amp;#34;,
+            &amp;#34;            VI T = C;&amp;#34;,
+            &amp;#34;            ll c = mod - d * powmod(b, mod - 2) % mod;&amp;#34;,
+            &amp;#34;            while (SZ(C) &amp;lt; SZ(B) + m)&amp;#34;,
+            &amp;#34;                C.pb(0);&amp;#34;,
+            &amp;#34;            rep(i, 0, SZ(B)) C[i + m] = (C[i + m] + c * B[i]) % mod;&amp;#34;,
+            &amp;#34;            L = n + 1 - L;&amp;#34;,
+            &amp;#34;            B = T;&amp;#34;,
+            &amp;#34;            b = d;&amp;#34;,
+            &amp;#34;            m = 1;&amp;#34;,
+            &amp;#34;        } else {&amp;#34;,
+            &amp;#34;            ll c = mod - d * powmod(b, mod - 2) % mod;&amp;#34;,
+            &amp;#34;            while (SZ(C) &amp;lt; SZ(B) + m)&amp;#34;,
+            &amp;#34;                C.pb(0);&amp;#34;,
+            &amp;#34;            rep(i, 0, SZ(B)) C[i + m] = (C[i + m] + c * B[i]) % mod;&amp;#34;,
+            &amp;#34;            ++m;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return C;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;ll gao(VI a, ll n) {&amp;#34;,
+            &amp;#34;    VI c = BM(a);&amp;#34;,
+            &amp;#34;    c.erase(c.begin());&amp;#34;,
+            &amp;#34;    rep(i, 0, SZ(c)) c[i] = (mod - c[i]) % mod;&amp;#34;,
+            &amp;#34;    return solve(n, c, VI(a.begin(), a.begin() + SZ(c)));&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;}; // namespace linear_seq&amp;#34;,
+            &amp;#34;&amp;#34;,
+            &amp;#34;inline ll read() {&amp;#34;,
+            &amp;#34;    ll s = 0, w = 1;&amp;#34;,
+            &amp;#34;    char ch = getchar();&amp;#34;,
+            &amp;#34;    while (ch &amp;lt; 48 || ch &amp;gt; 57) {&amp;#34;,
+            &amp;#34;        if (ch == &amp;#39;-&amp;#39;)&amp;#34;,
+            &amp;#34;            w = -1;&amp;#34;,
+            &amp;#34;        ch = getchar();&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    while (ch &amp;gt;= 48 &amp;amp;&amp;amp; ch &amp;lt;= 57)&amp;#34;,
+            &amp;#34;        s = (s &amp;lt;&amp;lt; 1) + (s &amp;lt;&amp;lt; 3) + (ch ^ 48), ch = getchar();&amp;#34;,
+            &amp;#34;    return s * w;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;int main() {&amp;#34;,
+            &amp;#34;    ll n = read();&amp;#34;,
+            &amp;#34;    VI a={ 1, 4, 10, 20, 35, 56, 84, 120, 165, 220};&amp;#34;,
+            &amp;#34;    printf(\&amp;#34;%lld\\n\&amp;#34;, linear_seq::gao(a, n - 1));&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;prefix&amp;#34;: &amp;#34;DuJiaoShai&amp;#34;,
+        &amp;#34;description&amp;#34;: &amp;#34;杜教筛&amp;#34;
+    },
+    &amp;#34;BIT&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;#define lowbit(x) ((x) &amp;amp; (-x))&amp;#34;,
+            &amp;#34;ll tree[N];&amp;#34;,
+            &amp;#34;inline void add(int i, ll x) {&amp;#34;,
+            &amp;#34;    for (int pos = i; pos &amp;lt; N; pos += lowbit(pos)) tree[pos] += x;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;inline ll query(int n) {&amp;#34;,
+            &amp;#34;    ll ans = 0;&amp;#34;,
+            &amp;#34;    for (int pos = n; pos; pos -= lowbit(pos)) ans += tree[pos];&amp;#34;,
+            &amp;#34;    return ans;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;inline ll query(int l, int r) { return query(r) - query(l - 1); }&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;Binary Index Tree&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;BIT&amp;#34;
+    },
+    &amp;#34;128INT&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;inline __int128 read() {&amp;#34;,
+            &amp;#34;    __int128 x = 0, f = 1;&amp;#34;,
+            &amp;#34;    char ch = getchar();&amp;#34;,
+            &amp;#34;    while (ch &amp;lt; &amp;#39;0&amp;#39; || ch &amp;gt; &amp;#39;9&amp;#39;) {&amp;#34;,
+            &amp;#34;        if (ch == &amp;#39;-&amp;#39;) f = -1;&amp;#34;,
+            &amp;#34;        ch = getchar();&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    while (ch &amp;gt;= &amp;#39;0&amp;#39; &amp;amp;&amp;amp; ch &amp;lt;= &amp;#39;9&amp;#39;) {&amp;#34;,
+            &amp;#34;        x = x * 10 + ch - &amp;#39;0&amp;#39;;&amp;#34;,
+            &amp;#34;        ch = getchar();&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return x * f;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;inline void print(__int128 x) {&amp;#34;,
+            &amp;#34;    if (x &amp;lt; 0) {&amp;#34;,
+            &amp;#34;        putchar(&amp;#39;-&amp;#39;);&amp;#34;,
+            &amp;#34;        x = -x;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    if (x &amp;gt; 9) print(x / 10);&amp;#34;,
+            &amp;#34;    putchar(x % 10 + &amp;#39;0&amp;#39;);&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;int128&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;128INT&amp;#34;
+    },
+    &amp;#34;Graph&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;int to[N &amp;lt;&amp;lt; 1], nxt[N &amp;lt;&amp;lt; 1], head[N], wt[N &amp;lt;&amp;lt; 1], tot;&amp;#34;,
+            &amp;#34;inline void init() { memset(head, -1, sizeof(head)), tot = 0; }&amp;#34;,
+            &amp;#34;inline void add(int u, int v, int val) {&amp;#34;,
+            &amp;#34;    to[++tot] = v;&amp;#34;,
+            &amp;#34;    nxt[tot] = head[u];&amp;#34;,
+            &amp;#34;    wt[tot] = val;&amp;#34;,
+            &amp;#34;    head[u] = tot;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;prefix&amp;#34;: &amp;#34;graph&amp;#34;,
+        &amp;#34;description&amp;#34;: &amp;#34;Build Graph&amp;#34;
+    },
+    &amp;#34;segment tree&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;#include &amp;lt;bits/stdc++.h&amp;gt;&amp;#34;,
+            &amp;#34;#define sc(x) scanf(\&amp;#34;%lld\&amp;#34;, &amp;amp;(x))&amp;#34;,
+            &amp;#34;#define pr(x) printf(\&amp;#34;%lld\\n\&amp;#34;, (x))&amp;#34;,
+            &amp;#34;//线段树维护区间和&amp;#34;,
+            &amp;#34;using namespace std;&amp;#34;,
+            &amp;#34;typedef long long ll;&amp;#34;,
+            &amp;#34;const int N = 1e5 + 7;&amp;#34;,
+            &amp;#34;const ll mod = 1e9 + 7;&amp;#34;,
+            &amp;#34;ll a[N], tree[N &amp;lt;&amp;lt; 2], lazy[N &amp;lt;&amp;lt; 2], n;&amp;#34;,
+            &amp;#34;ll m, op, x, y, k;&amp;#34;,
+            &amp;#34;#define ls (p &amp;lt;&amp;lt; 1)&amp;#34;,
+            &amp;#34;#define rs (p &amp;lt;&amp;lt; 1 | 1)&amp;#34;,
+            &amp;#34;#define mid (l + r &amp;gt;&amp;gt; 1)&amp;#34;,
+            &amp;#34;void bulid(ll p = 1, ll l = 1, ll r = n) {&amp;#34;,
+            &amp;#34;    lazy[p] = 0;&amp;#34;,
+            &amp;#34;    if (l == r) {&amp;#34;,
+            &amp;#34;        tree[p] = a[l];&amp;#34;,
+            &amp;#34;        return;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    bulid(ls, l, mid);&amp;#34;,
+            &amp;#34;    bulid(rs, mid + 1, r);&amp;#34;,
+            &amp;#34;    tree[p] = tree[ls] + tree[rs];&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;inline void PushDown(ll p, ll tot) {&amp;#34;,
+            &amp;#34;    lazy[ls] += lazy[p];&amp;#34;,
+            &amp;#34;    lazy[rs] += lazy[p];&amp;#34;,
+            &amp;#34;    tree[ls] += lazy[p] * (tot - tot / 2);&amp;#34;,
+            &amp;#34;    tree[rs] += lazy[p] * (tot / 2);&amp;#34;,
+            &amp;#34;    lazy[p] = 0;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;void add(ll x, ll y, ll val, ll p = 1, ll l = 1, ll r = n) {&amp;#34;,
+            &amp;#34;    if (x &amp;lt;= l &amp;amp;&amp;amp; r &amp;lt;= y) {  //当前区间可被所求区间覆盖&amp;#34;,
+            &amp;#34;        lazy[p] += val;&amp;#34;,
+            &amp;#34;        tree[p] += val * ((ll)(r - l + 1));&amp;#34;,
+            &amp;#34;        return;&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    PushDown(p, r - l + 1);&amp;#34;,
+            &amp;#34;    if (x &amp;lt;= mid) add(x, y, val, ls, l, mid);&amp;#34;,
+            &amp;#34;    if (y &amp;gt; mid) add(x, y, val, rs, mid + 1, r);&amp;#34;,
+            &amp;#34;    tree[p] = tree[ls] + tree[rs];&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;ll query(ll x, ll y, ll p = 1, ll l = 1, ll r = n) {&amp;#34;,
+            &amp;#34;    if (x &amp;lt;= l &amp;amp;&amp;amp; r &amp;lt;= y) return tree[p];&amp;#34;,
+            &amp;#34;    ll res = 0;&amp;#34;,
+            &amp;#34;    if (lazy[p]) PushDown(p, r - l + 1);&amp;#34;,
+            &amp;#34;    if (x &amp;lt;= mid) res += query(x, y, ls, l, mid);&amp;#34;,
+            &amp;#34;    if (y &amp;gt; mid) res += query(x, y, rs, mid + 1, r);&amp;#34;,
+            &amp;#34;    return res;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;int main() {&amp;#34;,
+            &amp;#34;    sc(n), sc(m);&amp;#34;,
+            &amp;#34;    for (int i = 1; i &amp;lt;= n; ++i) sc(a[i]);&amp;#34;,
+            &amp;#34;    bulid();&amp;#34;,
+            &amp;#34;    while (m--) {&amp;#34;,
+            &amp;#34;        sc(op);&amp;#34;,
+            &amp;#34;        if (op &amp;amp; 1) {&amp;#34;,
+            &amp;#34;            sc(x), sc(y), sc(k);&amp;#34;,
+            &amp;#34;            add(x, y, k);&amp;#34;,
+            &amp;#34;        } else {&amp;#34;,
+            &amp;#34;            sc(x), sc(y);&amp;#34;,
+            &amp;#34;            pr(query(x, y));&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    return 0;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;线段树&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;segment&amp;#34;
+    },
+    &amp;#34;netcontest&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;#pragma GCC target(\&amp;#34;avx,sse2,sse3,sse4,popcnt\&amp;#34;)&amp;#34;,
+            &amp;#34;#pragma GCC optimize(\&amp;#34;O2,O3,Ofast,inline,unroll-all-loops,-ffast-math\&amp;#34;)&amp;#34;,
+            &amp;#34;#include&amp;lt;bits/stdc++.h&amp;gt;&amp;#34;,
+            &amp;#34;#define sc(x) scanf(\&amp;#34;%lld\&amp;#34;, &amp;amp;(x))&amp;#34;,
+            &amp;#34;#define pr(x) printf(\&amp;#34;%lld\\n\&amp;#34;, (x))&amp;#34;,
+            &amp;#34;#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)&amp;#34;,
+            &amp;#34;using namespace std;&amp;#34;,
+            &amp;#34;typedef long long ll;&amp;#34;,
+            &amp;#34;const int N = 1e5 + 7;&amp;#34;,
+            &amp;#34;const int mod = 1e9 + 7;&amp;#34;,
+            &amp;#34;inline ll read() ;&amp;#34;,
+            &amp;#34;signed main(){&amp;#34;,
+            &amp;#34;\t$0\n\treturn 0;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+            &amp;#34;inline ll read() {&amp;#34;,
+            &amp;#34;    ll s = 0, f = 1;&amp;#34;,
+            &amp;#34;    char ch;&amp;#34;,
+            &amp;#34;    do {&amp;#34;,
+            &amp;#34;        ch = getchar();&amp;#34;,
+            &amp;#34;        if (ch == &amp;#39;-&amp;#39;) f = -1;&amp;#34;,
+            &amp;#34;    } while (ch &amp;lt; 48 || ch &amp;gt; 57);&amp;#34;,
+            &amp;#34;    while (ch &amp;gt;= 48 &amp;amp;&amp;amp; ch &amp;lt;= 57)&amp;#34;,
+            &amp;#34;        s = (s &amp;lt;&amp;lt; 1) + (s &amp;lt;&amp;lt; 3) + (ch ^ 48), ch = getchar();&amp;#34;,
+            &amp;#34;    return s * f;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;prefix&amp;#34;: &amp;#34;netcon&amp;#34;,
+        &amp;#34;description&amp;#34;: &amp;#34;网赛板子&amp;#34;
+    },
+    &amp;#34;readPlus&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;static char buf[100000], *pa = buf, *pb = buf;&amp;#34;,
+            &amp;#34;#define gc pa==pb&amp;amp;&amp;amp;(pb=(pa=buf)+fread(buf,1,100000,stdin),pa==pb)?EOF:*pa++&amp;#34;,
+            &amp;#34;inline long long int read() {&amp;#34;,
+            &amp;#34;    long long int x(0);&amp;#34;,
+            &amp;#34;    char c(gc);&amp;#34;,
+            &amp;#34;    while (c &amp;lt; &amp;#39;0&amp;#39; || c &amp;gt; &amp;#39;9&amp;#39;) c = gc;&amp;#34;,
+            &amp;#34;    while (c &amp;gt;= &amp;#39;0&amp;#39; &amp;amp;&amp;amp; c &amp;lt;= &amp;#39;9&amp;#39;) x = (x &amp;lt;&amp;lt; 1) + (x &amp;lt;&amp;lt; 3) + (c ^ 48), c = gc;&amp;#34;,
+            &amp;#34;    return x;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;高速快读&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;readplus&amp;#34;
+    },
+    &amp;#34;Eular&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;ll eular(ll n){&amp;#34;,
+            &amp;#34;    ll ret=1,i;&amp;#34;,
+            &amp;#34;    for (i=2;i*i&amp;lt;=n;i++)&amp;#34;,
+            &amp;#34;        if (n%i==0){&amp;#34;,
+            &amp;#34;            n/=i,ret*=i-1;&amp;#34;,
+            &amp;#34;            while (n%i==0)&amp;#34;,
+            &amp;#34;                n/=i,ret*=i;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    if (n&amp;gt;1)&amp;#34;,
+            &amp;#34;        ret*=n-1;&amp;#34;,
+            &amp;#34;    return ret;&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;求一个数的欧拉函数O(sqrt(n))&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;Eular&amp;#34;,
+    },
+    &amp;#34;eular&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;//欧拉线性筛：在线性时间内筛素数的同时求出所有数的欧拉函数&amp;#34;,
+            &amp;#34;int tot;&amp;#34;,
+            &amp;#34;int phi[N];//保存各个数字的欧拉函数 &amp;#34;,
+            &amp;#34;int prime[N]; //按顺序保存素数&amp;#34;,
+            &amp;#34;bool mark[N];//判断是否是素数&amp;#34;,
+            &amp;#34;void pre(){&amp;#34;,
+            &amp;#34;    phi[1] = 1;&amp;#34;,
+            &amp;#34;    for(int i = 2; i &amp;lt;= N; i++){//相当于分解质因数的逆过程&amp;#34;,
+            &amp;#34;        if(!mark[i]){&amp;#34;,
+            &amp;#34;            prime[++tot] = i;&amp;#34;,
+            &amp;#34;            phi[i] = i-1;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;        for(int j = 1; j &amp;lt;= tot; j++){&amp;#34;,
+            &amp;#34;            if(i * prime[j] &amp;gt; N) break;&amp;#34;,
+            &amp;#34;            mark[i * prime[j]] = 1;//确定i*prime[j]不是素数&amp;#34;,
+            &amp;#34;            if(i % prime[j] == 0){//判断prime[j] 是否为 i的约数&amp;#34;,
+            &amp;#34;                phi[i * prime[j]] = phi[i] * prime[j];&amp;#34;,
+            &amp;#34;                break;&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;            else{//prime[j] - 1 就是 phi[prime[j]],利用了欧拉函数的积性&amp;#34;,
+            &amp;#34;                phi[i * prime[j]] = phi[i] * (prime[j] - 1);&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;筛欧拉函数 + 素数&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;getphi&amp;#34;,
+    },
+    &amp;#34;ai sieve&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;bool notprime[N];&amp;#34;,
+            &amp;#34;int primes[N], pcnt = 0;&amp;#34;,
+            &amp;#34;inline void pre() {&amp;#34;,
+            &amp;#34;    notprime[1] = 1;&amp;#34;,
+            &amp;#34;    for (int i = 2, n = sqrt(N) + 1; i &amp;lt;= n; ++i) {&amp;#34;,
+            &amp;#34;        if (!notprime[i]) {&amp;#34;,
+            &amp;#34;            for (int j = N / i; j &amp;gt;= i; --j) {&amp;#34;,
+            &amp;#34;                if (!notprime[j]) notprime[i * j] = 1;&amp;#34;,
+            &amp;#34;            }&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;    primes[++pcnt] = 2;&amp;#34;,
+            &amp;#34;    for (int i = 3; i &amp;lt; N; ++i)&amp;#34;,
+            &amp;#34;        if (!notprime[i]) primes[++pcnt] = i;&amp;#34;,
+            &amp;#34;}&amp;#34;
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;埃筛&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;aishai&amp;#34;
+    },
+    &amp;#34;eular_sieve&amp;#34;: {
+        &amp;#34;body&amp;#34;: [
+            &amp;#34;bitset&amp;lt;N&amp;gt; isPrime;&amp;#34;,
+            &amp;#34;vector&amp;lt;int&amp;gt; primes;&amp;#34;,
+            &amp;#34;void sieve(int n) {&amp;#34;,
+            &amp;#34;    isPrime.set();&amp;#34;,
+            &amp;#34;    isPrime[0] = isPrime[1] = 0;&amp;#34;,
+            &amp;#34;    for (int i = 2; i &amp;lt;= n; ++i) {&amp;#34;,
+            &amp;#34;        if (isPrime[i]) primes.emplace_back(i);&amp;#34;,
+            &amp;#34;        for (int p : primes) {&amp;#34;,
+            &amp;#34;            if (i * p &amp;gt; n) break;&amp;#34;,
+            &amp;#34;            isPrime[i * p] = 0;&amp;#34;,
+            &amp;#34;            if (i % p == 0) break;&amp;#34;,
+            &amp;#34;        }&amp;#34;,
+            &amp;#34;    }&amp;#34;,
+            &amp;#34;}&amp;#34;,
+        ],
+        &amp;#34;description&amp;#34;: &amp;#34;欧拉筛&amp;#34;,
+        &amp;#34;prefix&amp;#34;: &amp;#34;sieve&amp;#34;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/4d3c1b3d50204d888b789c1c173f0d2f），发布于 2021-11-03。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>bits/stdc&#43;&#43;.h</title>
+      <link>https://bernard035.github.io/posts/bits-stdcplusplus.h-20201030/</link>
+      <pubDate>Fri, 30 Oct 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/bits-stdcplusplus.h-20201030/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;// C++ includes used for precompiling -*- C++ -*-
+
+// Copyright (C) 2003-2014 Free Software Foundation, Inc.
+//
+// This file is part of the GNU ISO C++ Library.  This library is free
+// software; you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the
+// Free Software Foundation; either version 3, or (at your option)
+// any later version.
+
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// Under Section 7 of GPL version 3, you are granted additional
+// permissions described in the GCC Runtime Library Exception, version
+// 3.1, as published by the Free Software Foundation.
+
+// You should have received a copy of the GNU General Public License and
+// a copy of the GCC Runtime Library Exception along with this program;
+// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+// &amp;lt;http://www.gnu.org/licenses/&amp;gt;.
+
+/** @file stdc++.h
+ *  This is an implementation file for a precompiled header.
+ */
+
+// 17.4.1.2 Headers
+
+// C
+#ifndef _GLIBCXX_NO_ASSERT
+#include &amp;lt;cassert&amp;gt;
+#endif
+#include &amp;lt;cctype&amp;gt;
+#include &amp;lt;cerrno&amp;gt;
+#include &amp;lt;cfloat&amp;gt;
+#include &amp;lt;ciso646&amp;gt;
+#include &amp;lt;climits&amp;gt;
+#include &amp;lt;clocale&amp;gt;
+#include &amp;lt;cmath&amp;gt;
+#include &amp;lt;csetjmp&amp;gt;
+#include &amp;lt;csignal&amp;gt;
+#include &amp;lt;cstdarg&amp;gt;
+#include &amp;lt;cstddef&amp;gt;
+#include &amp;lt;cstdio&amp;gt;
+#include &amp;lt;cstdlib&amp;gt;
+#include &amp;lt;cstring&amp;gt;
+#include &amp;lt;ctime&amp;gt;
+
+#if __cplusplus &amp;gt;= 201103L
+#include &amp;lt;ccomplex&amp;gt;
+#include &amp;lt;cfenv&amp;gt;
+#include &amp;lt;cinttypes&amp;gt;
+#include &amp;lt;cstdalign&amp;gt;
+#include &amp;lt;cstdbool&amp;gt;
+#include &amp;lt;cstdint&amp;gt;
+#include &amp;lt;ctgmath&amp;gt;
+#include &amp;lt;cwchar&amp;gt;
+#include &amp;lt;cwctype&amp;gt;
+#endif
+
+// C++
+#include &amp;lt;algorithm&amp;gt;
+#include &amp;lt;bitset&amp;gt;
+#include &amp;lt;complex&amp;gt;
+#include &amp;lt;deque&amp;gt;
+#include &amp;lt;exception&amp;gt;
+#include &amp;lt;fstream&amp;gt;
+#include &amp;lt;functional&amp;gt;
+#include &amp;lt;iomanip&amp;gt;
+#include &amp;lt;ios&amp;gt;
+#include &amp;lt;iosfwd&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;istream&amp;gt;
+#include &amp;lt;iterator&amp;gt;
+#include &amp;lt;limits&amp;gt;
+#include &amp;lt;list&amp;gt;
+#include &amp;lt;locale&amp;gt;
+#include &amp;lt;map&amp;gt;
+#include &amp;lt;memory&amp;gt;
+#include &amp;lt;new&amp;gt;
+#include &amp;lt;numeric&amp;gt;
+#include &amp;lt;ostream&amp;gt;
+#include &amp;lt;queue&amp;gt;
+#include &amp;lt;set&amp;gt;
+#include &amp;lt;sstream&amp;gt;
+#include &amp;lt;stack&amp;gt;
+#include &amp;lt;stdexcept&amp;gt;
+#include &amp;lt;streambuf&amp;gt;
+#include &amp;lt;string&amp;gt;
+#include &amp;lt;typeinfo&amp;gt;
+#include &amp;lt;utility&amp;gt;
+#include &amp;lt;valarray&amp;gt;
+#include &amp;lt;vector&amp;gt;
+
+#if __cplusplus &amp;gt;= 201103L
+#include &amp;lt;array&amp;gt;
+#include &amp;lt;atomic&amp;gt;
+#include &amp;lt;chrono&amp;gt;
+#include &amp;lt;condition_variable&amp;gt;
+#include &amp;lt;forward_list&amp;gt;
+#include &amp;lt;future&amp;gt;
+#include &amp;lt;initializer_list&amp;gt;
+#include &amp;lt;mutex&amp;gt;
+#include &amp;lt;random&amp;gt;
+#include &amp;lt;ratio&amp;gt;
+#include &amp;lt;regex&amp;gt;
+#include &amp;lt;scoped_allocator&amp;gt;
+#include &amp;lt;system_error&amp;gt;
+#include &amp;lt;thread&amp;gt;
+#include &amp;lt;tuple&amp;gt;
+#include &amp;lt;typeindex&amp;gt;
+#include &amp;lt;type_traits&amp;gt;
+#include &amp;lt;unordered_map&amp;gt;
+#include &amp;lt;unordered_set&amp;gt;
+#endif
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/usr/include/c++/9/bits
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/4af7e18abbe542e89d9434afcb4dcf7d），发布于 2020-10-30。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>造数据</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200727-2/</link>
+      <pubDate>Mon, 27 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200727-2/</guid>
+      <description>&lt;h2 id=&#34;随机字符串&#34;&gt;随机字符串&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import random, string
+random_str = &amp;#39;&amp;#39;.join(random.choice(string.ascii_lowercase) for _ in range(800000))
+print(random_str, file= open(&amp;#34;5.in&amp;#34;, &amp;#34;w&amp;#34;))
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;string库&lt;code&gt;/usr/lib/python3.8/string.py&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;#34;&amp;#34;&amp;#34;
+whitespace -- a string containing all ASCII whitespace
+ascii_lowercase -- a string containing all ASCII lowercase letters
+ascii_uppercase -- a string containing all ASCII uppercase letters
+ascii_letters -- a string containing all ASCII letters
+digits -- a string containing all ASCII decimal digits
+hexdigits -- a string containing all ASCII hexadecimal digits
+octdigits -- a string containing all ASCII octal digits
+punctuation -- a string containing all ASCII punctuation characters
+printable -- a string containing all ASCII characters considered printable
+&amp;#34;&amp;#34;&amp;#34;
+
+whitespace = &amp;#39; \t\n\r\v\f&amp;#39;
+ascii_lowercase = &amp;#39;abcdefghijklmnopqrstuvwxyz&amp;#39;
+ascii_uppercase = &amp;#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#39;
+ascii_letters = ascii_lowercase + ascii_uppercase
+digits = &amp;#39;0123456789&amp;#39;
+hexdigits = digits + &amp;#39;abcdef&amp;#39; + &amp;#39;ABCDEF&amp;#39;
+octdigits = &amp;#39;01234567&amp;#39;
+punctuation = r&amp;#34;&amp;#34;&amp;#34;!&amp;#34;#$%&amp;amp;&amp;#39;()*+,-./:;&amp;lt;=&amp;gt;?@[\]^_`{|}~&amp;#34;&amp;#34;&amp;#34;
+printable = digits + ascii_letters + punctuation + whitespace
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;测试时间-重新导向控制台&#34;&gt;测试时间 重新导向控制台&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;time.h&amp;gt;
+#define N 1000005
+char s[N], t[N];
+int main() {
+    freopen(&amp;#34;5.in&amp;#34;, &amp;#34;r&amp;#34;, stdin);
+    freopen(&amp;#34;5.out&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t begin_t = clock();
+    while (~scanf(&amp;#34;%s&amp;#34;, s)) {
+        int n = strlen(s), cnt = 0, j = 0;
+        for (int i = 0; i &amp;lt; n; ++i)
+            if (s[i] == &amp;#39;x&amp;#39;) ++cnt;
+            else t[j++] = s[i];
+        for (int i = 0; i &amp;lt; cnt; ++i) t[j++] = &amp;#39;x&amp;#39;;
+        t[j] = 0;
+        puts(t);
+    }
+    freopen(&amp;#34;CON&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t finish_t = clock();
+    printf(&amp;#34;it cost %lf s\n&amp;#34;, (double)(finish_t - begin_t) / CLOCKS_PER_SEC);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;需要注意，这里其实没有真正关闭，只是再次重定向，回到控制台。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>造数据</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200727/</link>
+      <pubDate>Mon, 27 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200727/</guid>
+      <description>&lt;h2 id=&#34;随机字符串&#34;&gt;随机字符串&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import random, string
+random_str = &amp;#39;&amp;#39;.join(random.choice(string.ascii_lowercase) for _ in range(800000))
+print(random_str, file= open(&amp;#34;5.in&amp;#34;, &amp;#34;w&amp;#34;))
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;string库&lt;code&gt;/usr/lib/python3.8/string.py&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;#34;&amp;#34;&amp;#34;
+whitespace -- a string containing all ASCII whitespace
+ascii_lowercase -- a string containing all ASCII lowercase letters
+ascii_uppercase -- a string containing all ASCII uppercase letters
+ascii_letters -- a string containing all ASCII letters
+digits -- a string containing all ASCII decimal digits
+hexdigits -- a string containing all ASCII hexadecimal digits
+octdigits -- a string containing all ASCII octal digits
+punctuation -- a string containing all ASCII punctuation characters
+printable -- a string containing all ASCII characters considered printable
+&amp;#34;&amp;#34;&amp;#34;
+
+whitespace = &amp;#39; \t\n\r\v\f&amp;#39;
+ascii_lowercase = &amp;#39;abcdefghijklmnopqrstuvwxyz&amp;#39;
+ascii_uppercase = &amp;#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#39;
+ascii_letters = ascii_lowercase + ascii_uppercase
+digits = &amp;#39;0123456789&amp;#39;
+hexdigits = digits + &amp;#39;abcdef&amp;#39; + &amp;#39;ABCDEF&amp;#39;
+octdigits = &amp;#39;01234567&amp;#39;
+punctuation = r&amp;#34;&amp;#34;&amp;#34;!&amp;#34;#$%&amp;amp;&amp;#39;()*+,-./:;&amp;lt;=&amp;gt;?@[\]^_`{|}~&amp;#34;&amp;#34;&amp;#34;
+printable = digits + ascii_letters + punctuation + whitespace
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;测试时间-重新导向控制台&#34;&gt;测试时间 重新导向控制台&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;time.h&amp;gt;
+#define N 1000005
+char s[N], t[N];
+int main() {
+    freopen(&amp;#34;5.in&amp;#34;, &amp;#34;r&amp;#34;, stdin);
+    freopen(&amp;#34;5.out&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t begin_t = clock();
+    while (~scanf(&amp;#34;%s&amp;#34;, s)) {
+        int n = strlen(s), cnt = 0, j = 0;
+        for (int i = 0; i &amp;lt; n; ++i)
+            if (s[i] == &amp;#39;x&amp;#39;) ++cnt;
+            else t[j++] = s[i];
+        for (int i = 0; i &amp;lt; cnt; ++i) t[j++] = &amp;#39;x&amp;#39;;
+        t[j] = 0;
+        puts(t);
+    }
+    freopen(&amp;#34;CON&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t finish_t = clock();
+    printf(&amp;#34;it cost %lf s\n&amp;#34;, (double)(finish_t - begin_t) / CLOCKS_PER_SEC);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;需要注意，这里其实没有真正关闭，只是再次重定向，回到控制台。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>White Algorithm</title>
+      <link>https://bernard035.github.io/posts/white-algorithm-20200711-2/</link>
+      <pubDate>Sat, 11 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/white-algorithm-20200711-2/</guid>
+      <description>&lt;p&gt;WhiteAlgroitm - Present the algorithm simply, clearly, and elegantly.&lt;/p&gt;
+&lt;p&gt;我们的初衷非常简单，就是将算法简单、清晰、优美地表述出来。&lt;/p&gt;
+&lt;p&gt;简单： 尽量让每个人都能看懂，保证可读性的同时，不必刻意追求代码语义化，长的变量名并不容易阅读&lt;br&gt;
+清晰： 不将算法人为复杂化，尽可能追求精简的表述&lt;/p&gt;
+&lt;h2 id=&#34;内容&#34;&gt;内容&lt;/h2&gt;
+&lt;p&gt;总体上我们打算把这个项目分为两个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将算法用三种主流程序设计语言（C++,Java,Python）表示出来- 对于每个算法，利用Manim制作一分钟左右的讲解视频，重点讲原理&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于时间、精力和人员的限制，初期我们打算先做图论，包括如下一些：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DFS- BFS- Prim- Kruskal- Dijkstra&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;轮子&#34;&gt;轮子&lt;/h2&gt;
+&lt;p&gt;我们主要会使用的工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git- Python- Manim&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我推荐的学习资料：&lt;/p&gt;
+&lt;p&gt;Git : Github&lt;br&gt;
+Python : &lt;a href=&#34;https://www.runoob.com/python3/python3-tutorial.html&#34;&gt;https://www.runoob.com/python3/python3-tutorial.html&lt;/a&gt;&lt;br&gt;
+Manim : &lt;a href=&#34;https://www.bilibili.com/video/BV1W4411Z7Zt&#34;&gt;https://www.bilibili.com/video/BV1W4411Z7Zt&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;格式&#34;&gt;格式&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;以git上的表述为准- 代码格式化采用Google样式：{BasedOnStyle: Google, IndentWidth: 4} 和devc++里的“Java”方案很像&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/9d721a51c44af6f3.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;工期&#34;&gt;工期&lt;/h2&gt;
+&lt;p&gt;由于暑假时间紧张，而且学习内容涉及面较广，故7月以学习Git/Manim为主，暂不设置工期。&lt;/p&gt;
+&lt;p&gt;以兴趣为主，有时间就可以参与。&lt;/p&gt;
+&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
+&lt;h2 id=&#34;本项目以gpl-v3协议开源&#34;&gt;本项目以GPL V3协议开源。&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/665426960ce84cc487aeff25f6a44c53），发布于 2020-07-11。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>White Algorithm</title>
+      <link>https://bernard035.github.io/posts/white-algorithm-20200711/</link>
+      <pubDate>Sat, 11 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/white-algorithm-20200711/</guid>
+      <description>&lt;p&gt;WhiteAlgroitm - Present the algorithm simply, clearly, and elegantly.&lt;/p&gt;
+&lt;p&gt;我们的初衷非常简单，就是将算法简单、清晰、优美地表述出来。&lt;/p&gt;
+&lt;p&gt;简单： 尽量让每个人都能看懂，保证可读性的同时，不必刻意追求代码语义化，长的变量名并不容易阅读&lt;br&gt;
+清晰： 不将算法人为复杂化，尽可能追求精简的表述&lt;/p&gt;
+&lt;h2 id=&#34;内容&#34;&gt;内容&lt;/h2&gt;
+&lt;p&gt;总体上我们打算把这个项目分为两个部分：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将算法用三种主流程序设计语言（C++,Java,Python）表示出来- 对于每个算法，利用Manim制作一分钟左右的讲解视频，重点讲原理&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于时间、精力和人员的限制，初期我们打算先做图论，包括如下一些：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DFS- BFS- Prim- Kruskal- Dijkstra&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;轮子&#34;&gt;轮子&lt;/h2&gt;
+&lt;p&gt;我们主要会使用的工具：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git- Python- Manim&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我推荐的学习资料：&lt;/p&gt;
+&lt;p&gt;Git : Github&lt;br&gt;
+Python : &lt;a href=&#34;https://www.runoob.com/python3/python3-tutorial.html&#34;&gt;https://www.runoob.com/python3/python3-tutorial.html&lt;/a&gt;&lt;br&gt;
+Manim : &lt;a href=&#34;https://www.bilibili.com/video/BV1W4411Z7Zt&#34;&gt;https://www.bilibili.com/video/BV1W4411Z7Zt&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;格式&#34;&gt;格式&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;以git上的表述为准- 代码格式化采用Google样式：{BasedOnStyle: Google, IndentWidth: 4} 和devc++里的“Java”方案很像&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/9d721a51c44af6f3.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;工期&#34;&gt;工期&lt;/h2&gt;
+&lt;p&gt;由于暑假时间紧张，而且学习内容涉及面较广，故7月以学习Git/Manim为主，暂不设置工期。&lt;/p&gt;
+&lt;p&gt;以兴趣为主，有时间就可以参与。&lt;/p&gt;
+&lt;h2 id=&#34;license&#34;&gt;License&lt;/h2&gt;
+&lt;h2 id=&#34;本项目以gpl-v3协议开源&#34;&gt;本项目以GPL V3协议开源。&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/665426960ce84cc487aeff25f6a44c53），发布于 2020-07-11。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

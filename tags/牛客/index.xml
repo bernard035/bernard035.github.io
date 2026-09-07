@@ -1,0 +1,1723 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>牛客 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E7%89%9B%E5%AE%A2/</link>
+    <description>Recent content in 牛客 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 17 Sep 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E7%89%9B%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2021牛客暑期多校训练营7</title>
+      <link>https://bernard035.github.io/posts/2021-7-20210917/</link>
+      <pubDate>Fri, 17 Sep 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-7-20210917/</guid>
+      <description>&lt;h2 id=&#34;i&#34;&gt;I&lt;/h2&gt;
+&lt;h3 id=&#34;题意&#34;&gt;题意&lt;/h3&gt;
+&lt;p&gt;给定x和s，你需要计算有多少个y满足$x or y = s$&lt;/p&gt;
+&lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
+&lt;p&gt;分解成二进制形式然后逐位考虑&lt;/p&gt;
+&lt;p&gt;坑点：正整数 位运算优先级&lt;/p&gt;
+&lt;h3 id=&#34;solution&#34;&gt;solution&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+bool binx[35], bins[35];
+int div(ll x, bool d[]) {
+    int len = 0;
+    while (x) {
+        d[++len] = x % 2;
+        x /= 2;
+    }
+    return len;
+}
+signed main() {
+    ll x, s, y;
+    sc(x), sc(s);
+    int lenx = div(x, binx);
+    int lens = div(s, bins);
+    ll ans = 1;
+    rep(i, 1, lenx) {
+        if (binx[i] &amp;amp;&amp;amp; !bins[i])
+            return puts(&amp;#34;0&amp;#34;), 0;
+        else if (binx[i] &amp;amp;&amp;amp; bins[i])
+            ans *= 2;
+    }
+    if ((x | 0) == s) --ans;
+    pr(ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;h&#34;&gt;H&lt;/h2&gt;
+&lt;h3 id=&#34;题意-1&#34;&gt;题意&lt;/h3&gt;
+&lt;p&gt;有一个长度为n的数列，他想知道有多少个三元组满足$a_i \times a_j = a_k$&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021牛客暑期多校训练营10</title>
+      <link>https://bernard035.github.io/posts/2021-10-20210916/</link>
+      <pubDate>Thu, 16 Sep 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-10-20210916/</guid>
+      <description>&lt;h2 id=&#34;f&#34;&gt;F&lt;/h2&gt;
+&lt;h3 id=&#34;题意&#34;&gt;题意&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;有n个火车- 左括号表示火车进站 右括号表示是火车出站- 给定每个火车的颜色，问如何安排顺序使得在同一时刻内，火车站内没有相同颜色的火车&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;solution&#34;&gt;solution&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e6 + 7;
+const int mod = 1e9 + 7;
+char s[N * 2];
+unordered_map&amp;lt;int, int&amp;gt; color;
+struct cmp {
+    bool operator()(const int &amp;amp;a, const int &amp;amp;b) const { return a &amp;gt; b; }
+};
+multimap&amp;lt;int, int, cmp&amp;gt; mp;
+deque&amp;lt;int&amp;gt; idx[N];
+int a[N];
+int res[N];
+void dfs(int L, int R, int dep) {
+    if (idx[dep].empty()) return;
+    vector&amp;lt;int&amp;gt; pos;
+    for (int &amp;amp;x : idx[dep]) {
+        if (L &amp;lt;= x and x &amp;lt;= R) {
+            pos.push_back(x);
+            idx[dep].pop_front();
+        } else
+            break;
+    }
+    //
+    int sz = pos.size();
+    if (!sz) return;
+    if (mp.size() &amp;lt; sz) {
+        puts(&amp;#34;NO&amp;#34;);
+        exit(0);
+    }
+    vector&amp;lt;pair&amp;lt;int, int&amp;gt;&amp;gt; vec;
+    rep(i, 1, sz) {
+        vec.emplace_back(*mp.begin());
+        mp.erase(mp.begin());
+    }
+    int i = 0;
+    for (auto p : vec) {
+        res[pos[i++]] = p.second;
+        p.first--;
+        if (p.first) mp.insert(p);
+    }
+    //
+    if (sz &amp;gt;= 2) {
+        for (int R = 1; R &amp;lt; sz; ++R) {
+            dfs(pos[R - 1], pos[R] - 1, dep + 1);
+        }
+        dfs(pos[sz - 1], R, dep + 1);
+    } else if (sz == 1) {
+        dfs(pos[0], R, dep + 1);
+    }
+}
+signed main() {
+    int n, x;
+    scanf(&amp;#34;%d%s&amp;#34;, &amp;amp;n, s + 1);
+    rep(i, 1, n) {
+        scanf(&amp;#34;%d&amp;#34;, &amp;amp;x);
+        ++color[x];
+    }
+    for (auto p : color) mp.insert({p.second, p.first}); 
+
+    int p = 0, st = 0;
+    rep(i, 1, n * 2) {
+        if (s[i] == &amp;#39;(&amp;#39;)
+            ++st, a[++p] = st;
+        else
+            --st;
+    }
+
+    rep(i, 1, n) idx[a[i]].emplace_back(i);
+    dfs(1, n, 1);
+    puts(&amp;#34;YES&amp;#34;);
+    rep(i, 1, n) printf(&amp;#34;%d%c&amp;#34;, res[i], i == n ? &amp;#39;\n&amp;#39; : &amp;#39; &amp;#39;);
+    return 0;
+}
+/*
+
+(()())(()())
+1     1
+ 2     2
+   2     2
+表示一辆火车进站时，它是火车站内的第几辆火车
+*/
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;时间复杂度分析&#34;&gt;时间复杂度分析&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;采用了&lt;code&gt;unordedmap&lt;/code&gt;做颜色统计，线性处理，$O(n)$- 计算栈内数量，线性处理，$O(n)$- dfs按层访问，原子操作是$O(n)$的，因为考虑$1e6$辆火车，每一层的原子操作都对应着一辆火车- 每个原子操作采用了&lt;code&gt;multimap&lt;/code&gt;的弹出压入操作，单次的时间复杂度是$O(\log n)$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;来看这段在dfs的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021牛客暑期多校训练营6</title>
+      <link>https://bernard035.github.io/posts/2021-6-20210915/</link>
+      <pubDate>Wed, 15 Sep 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-6-20210915/</guid>
+      <description>&lt;h2 id=&#34;f&#34;&gt;F&lt;/h2&gt;
+&lt;h3 id=&#34;题意&#34;&gt;题意&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;$m$个锅，$n$个牛排- 第$i$个牛排要炸$t_i$分钟- 一个牛排可以拆成两段时间炸，$a_i+b_i=t_i$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;输出$n$行，每行描述烹饪计划 $k$个三元组$id,l,r$，表示第$id$个锅，时间从$l$到$r$&lt;/p&gt;
+&lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
+&lt;p&gt;贪心。&lt;/p&gt;
+&lt;p&gt;考虑一个时间上限$t_m$，指最后一块牛排煎完那一刻的时间。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先要考虑每一块牛排煎的时间。因为一块牛排不管怎么分配到多少个锅里，时间是连续的。即$t_i (i\in [1,n]) \le t_m$- 时间是可以无缝切换的资源池。考虑每个锅的平均的牛排时间消耗。即$t_m \ge \lceil{\frac{sum(t)}{m}}\rceil$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;确定了$t_m$以后，考虑每个锅可分配的时间资源，顺序分配即可&lt;/p&gt;
+&lt;h3 id=&#34;solution&#34;&gt;solution&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, t, r) for (int i = t; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+void pb(list&amp;lt;ll&amp;gt; &amp;amp;a, ll x, ll y, ll z) {
+    a.emplace_front(z), a.emplace_front(y), a.emplace_front(x);
+}
+signed main() {
+    int n, m;
+    scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;n, &amp;amp;m);
+    vector&amp;lt;int&amp;gt; a(n);
+    ll sum = 0, ddl = 0;
+    for (int &amp;amp;x : a) scanf(&amp;#34;%d&amp;#34;, &amp;amp;x), ddl = max((ll)x, ddl), sum += x;
+    ddl = max(1LL * ddl, sum / m + (sum % m != 0));
+    vector&amp;lt;list&amp;lt;ll&amp;gt;&amp;gt; res(n);
+    int p = 0;  // steak
+    rep(i, 1, m) {
+        ll tot = ddl, t = 0;
+        while (p &amp;lt; n and tot &amp;gt;= a[p]) {
+            pb(res[p], i, t, t += a[p]);
+            tot -= a[p++];
+        }
+        if (p == n) break;
+        if (tot) pb(res[p], i, t, ddl), a[p] -= ddl - t;
+    }
+    for (const list&amp;lt;ll&amp;gt; &amp;amp;v : res) {
+        printf(&amp;#34;%d &amp;#34;, v.size() / 3);
+        for (const ll &amp;amp;x : v) printf(&amp;#34;%lld &amp;#34;, x);
+        printf(&amp;#34;\n&amp;#34;);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;i&#34;&gt;I&lt;/h2&gt;
+&lt;h3 id=&#34;题意-1&#34;&gt;题意&lt;/h3&gt;
+&lt;p&gt;给定一些环形区间，要求构造一组区间，满足构造的区间的并是全集，且构造的区间的交是给定区间。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021 牛客暑期多校训练营8</title>
+      <link>https://bernard035.github.io/posts/2021-8-20210811/</link>
+      <pubDate>Wed, 11 Aug 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-8-20210811/</guid>
+      <description>&lt;h2 id=&#34;a&#34;&gt;A&lt;/h2&gt;
+&lt;p&gt;本题是一道模拟题，读懂题意即可&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;n,m,k,a,l=map(int,input().split())
+def getInv(a): return pow(a,4931,4933)
+p = 1
+for _ in range(k):
+    x,y,z=map(int,input().split());
+    if x!=0: p = p * (z-y) % 4933 * getInv(z) % 4933
+print((a+p)%4933)
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;d&#34;&gt;D&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;：给定两个长度为n-1的非负整数序列b/c，问有多少个序列a满足$b_i = a_{i-1} or a_i ,\ c_i=a_{i-1}+a_i$&lt;/p&gt;
+&lt;p&gt;本题是网上原题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;思路&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;$a+b=a|b + a&amp;amp;b$- 第一个数字定了，整个序列就定了- 所以答案最高就是$2^{30}$- 逐位考虑，考虑第一个数字这一位可以是几（check）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N = 2e5 + 7;
+int b[N], c[N], n, p2[35];
+int check(int k, int x) {
+    int _or, _and;
+    for (int i = 2; i &amp;lt;= n; ++i) {
+        _or = (b[i] &amp;amp; p2[k]) != 0, _and = (c[i] &amp;amp; p2[k]) != 0;
+        if (!_or &amp;amp;&amp;amp; _and) return 0;
+        if (_or &amp;amp;&amp;amp; _and &amp;amp;&amp;amp; !x) return 0;
+        if (!_or &amp;amp;&amp;amp; x) return 0;
+        if (_or &amp;amp;&amp;amp; !_and) x ^= 1;
+    }
+    return 1;
+}
+int main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    p2[0] = 1;
+    for (int i = 1; i &amp;lt;= 30; ++i) p2[i] = p2[i - 1] * 2;
+    cin &amp;gt;&amp;gt; n;
+    for (int i = 2; i &amp;lt;= n; ++i) cin &amp;gt;&amp;gt; b[i];
+    for (int i = 2; i &amp;lt;= n; ++i) cin &amp;gt;&amp;gt; c[i];
+    for (int i = 2; i &amp;lt;= n; ++i) c[i] -= b[i];
+    ll ans = 1;
+    for (int i = 30; ~i; --i) {
+        ans = ans * (check(i, 0) + check(i, 1));
+        if (!ans) break;
+    }
+    cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;e&#34;&gt;E&lt;/h2&gt;
+&lt;p&gt;不存在质数闰年&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021牛客暑期多校训练营5</title>
+      <link>https://bernard035.github.io/posts/2021-5-20210805/</link>
+      <pubDate>Thu, 05 Aug 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-5-20210805/</guid>
+      <description>&lt;h2 id=&#34;boxes&#34;&gt;Boxes&lt;/h2&gt;
+&lt;p&gt;如果用hint，必定在开局使用，因为信息没有衰减，早用一定比晚用好。也就是说，我先hint出来，那我一边开盒子一边算，一样可以达到后面再开的效果。&lt;/p&gt;
+&lt;p&gt;那么考虑每一种分布，分别统计期望即可&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+ld sum[N], a[N], c;
+signed main() {
+    int n;
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; c;
+    rep(i, 1, n) cin &amp;gt;&amp;gt; a[i];
+    sort(a + 1, a + n + 1);
+    rep(i, 1, n) sum[i] = a[i] + sum[i - 1];
+    ld ans = c;
+    rep(i, 1, n-1) ans += sum[i] / pow(2.0, n - i);
+    ans = min(ans, sum[n]);
+    cout &amp;lt;&amp;lt; fixed &amp;lt;&amp;lt; setprecision(10) &amp;lt;&amp;lt; ans;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;double-strings&#34;&gt;Double Strings&lt;/h2&gt;
+&lt;p&gt;用dp转移相同子序列数量，用组合数计算两串选出等长串，能选多少种&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021牛客暑期多校训练营4</title>
+      <link>https://bernard035.github.io/posts/2021-4-20210728/</link>
+      <pubDate>Wed, 28 Jul 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-4-20210728/</guid>
+      <description>&lt;h2 id=&#34;c&#34;&gt;C&lt;/h2&gt;
+&lt;p&gt;题意：构造三个串$s_1,s_2,s_3$使得$LCS(s_1,s_2) = a ,LCS(s_2,s_3) = b ,LCS(s_1,s_3) = c$&lt;/p&gt;
+&lt;p&gt;思维题。python代码比汉语更容易懂。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;a,b,c,n=map(int,input().split())
+mn = min([a,b,c])
+s1,s2,s3=&amp;#39;&amp;#39;,&amp;#39;&amp;#39;,&amp;#39;&amp;#39;
+for _ in range(mn):s1+=&amp;#39;o&amp;#39;;s2+=&amp;#39;o&amp;#39;;s3+=&amp;#39;o&amp;#39;
+a-=mn;b-=mn;c-=mn
+for _ in range(a):s1+=&amp;#39;a&amp;#39;;s2+=&amp;#39;a&amp;#39;
+for _ in range(b):s3+=&amp;#39;b&amp;#39;;s2+=&amp;#39;b&amp;#39;
+for _ in range(c):s3+=&amp;#39;c&amp;#39;;s1+=&amp;#39;c&amp;#39;
+while len(s1)&amp;lt;n: s1+=&amp;#39;x&amp;#39;
+while len(s2)&amp;lt;n: s2+=&amp;#39;y&amp;#39;
+while len(s3)&amp;lt;n: s3+=&amp;#39;z&amp;#39;
+if len(s1)&amp;gt;n or len(s2)&amp;gt;n or len(s3)&amp;gt;n:print(&amp;#39;NO&amp;#39;)
+else :print(s1,s2,s3,sep=&amp;#39;\n&amp;#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;更python的写法&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;a, b, c, n = map(int, input().split())
+mn = min(a, b, c)
+s1 = &amp;#39;o&amp;#39; * mn; s2 = &amp;#39;o&amp;#39; * mn; s3 = &amp;#39;o&amp;#39; * mn
+a -= mn; b -= mn; c -= mn
+s1 += &amp;#39;a&amp;#39; * a; s2 += &amp;#39;a&amp;#39; * a
+s2 += &amp;#39;b&amp;#39; * b; s3 += &amp;#39;b&amp;#39; * b
+s1 += &amp;#39;c&amp;#39; * c; s3 += &amp;#39;c&amp;#39; * c
+if len(s1) &amp;gt; n or len(s2) &amp;gt; n or len(s3) &amp;gt; n: print(&amp;#39;NO&amp;#39;)
+else: print(s1 + &amp;#39;x&amp;#39; * (n - len(s1)), s2 + &amp;#39;y&amp;#39; * (n - len(s2)), s3 + &amp;#39;z&amp;#39; * (n - len(s3)), sep=&amp;#39;\n&amp;#39;)
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;f&#34;&gt;F&lt;/h2&gt;
+&lt;p&gt;我的做法是：考虑 连通分量数量 + 环数量 的奇偶性&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021牛客暑期多校训练营2</title>
+      <link>https://bernard035.github.io/posts/2021-2-20210727/</link>
+      <pubDate>Tue, 27 Jul 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-2-20210727/</guid>
+      <description>&lt;h2 id=&#34;c&#34;&gt;C&lt;/h2&gt;
+&lt;p&gt;一共有$n*m$个点，考虑生成树，即判断生成树边数量的奇偶性即可。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+int main() {
+    int n, m;
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m;
+    if (n &amp;gt; m) swap(n, m);
+    if ((m * n - 1) &amp;amp; 1)
+        puts(&amp;#34;YES&amp;#34;);
+    else
+        puts(&amp;#34;NO&amp;#34;);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;d&#34;&gt;D&lt;/h2&gt;
+&lt;p&gt;小模拟 注意细节&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021牛客暑期多校训练营3</title>
+      <link>https://bernard035.github.io/posts/2021-3-20210727/</link>
+      <pubDate>Tue, 27 Jul 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-3-20210727/</guid>
+      <description>&lt;h2 id=&#34;b&#34;&gt;B&lt;/h2&gt;
+&lt;p&gt;思维题，难在模型的转化。&lt;/p&gt;
+&lt;p&gt;对于一个矩阵，将其理解为一个二分图：行和列。&lt;/p&gt;
+&lt;p&gt;此时，对于每一个点，它就是二分图里的边：连接一个行和一个列。&lt;/p&gt;
+&lt;p&gt;如果我选择一些点，使得所有的行和列上都存在点，这就是解的必要条件。&lt;/p&gt;
+&lt;p&gt;但似乎只靠这一条件并不充分，不过能过。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 5e3;
+const int mod = 1e9 + 7;
+ll n, m, a, b, c, d, p;
+struct node {
+    int x, y;
+    ll w;
+    bool operator&amp;lt; (const node &amp;amp; o)const{
+        return w &amp;lt; o.w;
+    }
+} ar[N * N + 1];
+int fa[N * 2 + 1];
+inline void init(int n) {
+    for (int i = 1; i &amp;lt;= n; ++i) fa[i] = i;
+}
+inline int Find(int x) {
+    if (x != fa[x]) fa[x] = Find(fa[x]);  //路径压缩
+    return fa[x];
+}
+inline void merge(int x, int y) { fa[Find(y)] = Find(x); }
+signed main() {
+    sc(n), sc(m), sc(a), sc(b), sc(c), sc(d), sc(p);
+    if (n == 0 or m == 0) return cout &amp;lt;&amp;lt; 0, 0;
+    ar[0].w = a;
+    rep(i, 1, n) rep(j, 1, m) {
+        int id = m * (i - 1) + j;
+        ar[id] = {i, j,
+                  (ar[id - 1].w * ar[id - 1].w * b + ar[id - 1].w * c + d) % p};
+    }
+    sort(ar + 1, ar + 1 + m * n);
+    init(n + m);
+    ll res = 0, cnt = 0;
+    rep(i, 1, n * m) {
+        if (Find(ar[i].x) != Find(ar[i].y + n))
+            res += ar[i].w, ++cnt, merge(ar[i].x, ar[i].y + n);
+        if (cnt == n + m - 1) break;
+    }
+    pr(res);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;按这样答案不会出错，不过这一选出来的点是无法满足的，但对于这一答案，可能一定存在满足的解。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021牛客暑期多校训练营1</title>
+      <link>https://bernard035.github.io/posts/2021-1-20210722/</link>
+      <pubDate>Thu, 22 Jul 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-1-20210722/</guid>
+      <description>&lt;h2 id=&#34;alice-and-bob&#34;&gt;Alice and Bob&lt;/h2&gt;
+&lt;p&gt;SG暴力转移即可&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+const int N = 5e3;
+bool f[N + 5][N + 5];
+int main() {
+    for (int i = 0; i &amp;lt;= N; i++)
+        for (int j = 0; j &amp;lt;= N; j++) 
+            if (f[i][j] == 0) {
+                for (int k = 1; k + i &amp;lt;= N; k++)
+                    for (int s = 0; s * k + j &amp;lt;= N; s++)
+                        f[i + k][j + s * k] = 1;
+                for (int k = 1; k + j &amp;lt;= N; k++)
+                    for (int s = 0; s * k + i &amp;lt;= N; s++)
+                        f[i + s * k][j + k] = 1;
+            }
+    int t, n, m;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;t);
+    while (t--) {
+        scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;n, &amp;amp;m);
+        puts(f[n][m] ? &amp;#34;Alice&amp;#34; : &amp;#34;Bob&amp;#34;);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/93c300ed1c19151e.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021 牛客寒假多校2 筛法 构造 思维</title>
+      <link>https://bernard035.github.io/posts/2021-2-20210219/</link>
+      <pubDate>Fri, 19 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-2-20210219/</guid>
+      <description>&lt;h2 id=&#34;牛牛与整除分块&#34;&gt;牛牛与整除分块&lt;/h2&gt;
+&lt;p&gt;$N=10$时$S={10,5,3,2,1}$&lt;/p&gt;
+&lt;p&gt;$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor }}（特判）,\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -1}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -2}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -3}},\dots \frac{N}{\frac{N}{1}},}}$$&lt;/p&gt;
+&lt;p&gt;化简可得&lt;/p&gt;
+&lt;p&gt;$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },{\lfloor \sqrt{N} \rfloor }（特判）,\lfloor \sqrt{N} \rfloor -1,\lfloor \sqrt{N} \rfloor -2,\lfloor \sqrt{N} \rfloor -3,\dots 1}}$$&lt;/p&gt;
+&lt;p&gt;于是以$\sqrt{n}$为界，在左边或者右边找对应的位置即可。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+int main() {
+    ll T, n, x;
+    sc(T);
+    while (T--) {
+        sc(n), sc(x);
+        ll a = sqrt(n);
+        if (x &amp;lt;= a)
+            pr(x);
+        else {
+            ll l = n / a;
+            ll ans = 0;
+            if (a != l) ++ans;
+            ll now = n / x;
+            ans += a - now + a;
+            pr(ans);
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;牛牛与交换排序&#34;&gt;牛牛与交换排序&lt;/h2&gt;
+&lt;p&gt;简单分析后可知&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021 牛客寒假多校3 线段树 思维 暴力 博弈</title>
+      <link>https://bernard035.github.io/posts/2021-3-segment-tree-game-theory-20210219/</link>
+      <pubDate>Fri, 19 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-3-segment-tree-game-theory-20210219/</guid>
+      <description>&lt;h2 id=&#34;重力坠击&#34;&gt;重力坠击&lt;/h2&gt;
+&lt;p&gt;暴搜即可&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%d\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 17;
+const int mod = 1e9 + 7;
+struct poi {
+    int x, y, r;
+} a[N];
+bool alive[N];
+int n, k, R;
+int dfs(int lv) {
+    if (lv == k) {
+        int ans = 0;
+        rep(i, 1, n) ans += alive[i];
+        return n - ans;
+    }
+    int ans = 0;
+    vector&amp;lt;int&amp;gt; nowsta;
+    rep(x, -7, 7) {
+        rep(y, -7, 7) {
+            rep(i, 1, n) if (sqrt((a[i].x - x) * (a[i].x - x) +
+                                  (a[i].y - y) * (a[i].y - y)) &amp;lt;= a[i].r + R &amp;amp;&amp;amp;
+                             alive[i]) nowsta.push_back(i),
+                alive[i] = 0;
+            int nxt = dfs(lv + 1);
+            ans = max(nxt, ans);
+            for (const int &amp;amp;v : nowsta) alive[v] = 1;
+            nowsta.clear();
+        }
+    }
+    return ans;
+}
+int main() {
+    sc(n), sc(k), sc(R);
+    rep(i, 1, n) sc(a[i].x), sc(a[i].y), sc(a[i].r);
+    rep(i, 0, 15) alive[i] = 1;
+    pr(dfs(0));
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;匹配串&#34;&gt;匹配串&lt;/h2&gt;
+&lt;p&gt;本题其实就是一道思维题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2021 牛客寒假多校1 神崎兰子 构造 思维</title>
+      <link>https://bernard035.github.io/posts/2021-1-20210202/</link>
+      <pubDate>Tue, 02 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-1-20210202/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/9981&#34;&gt;比赛链接&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;串&#34;&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/9981/A&#34;&gt;串&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;DP。&lt;a href=&#34;https://blog.nowcoder.net/n/c2ca286c26944cd78236b402f231f28e&#34;&gt;雨神的博客&lt;/a&gt;讲得很清楚。&lt;br&gt;
+我也做了一点注释。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e6 + 7;
+const int mod = 1e9 + 7;
+ll dp[N][3];
+int n;
+int main() {
+    cin &amp;gt;&amp;gt; n;
+    dp[1][0] = 25;
+    // dp[i][0]表示长度i无u的串数量
+    dp[1][1] = 1;
+    // dp[i][1]表示长度i有u无us的串数量
+    dp[1][2] = 0;
+    // dp[i][2]表示长度i有us的串
+    ll ans = 0;
+    rep(i, 2, n) {
+        dp[i][0] = (dp[i - 1][0] * 25) % mod;
+        //在前串尾缀除u以外的字符即可
+        dp[i][1] = (dp[i - 1][1] * 25 + dp[i - 1][0]) % mod;
+        //有u串尾缀非s + 无u串尾缀u
+        dp[i][2] = (dp[i - 1][1] + dp[i - 1][2] * 26) % mod;
+        //无s串尾缀s + 符合串尾缀任意字符
+        ans = (ans + dp[i][2]) % mod;
+    }
+    cout &amp;lt;&amp;lt; ans;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;括号&#34;&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/9981/B&#34;&gt;括号&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;构造长度小于${10^5}$的有k个合法括号对的括号字符串。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>牛客挑战赛47</title>
+      <link>https://bernard035.github.io/posts/47-20210110/</link>
+      <pubDate>Sun, 10 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/47-20210110/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/10743&#34;&gt;https://ac.nowcoder.com/acm/contest/10743&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;a&#34;&gt;A&lt;/h2&gt;
+&lt;p&gt;思维题。&lt;br&gt;
+最终的gcd最大值必为排序后每两个相邻数的差值的gcd。&lt;br&gt;
+那么就计算最小的数需要加多少才能成为这个gcd的倍数就可以了。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+ll a[N], d[N];
+int main() {
+    ll n;
+    sc(n);
+    for (int i = 1; i &amp;lt;= n; ++i) sc(a[i]);
+    sort(a + 1, a + 1 + n);
+    for (int i = 1; i &amp;lt; n; ++i) d[i] = a[i + 1] - a[i];
+    ll ans = d[1];
+    for (int i = 2; i &amp;lt; n; ++i) ans = __gcd(ans, d[i]);
+    if (ans == 1) puts(&amp;#34;1 0&amp;#34;);
+    else cout &amp;lt;&amp;lt; ans&amp;lt;&amp;lt;&amp;#39; &amp;#39; &amp;lt;&amp;lt; ans - a[1] % ans;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;b&#34;&gt;B&lt;/h2&gt;
+&lt;p&gt;是k-gcd的变形，说是埃筛也没什么问题。无论选多少个数，答案必然在$[1,100000]$之间，那么就可以枚举每个因数，通过桶来看有多少个数是它的倍数。&lt;br&gt;
+从大到小枚举就是最优的枚举方案，所以只有没有访问过的才会记录。&lt;br&gt;
+最后覆盖一遍答案就可以了，因为如果有$m$个数都是$x$的倍数，那么必然也可以选出来$m-1$个数，使其满足是$x$的倍数。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020 新生周练 第五周 5-9</title>
+      <link>https://bernard035.github.io/posts/2020-5-9-20200727/</link>
+      <pubDate>Mon, 27 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-5-9-20200727/</guid>
+      <description>&lt;h2 id=&#34;5005&#34;&gt;5005&lt;/h2&gt;
+&lt;p&gt;移动字母&lt;/p&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;给定一个只包含小写字母的字符串s，高飞想将这个字符串中的所有的字母&amp;rsquo;x&amp;rsquo;全部移动到字符串的末尾，而且保证其它字符的相对顺序不变。&lt;/p&gt;
+&lt;p&gt;其中字符串s的长度&amp;lt;=1e6。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;xa
+axaaa
+axbcxavxv&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;ax
+aaaax
+abcavvxxx&lt;/p&gt;
+&lt;h3 id=&#34;标程&#34;&gt;标程&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#define N 1000005
+char s[N], t[N];
+int main() {
+    while (~scanf(&amp;#34;%s&amp;#34;, s)) {
+        int n = strlen(s), cnt = 0, j = 0;
+        for (int i = 0; i &amp;lt; n; ++i)
+            if (s[i] == &amp;#39;x&amp;#39;) ++cnt;
+            else t[j++] = s[i];
+        for (int i = 0; i &amp;lt; cnt; ++i) t[j++] = &amp;#39;x&amp;#39;;
+        t[j] = 0;
+        puts(t);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;5006&#34;&gt;5006&lt;/h2&gt;
+&lt;p&gt;高飞听音乐&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020软院算法组新生周练 - 第二周 1-4</title>
+      <link>https://bernard035.github.io/posts/2020-1-4-20200715/</link>
+      <pubDate>Wed, 15 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-1-4-20200715/</guid>
+      <description>&lt;h2 id=&#34;hamman的烦恼&#34;&gt;Hamman的烦恼&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;Hamman成绩非常好，编程能力也很强，所以就有很多小白去问他一些非常简单的题目，Hamman非常热情，但是问他问题的人太多了，他实在忙不过来，于是他决定从第 0 时刻开始每 s 个时刻回答一位同学的问题。 Q 个同学来问问题，如果某位同学第 t 时刻来，还有等多久才能问Hamman问题。&lt;/p&gt;
+&lt;h3 id=&#34;input&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;多组输入，处理到文件的末尾。
+每组数据的第一行两个整数 s , Q 。
+接下来 Q 行每行一个整数 t。&lt;/p&gt;
+&lt;p&gt;(1&amp;lt;s,t&amp;lt;1e9,1&amp;lt;Q&amp;lt;1e5)&lt;/p&gt;
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;每行一个整数表示答案。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;3 4&lt;br&gt;
+1&lt;br&gt;
+2&lt;br&gt;
+3&lt;br&gt;
+4&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;2&lt;br&gt;
+1&lt;br&gt;
+0&lt;br&gt;
+2&lt;/p&gt;
+&lt;h3 id=&#34;标程&#34;&gt;标程&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;stdlib.h&amp;gt;
+int main(){
+	int s,q,t;
+	while(~scanf(&amp;#34;%d%d&amp;#34;,&amp;amp;s,&amp;amp;q)) {
+		while(q--) {
+		scanf(&amp;#34;%d&amp;#34;,&amp;amp;t);
+		printf(&amp;#34;%d\n&amp;#34;,(s-t%s)%s);
+		}
+	}
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;hamman的三棵香蕉树&#34;&gt;Hamman的三棵香蕉树&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description-1&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;Hamman最喜欢吃香蕉。
+现在有三棵有编号的香蕉树。第一棵树上有a根香蕉，第二棵树上有b根香蕉，第三棵树上有c根香蕉。
+每次他都能做两种操作中的一种：
+1.从第一棵中取一根香蕉，从第二棵树上取两根香蕉(只有当第一棵树至少有一根香蕉，第二棵树至少有两根香蕉时，才能进行这一操作)；
+2.从第二棵中取一根香蕉，从第三棵树上取两根香蕉(只有当第二棵树至少有一根香蕉，第三棵树至少有两根香蕉时，才能进行这一操作)。
+他想得到最大数量的香蕉，但他不知道该怎么做。一开始，他没有香蕉。你能帮他吗？&lt;/p&gt;
+&lt;h3 id=&#34;input-1&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;第一行包含一个整数。t (1≤t≤100)-测试用例的数量。下一个t行以下列格式描述测试用例：&lt;br&gt;
+每行包含三个非负整数。a, b和c，由空格分隔(0≤a,b,c≤1000)-第一棵树、第二棵数和第三棵数上的香蕉数目。&lt;/p&gt;
+&lt;h3 id=&#34;output-1&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;列印t行，测试用例的答案与输入的顺序相同。测试用例的答案是整数&amp;ndash;在进行一些操作之后，Hamman大佬可以得到香蕉数&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020软院算法组新生周练 第二周 定稿</title>
+      <link>https://bernard035.github.io/posts/2020-20200715/</link>
+      <pubDate>Wed, 15 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-20200715/</guid>
+      <description>&lt;h2 id=&#34;bernard的矩阵&#34;&gt;Bernard的矩阵&lt;/h2&gt;
+&lt;p&gt;Bernard现在得到了一个包含n×m个数的整数序列，现在他需要把这n×m个数按顺序规划成一个n行m列的矩阵并输出，请你帮他完成这个任务。&lt;/p&gt;
+&lt;h3 id=&#34;input&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;一行，输入两个整数n和m，用空格分隔，第二行包含n×m个整数。&lt;/p&gt;
+&lt;p&gt;整数均在32位整数范围内，1&amp;lt;=n,m&amp;lt;=10&lt;/p&gt;
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;输出规划后n行m列的矩阵，每个数的后面有一个空格。&lt;/p&gt;
+&lt;p&gt;注意：没有多余的空行&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;2 3
+1 2 3 4 5 6&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;1 2 3
+4 5 6&lt;/p&gt;
+&lt;h2 id=&#34;bernard的棋盘&#34;&gt;Bernard的棋盘&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;给定一个棋盘，已知棋盘的行数是n，列数是m。
+每个整数坐标处都有一个糖果，Bernard 初始在棋盘的左下角 (1,1)出发，并且 Bernard 每次只能跳 ”日” 字，假设 Bernard 可以跳无数次，但不可以跳出棋盘，现在 Bernard 想知道他能否拿到棋盘上的所有糖果。&lt;/p&gt;
+&lt;p&gt;若Bernard现在在黄色的点上，那么他可以跳到图中的8个红色点处。
+[打开下方链接以查看图片]
+&lt;a href=&#34;https://uploadfiles.nowcoder.com/images/20200715/794972751_1594799454027_4E863266C2022179B43BA4CBAC8E9DD1&#34;&gt;https://uploadfiles.nowcoder.com/images/20200715/794972751_1594799454027_4E863266C2022179B43BA4CBAC8E9DD1&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;input-1&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;在一行中给出两个数字 n，m表示棋盘的大小 （1&amp;lt;=n,m&amp;lt;=2000)&lt;/p&gt;
+&lt;h3 id=&#34;output-1&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;若 Bernard 能拿到棋盘上所有的糖果，则输出 &amp;ldquo;Yes&amp;rdquo;，否则，输出 &amp;ldquo;No&amp;rdquo;&lt;/p&gt;
+&lt;h3 id=&#34;sample-input-1&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;4 4
+3 3&lt;/p&gt;
+&lt;h3 id=&#34;sample-output-1&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;Yes
+(说明：Bernard 可以走到所有的点上并且拿到所有的糖果。)
+No
+(说明：Bernard 一开始在左下角 (1,1) ，此时 Bernard 除了中间的点 (2,2) 无法走到，其他点都可到达。)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>软院算法组2020新生周练出题</title>
+      <link>https://bernard035.github.io/posts/2020-20200714/</link>
+      <pubDate>Tue, 14 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-20200714/</guid>
+      <description>&lt;h1 id=&#34;软院算法组2020新生周练出题&#34;&gt;软院算法组2020新生周练出题&lt;/h1&gt;
+&lt;h2 id=&#34;职责分配&#34;&gt;职责分配&lt;/h2&gt;
+&lt;h3 id=&#34;出题组&#34;&gt;出题组&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;A组：吴文龙 车文儒 蔡佳乐&lt;/li&gt;
+&lt;li&gt;B组：江新宇 肖子安 杨文冠&lt;/li&gt;
+&lt;li&gt;C组：钟涛 刘晟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;完成题目的编辑、排版工作&lt;/li&gt;
+&lt;li&gt;将题目数据按要求处理好并发布在HDUOJ&lt;/li&gt;
+&lt;li&gt;完成初步的题目测试，确保标程能跑&lt;/li&gt;
+&lt;li&gt;准备好对应周的题目讲解，推荐写博客&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;测题组&#34;&gt;测题组&lt;/h3&gt;
+&lt;p&gt;蔡泽雷 杨小亮 肖娜萍&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;独立完成题目&lt;/li&gt;
+&lt;li&gt;发现题目有问题后及时沟通&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;工作安排&#34;&gt;工作安排&lt;/h2&gt;
+&lt;h3 id=&#34;出题组-1&#34;&gt;出题组&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;A组：完成第1/4/7周的题目编辑和验证工作（题面/数据/测试）&lt;/li&gt;
+&lt;li&gt;B组：完成第2/5/8周的题目编辑和验证工作（题面/数据/测试）&lt;/li&gt;
+&lt;li&gt;C组：完成第3/6周的题目编辑和验证工作（题面/数据/测试）&lt;/li&gt;
+&lt;li&gt;第1/2/3周周练的出题工作在7.25之前完成&lt;/li&gt;
+&lt;li&gt;第4/5/6周周练的出题工作在8.10之前完成&lt;/li&gt;
+&lt;li&gt;第7/8周周练的出题工作在8.30之前完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;测题组-1&#34;&gt;测题组&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;在8.10前完成第1/2/3周的测题&lt;/li&gt;
+&lt;li&gt;在8.30前完成第4/5/6周的测题&lt;/li&gt;
+&lt;li&gt;在9.15前完成第7/8周的测题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;周数&lt;/th&gt;
+					&lt;th&gt;测题人1&lt;/th&gt;
+					&lt;th&gt;测题人2&lt;/th&gt;
+					&lt;th&gt;截止日期&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第1周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第2周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;8.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第3周&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第4周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.25&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第5周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;8.25&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第6周&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.25&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第7周&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;9.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第8周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;9.10&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;参考题量与知识点&#34;&gt;参考题量与知识点&lt;/h2&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;周数&lt;/th&gt;
+					&lt;th&gt;题量&lt;/th&gt;
+					&lt;th&gt;知识点&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第1周&lt;/td&gt;
+					&lt;td&gt;8&lt;/td&gt;
+					&lt;td&gt;杨辉三角&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第2周&lt;/td&gt;
+					&lt;td&gt;8&lt;/td&gt;
+					&lt;td&gt;大数&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第3周&lt;/td&gt;
+					&lt;td&gt;8&lt;/td&gt;
+					&lt;td&gt;冒泡排序&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第4周&lt;/td&gt;
+					&lt;td&gt;9&lt;/td&gt;
+					&lt;td&gt;简单贪心&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第5周&lt;/td&gt;
+					&lt;td&gt;9&lt;/td&gt;
+					&lt;td&gt;物理打表&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第6周&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;基数排序&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第7周&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;前缀和&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第8周&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;并查集&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/6872e80938ea4f40b69cc863ec746042），发布于 2020-07-14。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020软院算法组新生周练 - 第二周 5-8</title>
+      <link>https://bernard035.github.io/posts/2020-5-8-20200712/</link>
+      <pubDate>Sun, 12 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-5-8-20200712/</guid>
+      <description>&lt;h2 id=&#34;hammann的签到题&#34;&gt;Hammann的签到题&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;期末考试结束了，Hammann发现很多人挂了高数，只能等着重修，还要交200元的重修费。现在Hammann有了所有人的高数成绩，Hammann想知道如果所有挂科的人都在第二年重修，学校收到多少重修费？&lt;/p&gt;
+&lt;p&gt;挂科是指一门课的分数小于60分。&lt;/p&gt;
+&lt;h3 id=&#34;input&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;第一行一个整数n，表示考试的人数。(1&amp;lt;n&amp;lt;=1000)&lt;br&gt;
+接下来n行，每行表示每个人的成绩。&lt;br&gt;
+学生的成绩为0-100（包括0和100）之间的整数。&lt;/p&gt;
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;一行，表示学校能收到多少重修费。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;4&lt;br&gt;
+60&lt;br&gt;
+56&lt;br&gt;
+100&lt;br&gt;
+59&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;400&lt;/p&gt;
+&lt;h3 id=&#34;标程&#34;&gt;标程&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int n, a, ans = 0;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;n);
+    while (n--) {
+        scanf(&amp;#34;%d&amp;#34;, &amp;amp;a);
+        if (a &amp;lt; 60) ans += 200;
+    }
+    printf(&amp;#34;%d\n&amp;#34;, ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;hammann的计数题&#34;&gt;Hammann的计数题&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description-1&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;Hammann看到了一道题，他觉得非常容易想直接摸了，于是他找到了你。你能帮助他解决这道题吗？&lt;/p&gt;
+&lt;p&gt;如题：有一个十进制整数a和一个十进制数b，一个整数x(范围[0~9])，x在a和b之间（包括a和b本身）的所有数里，每一位出现的次数是奇数还是偶数呢？&lt;/p&gt;
+&lt;h3 id=&#34;input-1&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;多组输入，每组输入各占一行。每行三个数字a,b,x(0&amp;lt;=a,b&amp;lt;=100,0&amp;lt;=x&amp;lt;=9)。
+程序执行到文件结束。&lt;/p&gt;
+&lt;h3 id=&#34;output-1&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;对于每个测试样例，输出一行。&lt;br&gt;
+如果出现的次数为奇数，输出&amp;quot;Yes&amp;quot;，否则输出&amp;quot;No&amp;quot;(输出结果不包含双引号)。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input-1&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;1 1 1&lt;br&gt;
+11 2 1&lt;br&gt;
+99 99 9&lt;br&gt;
+30 40 0&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>为什么牛客rating缺乏置信度</title>
+      <link>https://bernard035.github.io/posts/rating-20200522/</link>
+      <pubDate>Fri, 22 May 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/rating-20200522/</guid>
+      <description>&lt;p&gt;先说题目，私货放后面。&lt;/p&gt;
+&lt;p&gt;对于单次出现的元素比如&#39;4&amp;rsquo;，&amp;lsquo;2&amp;rsquo;，&lt;strong&gt;放在一起&lt;/strong&gt;可以让序列1412的数量尽可能多，即被重复计算的次数多。&lt;/p&gt;
+&lt;p&gt;而对于出现两次的元素&#39;1&amp;rsquo;，考虑均值不等式 $\large \frac{x_1+x_2}{2} \geq \sqrt{x_1x_2}$，即尽可能平均分配。&lt;/p&gt;
+&lt;p&gt;以样例1为例，合理的排布应当是：111444444441112222222。&lt;/p&gt;
+&lt;p&gt;于是本题得解：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;T=int(input())
+for _ in range(T):
+    n,m,k=map(int,input().split())
+    nn=n//2
+    n-=nn
+    print(n*m*k*nn)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;挺容易的，对吧？可是一开始这个答案可是错的。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/24fde172e1ae0b6e.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;本菜鸡可是百思不得其解：&lt;strong&gt;python的int可不会溢出&lt;/strong&gt;。直到用cpp开longlong才能过&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/4aceefb90e8445db.jpg&#34; title=&#34;内心状态&#34;&gt;&lt;/p&gt;
+&lt;p&gt;毕竟：&lt;br&gt;
+&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/94d8e3ad9b2403cd.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;出题人还强调了数据范围，那么问题来了：$2e5&lt;em&gt;2e5&lt;/em&gt;1e5*1e5$的数据会不会溢出long long呢？&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/5ed7475a1a032023.jpg&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/2f9120b921ed874a.jpg&#34; title=&#34;图片标题&#34;&gt; &lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/4e477a39362ce280.jpg&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;前几天茶山牛发了这样的每日话题：&lt;a href=&#34;https://ac.nowcoder.com/discuss/428989?type=101&amp;amp;order=0&amp;amp;pos=31&amp;amp;page=2&#34;&gt;你觉得什么样的竞赛rating系统，是你想要的？&lt;/a&gt;,有牛友这样回答：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/c889c621bec46736.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;为什么牛客的rating缺乏置信度，为什么牛客的rating的含金量就是不如CF？&lt;/p&gt;
+&lt;p&gt;除了牛客竞赛自身起步较晚，影响较小以外，更重要的是牛客的比赛&lt;strong&gt;事故率高&lt;/strong&gt;：一场比赛发十几个公告是常有的事。&lt;/p&gt;
+&lt;p&gt;就比如这次的练习赛A题，一个初中生都能算出来的最大数据是否溢出，这样的问题，可以出现在计入牛客rating的练习赛上，那么牛客的rating赛是什么样的&lt;strong&gt;题目质量&lt;/strong&gt;，&lt;strong&gt;有没有验题&lt;/strong&gt;，牛客是&lt;strong&gt;怎么找的&lt;/strong&gt;出题人，这样的出题人又有多少&lt;strong&gt;责任心&lt;/strong&gt;在这件事情上，这些问题，大家心里可能已经有了答案。&lt;/p&gt;
+&lt;p&gt;为什么牛客rating缺乏置信度？&lt;br&gt;
+&lt;strong&gt;“没溢出”&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/ea165a34bbdfc1ba.png&#34; title=&#34;没溢出&#34;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;对了，我还发现了一件非常搞笑的事情，我本来想拿下面这张图当头像来着，然而牛客提示我里面有违规内容，你们如果有兴趣可以试试&lt;/p&gt;
+&lt;h2 id=&#34;图片说明&#34;&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/ff39c421e3cfa12b.png&#34; title=&#34;图片标题&#34;&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/f6cd3b24cd374d4d946eae85f4943622），发布于 2020-05-22。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>牛客练习赛60</title>
+      <link>https://bernard035.github.io/posts/60-20200328/</link>
+      <pubDate>Sat, 28 Mar 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/60-20200328/</guid>
+      <description>&lt;h1 id=&#34;a&#34;&gt;A&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/4853/A&#34;&gt;https://ac.nowcoder.com/acm/contest/4853/A&lt;/a&gt;&lt;br&gt;
+题意：&lt;br&gt;
+优化如下代码到线性阶&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int n;cin&amp;gt;&amp;gt;n;
+int a[n];for(int i=0;i&amp;lt;n;++n)cin&amp;gt;&amp;gt;a[i];
+ll ans=0;
+for(int i=0;i&amp;lt;n;++i)
+for(int j=0;j&amp;lt;n;++j)
+ans+=a[i]&amp;amp;a[j];
+cout&amp;lt;&amp;lt;ans&amp;lt;&amp;lt;endl;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;题目示例为:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;输入&lt;br&gt;
+5&lt;br&gt;
+1 2 3 4 5&lt;br&gt;
+输出&lt;br&gt;
+33&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;题目示例可转化为&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;0 0 1&lt;br&gt;
+0 1 0&lt;br&gt;
+0 1 1&lt;br&gt;
+1 0 0&lt;br&gt;
+1 0 1&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;按位思考，每一个位，都是n个点的完全图。&lt;br&gt;
+求得到每一个数互相与的结果，可以转化为求每一个数每一位上互相与，再按位加和的结果。&lt;br&gt;
+以第三列（最末尾，权值为1）为例&lt;br&gt;
+1&lt;br&gt;
+0&lt;br&gt;
+1&lt;br&gt;
+0&lt;br&gt;
+1&lt;br&gt;
+这样的完全图，因为与运算的实质，所以只需要计算1的个数，这一位上的结果即为$cnt&lt;em&gt;cnt&lt;/em&gt;power$ 。&lt;br&gt;
+优化后时间复杂度T(32n)&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+int main() {
+    int n;
+    cin &amp;gt;&amp;gt; n;
+    int a[n + 1];
+    for (int i = 0; i &amp;lt; n; ++i) cin &amp;gt;&amp;gt; a[i];
+    int cnt[32] = {0};
+    for (int j = 0; j &amp;lt; 32; ++j)
+        for (int i = 0; i &amp;lt; n; ++i)
+            if ((a[i] &amp;gt;&amp;gt; j) &amp;amp; 1) ++cnt[j];
+    ll ans = 0;
+    for (int i = 0; i &amp;lt; 32; ++i) ans += cnt[i] * cnt[i] * (1LL &amp;lt;&amp;lt; i);
+    cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;b&#34;&gt;B&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/4853/B&#34;&gt;https://ac.nowcoder.com/acm/contest/4853/B&lt;/a&gt;&lt;br&gt;
+题意：n个点能组成的三角形周长之和。任意三点不在同一直线上。&lt;br&gt;
+完全图。&lt;br&gt;
+对于任意两个点而言，都能找到第三个点与它们组成三角形。&lt;br&gt;
+也就是说，任何一条边都能和n-2个其余点组成三角形。&lt;br&gt;
+也就是说，完全图的任意一条边都被计算了n-2次。&lt;br&gt;
+最后longlong。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>第八次周练</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200324/</link>
+      <pubDate>Tue, 24 Mar 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200324/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://acm.hdu.edu.cn/diy/contest_show.php?cid=36331&#34;&gt;http://acm.hdu.edu.cn/diy/contest_show.php?cid=36331&lt;/a&gt;&lt;br&gt;
+jxnu2020&lt;/p&gt;
+&lt;h2 id=&#34;03-并查集&#34;&gt;03 并查集&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Problem Description&lt;/strong&gt;&lt;br&gt;
+从前有个老和尚对小和尚讲故事，他说他早上看到一个年轻男子赶着n头牛，在农田里耕种，突然下起了大雨，年轻男子怕牛着凉了，就打算把它们安排到几个各自分开的草棚下面避雨，他一共有q次操作，每次操作都将牛Xi与牛Yi所在的草棚合并在一起，对于n头牛，编号分别为1,2,3,&amp;hellip;,n。&lt;br&gt;
+&lt;strong&gt;Input&lt;/strong&gt;&lt;br&gt;
+多组输入。对于每组测试数据，第一行包含两个整数n,m，表示n头牛，m次操作，接下来m行，每行包括三个整数Zi,Xi,Yi,当Zi=1时，将牛Xi与牛Yi所在的草棚合并在一起，当Zi=2时，请输出牛Xi和牛Yi是否在一个草棚，是的输出&amp;quot;Yes&amp;quot;,否则输出&amp;quot;No&amp;quot;（不包含双引号）。（1&amp;lt;=n&amp;lt;=10000,1&amp;lt;=m&amp;lt;=200000）&lt;br&gt;
+&lt;strong&gt;Output&lt;/strong&gt;&lt;br&gt;
+对于Zi=2时，输出&amp;quot;Yes&amp;quot;或&amp;quot;No&amp;quot;（不包含双引号）。行末换行。&lt;br&gt;
+&lt;strong&gt;Sample Input&lt;/strong&gt;&lt;br&gt;
+4 7&lt;br&gt;
+2 1 2&lt;br&gt;
+1 1 2&lt;br&gt;
+2 1 2&lt;br&gt;
+1 3 4&lt;br&gt;
+2 1 4&lt;br&gt;
+1 2 3&lt;br&gt;
+2 1 4&lt;br&gt;
+&lt;strong&gt;Sample Output&lt;/strong&gt;&lt;br&gt;
+No&lt;br&gt;
+Yes&lt;br&gt;
+No&lt;br&gt;
+Yes&lt;/p&gt;
+&lt;h3 id=&#34;solution&#34;&gt;solution&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+int vis[10005];
+int find(int x) {
+    return vis[x]==-1?x:(vis[x]=find(vis[x]));
+}
+int main() {
+    int n,m;
+    while(cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m) {
+        memset(vis,-1,sizeof(vis));
+        while(m--) {
+            int z,x,y,a,b;
+            cin&amp;gt;&amp;gt;z&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b;
+            x=find(a),y=find(b);
+            if(z==1) {
+                if(x!=y) vis[y]=x;
+            }
+            else if(x!=y) cout&amp;lt;&amp;lt;&amp;#34;No&amp;#34;&amp;lt;&amp;lt;endl;
+            else cout&amp;lt;&amp;lt;&amp;#34;Yes&amp;#34;&amp;lt;&amp;lt;endl;
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+
+using namespace std;
+
+bool check(string a,string b){
+    if(a.size()!=b.size())
+    return a.size()&amp;gt;b.size();
+    int p=0;
+    while(p&amp;lt;(a.size())&amp;amp;&amp;amp;a[p]==b[p])
+    p++;
+    if(p==a.size()||a[p]&amp;gt;b[p])//a&amp;gt;=b为true 
+    return true;
+    else
+    return false;
+}
+int ans[20010],len;
+string a,b;
+void work(){
+    int jw=0,i,j;
+    for(i=a.size()-1,j=b.size()-1;i&amp;gt;=0&amp;amp;&amp;amp;j&amp;gt;=0;i--,j--){
+        if(a[i]-b[j]+jw&amp;lt;0)
+        ans[len++]=10+jw+(a[i]-b[j]),jw=-1;
+        else
+        ans[len++]=a[i]-b[j]+jw,jw=0;
+    }
+    for(;i&amp;gt;=0;i--)
+    if(a[i]-&amp;amp;#39;0&amp;amp;#39;+jw&amp;lt;0)
+    ans[len++]=10+jw+a[i]-&amp;amp;#39;0&amp;amp;#39;,jw=-1;
+    else
+    ans[len++]=jw+a[i]-&amp;amp;#39;0&amp;amp;#39;,jw=0;
+}
+int main(){
+    while(cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b){
+        int flag=0;
+        if(!check(a,b))
+        swap(a,b),flag=1;
+        memset(ans,0,sizeof(ans));
+        len=0;
+        work();
+        if(flag)
+        cout&amp;lt;&amp;lt;&amp;#34;-&amp;#34;;
+        int flag2=0;
+        for(int i=len-1;i&amp;gt;=0;i--){
+            if(ans[i]!=0)
+            flag2=1;
+            if(flag2)
+            cout&amp;lt;&amp;lt;ans[i];
+        }
+        if(!flag2)
+        cout&amp;lt;&amp;lt;0;
+        cout&amp;lt;&amp;lt;&amp;#34;\n&amp;#34;;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;04-字符串尾0优化&#34;&gt;04 字符串尾0优化&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Problem Description&lt;/strong&gt;&lt;br&gt;
+CangLan学长最近在一个秘密研究部门，并需要打开一个大型保险箱,此时，CangLan学长接到了其他部门的电话，并得知打开保险柜的方法：保险柜代码由数字组成，并且没有前导零。还有一个特殊提示，可用于打开保险箱。提示是具有以下结构的字符串s：&lt;br&gt;
+如果si =&amp;rsquo;?&amp;rsquo;，则安全代码中排在第i位的数字可以是任何数字（0到9之间，包括0和9）。&lt;br&gt;
+如果si是一个数字（介于0到9之间，包括0和9之间），则表示代码中的位置i上存在数字si；&lt;br&gt;
+如果字符串包含从“A”到“J”的字母，则所有具有相同字母的位置必须包含相同的数字，而具有不同字母的位置必须包含不同的数字。&lt;br&gt;
+安全代码的长度与提示的长度一致。&lt;br&gt;
+例如，提示“?FF2”与之匹配的安全代码有:&amp;ldquo;1222&amp;rdquo;,&amp;ldquo;3552&amp;quot;等，而此时不匹配的:&amp;ldquo;5669&amp;rdquo;,&amp;ldquo;3232&amp;rdquo;&lt;br&gt;
+&lt;strong&gt;Input&lt;/strong&gt;&lt;br&gt;
+多组输入，第一行包含字符串s表示安全代码的提示。 字符串s由以下字符组成：&amp;rsquo;?&amp;rsquo;，0-9，A-J。 确保字符串s的第一个字符不等于字符&#39;0&amp;rsquo;。(1≤| s | ≤100000)，字符串中不包含逗号、单引号和冒号。&lt;br&gt;
+&lt;strong&gt;Output&lt;/strong&gt;&lt;br&gt;
+打印与给定提示匹配的代码数。行末换行。&lt;br&gt;
+&lt;strong&gt;Sample Input&lt;/strong&gt;&lt;br&gt;
+AJ&lt;br&gt;
+1?AA&lt;br&gt;
+&lt;strong&gt;Sample Output&lt;/strong&gt;&lt;br&gt;
+81&lt;br&gt;
+100&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>寒假训练赛6 贪心匹配 循环继承TLE upper_bound</title>
+      <link>https://bernard035.github.io/posts/6-tle-upper-bound-greedy-matching-20200216/</link>
+      <pubDate>Sun, 16 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/6-tle-upper-bound-greedy-matching-20200216/</guid>
+      <description>&lt;p&gt;这次比赛我不应该贪B题的，看到钟涛做出来了我就觉得我应该也可以（但是我没搜洛谷，如果主攻D题可能就做出来了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;d题&#34;&gt;D题&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/3007/D&#34;&gt;https://ac.nowcoder.com/acm/contest/3007/D&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;其实我的思路是对的，就是对每个Bi，找有多少个比相应位置Ai后面的Ai可以换到这个位置来。&lt;br&gt;
+然后有多少个，在这个位置上，就有多少种方案，就能乘多少次。&lt;br&gt;
+真正麻烦的是不要做重复做的事情，内层循环继承j的值容易超时。&lt;br&gt;
+最后&lt;strong&gt;long long&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
+&lt;h3 id=&#34;tle&#34;&gt;TLE&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N=1e5+7;
+const int mod=1e9+7;
+const int inv=500000004;
+int a[N],b[N];
+ll n,k,c[N];
+int main() {
+    cin&amp;gt;&amp;gt;n;
+    for(int i=1; i&amp;lt;=n; i++) cin&amp;gt;&amp;gt;a[i];
+    for(int i=1; i&amp;lt;=n; i++) cin&amp;gt;&amp;gt;b[i];
+    sort(a+1,a+1+n);
+    sort(b+1,b+1+n);
+    ll ans=1;
+    for(int i=1; i&amp;lt;=n; i++) if(b[i]&amp;lt;a[i]) ans=0;
+    if(ans) {
+        ll m=1,cnt;
+        for(int j=1; j&amp;lt;n; j++) {
+            cnt=1;
+            for(int i=j+1; i&amp;lt;=n; i++) {
+                if(b[j]&amp;gt;=a[i]) cnt++;
+                else break;
+            }
+            m=m*cnt%mod;
+        }
+        ans=m%mod;
+    }
+    cout&amp;lt;&amp;lt;ans&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;ac&#34;&gt;AC&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int mod=1e9+7;
+int n,a[100005],b[100005];
+int main(){
+    cin &amp;gt;&amp;gt; n;
+    for(int i=1;i&amp;lt;=n;i++)scanf(&amp;#34;%d&amp;#34;,&amp;amp;a[i]);
+    for(int i=1;i&amp;lt;=n;i++)scanf(&amp;#34;%d&amp;#34;,&amp;amp;b[i]);
+    sort(a+1,a+n+1); sort(b+1,b+n+1);
+    ll ans=1;int pos=1;
+    for(int i=1;i&amp;lt;=n;i++){
+        while(pos&amp;lt;=n&amp;amp;&amp;amp;a[pos]&amp;lt;=b[i]) pos++;
+        ans=ans*(max(0,pos-i))%mod;
+    }
+    cout&amp;lt;&amp;lt;ans&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;stl&#34;&gt;STL&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N=1e5+7;
+const int mod=1e9+7;
+const int inv=500000004;
+int a[N],b[N];
+ll n,k,c[N];
+int main() {
+    cin&amp;gt;&amp;gt;n;
+    for(int i=1; i&amp;lt;=n; i++) cin&amp;gt;&amp;gt;a[i];
+    for(int i=1; i&amp;lt;=n; i++) cin&amp;gt;&amp;gt;b[i];
+    sort(a+1,a+1+n);
+    sort(b+1,b+1+n);
+    ll ans=1;
+    for(int i=1; i&amp;lt;=n; i++) if(b[i]&amp;lt;a[i]) ans=0;
+    if(ans) {
+        ll m=1,cnt;
+        for(int i=1; i&amp;lt;n; i++) {
+            int *p=upper_bound(a+1,a+n+1,b[i]);
+            int d=p-(a+i);
+            ans=ans*d%mod; 
+        }
+    }
+    cout&amp;lt;&amp;lt;ans&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其实这也是我第一次用upper_bound&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>寒假训练赛5 三分 贪心 博弈</title>
+      <link>https://bernard035.github.io/posts/5-game-theory-greedy-20200214/</link>
+      <pubDate>Fri, 14 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/5-game-theory-greedy-20200214/</guid>
+      <description>&lt;h1 id=&#34;总结&#34;&gt;总结&lt;/h1&gt;
+&lt;p&gt;是收获颇丰的一场，明天醒来补题，现在记下来，免得忘记了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;圆周率的表示方法&lt;code&gt;const double PI=acos(-1);&lt;/code&gt;，我之前记过，但是忘记了，这次还是写的 &lt;code&gt;const double PI=3.14159264354;&lt;/code&gt;(这个也是我背下来的 【J题】&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838&amp;amp;returnHomeType=1&amp;amp;uid=538133338&#34;&gt;https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838&amp;amp;returnHomeType=1&amp;amp;uid=538133338&lt;/a&gt;- sin函数的使用方法 &lt;code&gt;2*r*sin(PI/n)&lt;/code&gt; 表示圆内接多边形的边长，因为sin里面是弧度制，所以要特别注意- 二进制位数 log函数 十进制位数- 取余的基本原理 加减乘不会影响到取余结果 也就是说分步取余和一起取余的结果是一样的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;b题&#34;&gt;B题&lt;/h1&gt;
+&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;有n个点，在x轴上找一个点，让这个点到n个点中最远的点距离最短。&lt;br&gt;
+也就是&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;求选择的比赛地距离各训练基地最大距离的最小值&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;出题人：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;题目要求最大距离最小，很容易想到使用二分或者三分的方法去做。&lt;br&gt;
+这题使用三分会比较简单，二分会比较麻烦。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;其实我是想过用二分来写的，但是可能是写出来就变味了。另外一边写就一边感觉不对劲：结果不是随着x轴右移增加或减少的，它不一定是线性变化的。&lt;br&gt;
+中间我还提出了“拟合圆”，但不知道怎么表达。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;我看了青竹大佬的二分写法。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;不是对x的坐标二分，而是对结果的值二分；- check函数的写法很关键：对圆心的取值范围判断是否有可能。&lt;br&gt;
+&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/9ed2a2e6973deee7.png&#34; title=&#34;图片标题&#34;&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;h3 id=&#34;青竹大佬-二分之王&#34;&gt;青竹大佬 二分之王&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+const int maxn = 1e5 + 7;
+const double eps = 1e-6;
+typedef long long ll;
+int n;
+struct node {
+    int x, y;
+} p[maxn];
+bool check(double len) {
+    double left = -1000000000, right = 1000000000;
+    for (int i = 1; i &amp;lt;= n; i++) {
+        if(fabs(p[i].y*1.0) &amp;gt; len) return false;
+        //如果有某个点纵坐标绝对值大于len，len肯定就太短了  
+        double tmp = sqrt(len*len*1.0 - 1.0*p[i].y*p[i].y);
+        //勾股定理 把每个点都当成最远点 得到圆心区间 
+        double l = p[i].x - tmp, r = p[i].x + tmp;
+        left = max(left, l);
+        right = min(right, r);
+    }
+    return left &amp;lt;= right;
+}
+int main() {
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;n);
+    for (int i = 1; i &amp;lt;= n; i++)
+        scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;p[i].x, &amp;amp;p[i].y);
+    double left = 0, right = 10000000000, ans = 0;
+    while (right - left &amp;gt; eps) {
+        double mid = left+(right-left)/2;
+        if(check(mid)) ans = mid,right = mid;
+        else left = mid;
+    }
+    printf(&amp;#34;%.6f\n&amp;#34;, ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这个浮点数的二分写法也很值得借鉴，当作一个模板。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>寒假训练赛4 子段异或 mod 双指针 栈</title>
+      <link>https://bernard035.github.io/posts/4-mod-stack-20200212/</link>
+      <pubDate>Wed, 12 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/4-mod-stack-20200212/</guid>
+      <description>&lt;p&gt;本次训练赛大量涉及STL。&lt;/p&gt;
+&lt;h1 id=&#34;d题&#34;&gt;D题&lt;/h1&gt;
+&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/3005/D&#34;&gt;https://ac.nowcoder.com/acm/contest/3005/D&lt;/a&gt;&lt;br&gt;
+长度为n数组，求子段异或值为0的个数。&lt;br&gt;
+这道题据说是滴滴还是字节跳动面试题改编，原题是不可分割求最大，用DP，这一题是可分割，应该是简单了不少。&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;与其说思路不如说是教训。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数组开太大（2e5*2e5）即使是在全局变量里面开出来也不允许，而且这种情况是段错误而不是MLE。- wa了也不能证明不会TLE。- N=2e5就不要幻想n2的复杂度能过了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;我的错误代码&#34;&gt;我的错误代码&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef unsigned long long ll;
+const int N=2e5+7;
+ll a[N],res[N];
+int main() {
+    int n;
+    cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;a[1];
+    res[1]=a[1];
+    ll cnt=0;
+    for(int i=2; i&amp;lt;=n; i++) {
+        cin&amp;gt;&amp;gt;a[i];
+        res[i]=res[i-1]^a[i];
+        if(!res[i]) cnt++;
+    }
+    for(int i=2; i&amp;lt;=n; i++) {
+        for(int j=i; j&amp;lt;=n; j++) {
+            res[j]=res[j]^res[i-1];
+            if(!res[j]) cnt++;
+        }
+    }
+    cout&amp;lt;&amp;lt;cnt&amp;lt;&amp;lt;endl;
+    return 0;
+}//通过率60% TLE
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;出题人的正确思路&#34;&gt;出题人的正确思路&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;作者：nocriz &lt;a href=&#34;https://ac.nowcoder.com/discuss/365889?toCommentId=5266036&#34;&gt;https://ac.nowcoder.com/discuss/365889?toCommentId=5266036&lt;/a&gt;&lt;br&gt;
+如果[l,r]是合法的子段，说明前缀和中xorsum[r]^xorsum[l-1] = 0, xorsum[l-1] = xorsum[r]。&lt;br&gt;
+求出异或前缀和，然后使用map计数每一个数字有多少个前缀和等于那个数字即可。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>寒假训练赛3 因数 埃筛 汉诺塔</title>
+      <link>https://bernard035.github.io/posts/3-20200209/</link>
+      <pubDate>Sun, 09 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/3-20200209/</guid>
+      <description>&lt;h1 id=&#34;h题&#34;&gt;H题&lt;/h1&gt;
+&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;统计1~n“k合因子数”数量。一个数的k合因子数是指这个数所有是合数的因子的数量。&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;使用埃氏筛标记出来[1,n]所有的合数，因为埃氏筛的模板是标记质数，要特别注意1和0既不是质数又不是合数，所以记得要改一下标记。&lt;br&gt;
+完成了这一步以后，我们得到一个[1,n]是否是合数的bool数组chk，要鉴别一个数x是否是合数，只需要查chk[x]即可。&lt;br&gt;
+然后逐个检索每个合数，得到它们的因数个数，再减去其中非因数的即可。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;其实我前一个小时一直在想这题，确切的说是一直在胡思乱想，我总觉得有更好的更优美的写法，可以直接一步到位。&lt;br&gt;
+就是模仿欧拉筛：简单说一下，埃氏筛是筛掉所有质数的倍数，欧拉筛加了一个“不重复访问”。对于这道题而言，任何一个合数都可以表示成为若干个质数的积，那么在出质数的时候就可以递推，比如2是一个质数，$2&lt;em&gt;2$ 不是质数，并且$2&lt;/em&gt;2$ 多了一个因子，$2&lt;em&gt;3$ 多了两个因子，$2&lt;/em&gt;4$ 多了两个因子并且拥有4的所有因子（这里可以考虑去重但是好像没必要。&lt;br&gt;
+可能等我有空（）会再写一下吧。&lt;/p&gt;
+&lt;h2 id=&#34;我的代码&#34;&gt;我的代码&lt;/h2&gt;
+&lt;h3 id=&#34;solution&#34;&gt;solution&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N = 1e5+7;
+bool chk[N+1];
+int cnt[N];
+void sieve(int n) {//埃筛 
+    int p = 0;
+    for(int i = 0; i &amp;lt;= n; i++) chk[i] = 1;
+    chk[0] = chk[1] = 0;
+    for(int i = 2; i &amp;lt;= n; i++)
+        if(chk[i]) {
+            chk[p++] = i;
+            for(int j = 2*i; j &amp;lt;= n; j+=i) chk[j] = 0;  //筛去所有质数的倍数
+        }
+}
+int f(int num) {//判断合因数个数 
+    int factor[1600],m=0;
+    for(int i=1; i&amp;lt;=num/i; i++) 
+        if(num%i==0) {
+            factor[++m]=i;
+            if(i!=num/i)factor[++m]=num/i;
+        }
+    int ans=m;
+    for(int i=1; i&amp;lt;=m; i++) 
+        if(chk[factor[i]]) ans--;
+    return ans;
+}
+int main() {
+    int n,m;
+    cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    sieve(n);
+    chk[0]=1,chk[1]=1;
+    for(int i=4; i&amp;lt;=n; i++) {
+        if(!chk[i]) cnt[f(i)]++;
+    }
+    int k;
+    while(m--){
+        cin&amp;gt;&amp;gt;k;
+        cout&amp;lt;&amp;lt;cnt[k]&amp;lt;&amp;lt;endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;埃筛模板&#34;&gt;埃筛模板&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+using namespace std;
+const int N = 10005;
+int prime[N];  //第i个素数
+bool is_prime[N+1];  //is_prime[i]为true时表示i是素数
+
+int sieve(int n) {//返回n以内素数的个数
+    int p = 0;
+    for(int i = 0; i &amp;lt;= n; i++) is_prime[i] = true;
+    is_prime[0] = is_prime[1] = false;
+    for(int i = 2; i &amp;lt;= n; i++) {
+        if(is_prime[i]) {
+            prime[p++] = i;
+            for(int j = 2*i; j &amp;lt;= n; j+=i) is_prime[j] = false;  //筛去所有素数的倍数
+        }
+    }
+    return p;
+}
+
+int main() {
+    int n;  //枚举n以内素数
+    while(cin&amp;gt;&amp;gt;n) {
+        int p = sieve(n);
+        cout&amp;lt;&amp;lt;p&amp;lt;&amp;lt;endl;
+        for(int i = 0; i &amp;lt; p; i++)
+            cout&amp;lt;&amp;lt; prime[i]&amp;lt;&amp;lt;&amp;#34; &amp;#34;;
+        cout&amp;lt;&amp;lt;endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;判断因数个数模板&#34;&gt;判断因数个数模板&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int work(int num){
+    int factor[1600],m=0;
+    for(int i=1;i&amp;lt;=num/i;i++){
+        if(num%i==0){
+            factor[++m]=i;
+            if(i!=num/i)factor[++m]=num/i;
+        }
+    }
+    return m;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;别人的代码&#34;&gt;别人的代码&lt;/h2&gt;
+&lt;h3 id=&#34;最短的&#34;&gt;最短的&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+using namespace std;
+int a[100010],b[100010];
+int main(){
+    int n,m,k;
+    cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    for(int i=2;i&amp;lt;=n;i++)
+        for(int j=i+i;j&amp;lt;=n;j+=i)
+            if(a[j]==0 || a[i]!=0) a[j]++;
+    for(int i=0;i&amp;lt;=n;i++) b[a[i]]++;
+    while(m--){
+        cin&amp;gt;&amp;gt;k;
+        cout&amp;lt;&amp;lt;b[k]&amp;lt;&amp;lt;endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;xby大佬的&#34;&gt;xby大佬的&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int maxn=1e6+10;
+bool vis[maxn];
+ll ans[maxn],res[maxn];
+int n,m;
+void solve(int x) {
+    int tmp=x,cnt=0;
+    for(int i=1; i*i&amp;lt;=x; i++) {
+        if( x%i==0 ) {
+            if(vis[i]==1) cnt++;
+            if(i*i!=x &amp;amp;&amp;amp; vis[x/i]==1) cnt++;
+        }
+    }
+    ans[cnt]++;
+}
+int main() {
+    for(int i=2; i&amp;lt;2e5; i++) 
+        for(int j=i+i; j&amp;lt;2e5; j+=i)  vis[j]=1;
+    cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    for(int i=1; i&amp;lt;=n; i++) solve(i);
+    for(int i=1; i&amp;lt;=m; i++) cin&amp;gt;&amp;gt;res[i];
+    for(int i=1; i&amp;lt;=m; i++) cout&amp;lt;&amp;lt;ans[res[i]]&amp;lt;&amp;lt;endl;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;ylm大佬的&#34;&gt;ylm大佬的&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+int main(){
+    int n,m;
+    cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    bool v[n+1]={0};
+    for(int i=2;i&amp;lt;=n;i++){
+        if(v[i])continue;
+        for(int j=i;j&amp;lt;=n/i;j++)v[i*j]=1;
+    }
+    int nums[n+1]={0},ans[n+1]={0};
+    for(int i=1;i&amp;lt;=n;i++)
+        for(int j=1;j&amp;lt;=n/i;j++)
+            if(v[i])  nums[i*j]++;
+    for(int i=1;i&amp;lt;=n;i++)
+        ans[nums[i]]++;
+    while(m--){
+        int k;
+        cin&amp;gt;&amp;gt;k;
+        cout&amp;lt;&amp;lt;ans[k]&amp;lt;&amp;lt;endl;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&#34;i题&#34;&gt;I题&lt;/h1&gt;
+&lt;h2 id=&#34;题意-1&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;汉诺塔，输入n，统计A-&amp;gt;B,A-&amp;gt;C,B-&amp;gt;A,B-&amp;gt;C,C-&amp;gt;A,C-&amp;gt;B的次数，以及所有移动的总步数。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>寒假训练赛2 mod pow 数三角 dp inv</title>
+      <link>https://bernard035.github.io/posts/2-mod-pow-dp-20200207/</link>
+      <pubDate>Fri, 07 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2-mod-pow-dp-20200207/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg&#34;&gt;https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg&lt;/a&gt;&lt;br&gt;
+题解传送门&lt;/p&gt;
+&lt;p&gt;本次比赛C题DP挺经典的，值得回顾。&lt;/p&gt;
+&lt;h1 id=&#34;g题-判正误&#34;&gt;G题 判正误&lt;/h1&gt;
+&lt;h2 id=&#34;判断-图片说明&#34;&gt;判断 图片说明&lt;/h2&gt;
+&lt;p&gt;最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……&lt;br&gt;
+如果不取模直接快速幂也过不了。&lt;br&gt;
+这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。&lt;/p&gt;
+&lt;h2 id=&#34;cpp代码&#34;&gt;cpp代码&lt;/h2&gt;
+&lt;h3 id=&#34;多次取模快速幂&#34;&gt;多次取模快速幂&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+//const int mod=1e9+7;
+ll qkpow(ll x, ll y,int mod) {
+    if(x==0) return 0;
+    else if(y==0) return 1;
+    ll ans = 1;
+    x = x % mod;
+    while (y) {
+        if(y&amp;amp;1) ans = ans*x %mod;
+        x = x*x %mod;
+        y = y&amp;gt;&amp;gt;1;
+    }
+    return ans;
+}
+ll a,b,c,d,e,f,g;
+bool check(int mod){
+    ll ans1=qkpow(a,d,mod);
+        ll ans2=qkpow(b,e,mod);
+        ll ans3=qkpow(c,f,mod);
+        if(g-ans1-ans2==ans3) return 1;
+        else return 0;
+}
+int main() {
+    int T;
+    sscc;
+    cin&amp;gt;&amp;gt;T;
+    while(T--) {
+        cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b&amp;gt;&amp;gt;c&amp;gt;&amp;gt;d&amp;gt;&amp;gt;e&amp;gt;&amp;gt;f&amp;gt;&amp;gt;g;
+        int flag=1;
+        int mod=1e9+7;
+        if(!check(mod)) flag=0;
+        mod=1e9+11;
+        if(!check(mod)) flag=0;
+        mod=1e9+1;
+        if(!check(mod)) flag=0;
+        if(flag)cout&amp;lt;&amp;lt;&amp;#34;Yes&amp;#34;&amp;lt;&amp;lt;endl;
+        else cout&amp;lt;&amp;lt;&amp;#34;No&amp;#34;&amp;lt;&amp;lt;endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;多次取模来确保答案准确性，时间消耗会增加约40%不过离1s还是很远。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>寒假训练赛1 双指针 --cnt[s[l&#43;&#43;]]</title>
+      <link>https://bernard035.github.io/posts/1-cnt-lplusplus-20200205/</link>
+      <pubDate>Wed, 05 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/1-cnt-lplusplus-20200205/</guid>
+      <description>&lt;p&gt;每次打比赛都能有一些收获，这次主要有以下几个点：&lt;br&gt;
+最早在看《算法竞赛入门到进阶》的时候看到了《代码规范》，我觉得很多都很好，因为这样规范不只可以让代码更统一，很多的细节的地方更可以避免不必要的问题，但是有一个点我当时不是很明白，就是“变量定义”，他建议变量在离使用最近的地方定义，我主要有两个点比较疑惑：1.把一些变量和数组定义成全局变量可以少写很多函数参数，方便很多；2.游标值有的时候可以再利用。&lt;br&gt;
+这次打比赛就出现了这个问题，我把游标变量i定义成的全局变量，导致我看了很久都没发现居然是这个问题错了……总之就是代码规范是长期实践总结出来的经验，&lt;strong&gt;按照代码规范来写可以有效地避免没有想到的bug&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;然后这次比赛的A题是用python过的，需要再花时间掌握分步取模（也就是CZL说的拆解）。&lt;/p&gt;
+&lt;p&gt;寒假的前半段时间主要花在了啃一些硬骨头上面，可能确实比他们慢一些，但是这样至少扎实一些，我觉得是值得的。所以我其实没有掌握太多，目前做位运算的练习稍多一些，本来想在比赛前看看并查集的，但是完全来不及了，临时补了一下矩阵快速幂也没用上。（此处感谢青竹大佬的帮助&lt;/p&gt;
+&lt;p&gt;另外这次比赛一个明显的问题就是cin/cout不敢用 因为慢。而且我G题本来TLE，加了这句话&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;以后直接RE了，不知道为什么&lt;/p&gt;
+&lt;h2 id=&#34;g题&#34;&gt;G题&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/3002/G&#34;&gt;https://ac.nowcoder.com/acm/contest/3002/G&lt;/a&gt;&lt;br&gt;
+其实算是我这次比赛的遗憾了，过的人数比我的排名高……&lt;br&gt;
+我当时的实现想法就是一个从k到n逐渐变大的滑块，不断检索。O(N^2)，但是实际上会小一些，差不多是O(N^1.5)?&lt;br&gt;
+估计ZT他们也是差不多的思路，反正就是TLE了。&lt;br&gt;
+其实打字打到这里我就有了一些更多的想法，比如 检索到了就直接return 不应该单独逐次统计，这样的话每一个二级循环对应的是大约30个语句，如果实现了这个优化可能可以让二级循环每个对应的语句减少80%。&lt;br&gt;
+啊……我比赛的时候怎么没想到。&lt;br&gt;
+其实和下面的思路在实现上是差不多的：就是一边进元素一边查。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+int n,k;
+string str;
+map&amp;lt;char,int&amp;gt; mp;
+int main(){
+    cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;k&amp;gt;&amp;gt;str;
+    int ans=-1,l=0,cnt=0;
+    for(int i=0;i&amp;lt;n;i++){
+        char c=str[i];
+        mp[c]++;
+        while(mp[c]==k){
+            if(ans==-1) ans=i-l+1;
+            else ans=min(ans,i-l+1);
+            mp[str[l]]--;
+            l++;
+        }
+    }
+    printf(&amp;#34;%d\n&amp;#34;, ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其实根本没用到map，时间上也不是很优秀——但就是这样本菜鸡都没想到。&lt;br&gt;
+它的实现逻辑就是从前往后找，找到了以后再删前面的，最后头尾减一下就是了。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int maxn=2e5+10;
+char s[maxn];
+vector&amp;lt;int&amp;gt; g[26];//26个容器
+int main() {
+    int n,k;
+    cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;k&amp;gt;&amp;gt;s;
+    for(int i=0; i&amp;lt;n; i++)
+        g[s[i]-&amp;#39;a&amp;#39;].push_back(i);//统计整个字串的字母及其出现的位置
+    int ans=n+1;
+    for(int i=0; i&amp;lt;26; i++)
+        if(g[i].size()&amp;gt;=k) 
+            for(int j=k-1; j&amp;lt;g[i].size(); j++)
+                ans=min(ans,g[i][j]-g[i][j-k+1]+1);//比最小
+    if(ans!=n+1) cout&amp;lt;&amp;lt;ans&amp;lt;&amp;lt;endl;
+    else puts(&amp;#34;-1\n&amp;#34;);
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这个容器的写法也很漂亮。复杂度是O(n)，语句数量差不多是4n左右。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

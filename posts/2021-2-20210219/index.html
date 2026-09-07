@@ -1,0 +1,359 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>2021 牛客寒假多校2 筛法 构造 思维 | Bernard's Blog</title><meta name=keywords content="题解,牛客"><meta name=description content='牛牛与整除分块
+$N=10$时$S={10,5,3,2,1}$
+$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor }}（特判）,\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -1}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -2}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -3}},\dots \frac{N}{\frac{N}{1}},}}$$
+化简可得
+$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },{\lfloor \sqrt{N} \rfloor }（特判）,\lfloor \sqrt{N} \rfloor -1,\lfloor \sqrt{N} \rfloor -2,\lfloor \sqrt{N} \rfloor -3,\dots 1}}$$
+于是以$\sqrt{n}$为界，在左边或者右边找对应的位置即可。
+#include <bits/stdc++.h>
+#define sc(x) scanf("%lld", &(x))
+#define pr(x) printf("%lld\n", (x))
+#define rep(i, l, r) for (int i = (l); i <= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+int main() {
+    ll T, n, x;
+    sc(T);
+    while (T--) {
+        sc(n), sc(x);
+        ll a = sqrt(n);
+        if (x <= a)
+            pr(x);
+        else {
+            ll l = n / a;
+            ll ans = 0;
+            if (a != l) ++ans;
+            ll now = n / x;
+            ans += a - now + a;
+            pr(ans);
+        }
+    }
+    return 0;
+}
+牛牛与交换排序
+简单分析后可知'><meta name=author content="Me"><link rel=canonical href=https://bernard035.github.io/posts/2021-2-20210219/><link crossorigin=anonymous href=/assets/css/stylesheet.2bbc84d5b7beae4659b88227754941ffa9fa06a4de78fdb8990d3c303fc3665f.css integrity="sha256-K7yE1be+rkZZuIIndUlB/6n6BqTeeP24mQ08MD/DZl8=" rel="preload stylesheet" as=style><link rel=icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://bernard035.github.io/posts/2021-2-20210219/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1})'></script><meta property="og:url" content="https://bernard035.github.io/posts/2021-2-20210219/"><meta property="og:site_name" content="Bernard's Blog"><meta property="og:title" content="2021 牛客寒假多校2 筛法 构造 思维"><meta property="og:description" content='牛牛与整除分块 $N=10$时$S={10,5,3,2,1}$
+$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor }}（特判）,\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -1}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -2}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -3}},\dots \frac{N}{\frac{N}{1}},}}$$
+化简可得
+$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },{\lfloor \sqrt{N} \rfloor }（特判）,\lfloor \sqrt{N} \rfloor -1,\lfloor \sqrt{N} \rfloor -2,\lfloor \sqrt{N} \rfloor -3,\dots 1}}$$
+于是以$\sqrt{n}$为界，在左边或者右边找对应的位置即可。
+#include <bits/stdc++.h> #define sc(x) scanf("%lld", &(x)) #define pr(x) printf("%lld\n", (x)) #define rep(i, l, r) for (int i = (l); i <= (r); ++i) using namespace std; typedef long long ll; const int N = 1e5 + 7; const int mod = 1e9 + 7; int main() { ll T, n, x; sc(T); while (T--) { sc(n), sc(x); ll a = sqrt(n); if (x <= a) pr(x); else { ll l = n / a; ll ans = 0; if (a != l) ++ans; ll now = n / x; ans += a - now + a; pr(ans); } } return 0; } 牛牛与交换排序 简单分析后可知'><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-02-19T12:00:00+08:00"><meta property="article:modified_time" content="2021-02-19T12:00:00+08:00"><meta property="article:tag" content="题解"><meta property="article:tag" content="牛客"><meta property="og:image" content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="2021 牛客寒假多校2 筛法 构造 思维"><meta name=twitter:description content='牛牛与整除分块 $N=10$时$S={10,5,3,2,1}$
+$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor }}（特判）,\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -1}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -2}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -3}},\dots \frac{N}{\frac{N}{1}},}}$$
+化简可得
+$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },{\lfloor \sqrt{N} \rfloor }（特判）,\lfloor \sqrt{N} \rfloor -1,\lfloor \sqrt{N} \rfloor -2,\lfloor \sqrt{N} \rfloor -3,\dots 1}}$$
+于是以$\sqrt{n}$为界，在左边或者右边找对应的位置即可。
+#include <bits/stdc++.h> #define sc(x) scanf("%lld", &(x)) #define pr(x) printf("%lld\n", (x)) #define rep(i, l, r) for (int i = (l); i <= (r); ++i) using namespace std; typedef long long ll; const int N = 1e5 + 7; const int mod = 1e9 + 7; int main() { ll T, n, x; sc(T); while (T--) { sc(n), sc(x); ll a = sqrt(n); if (x <= a) pr(x); else { ll l = n / a; ll ans = 0; if (a != l) ++ans; ll now = n / x; ans += a - now + a; pr(ans); } } return 0; } 牛牛与交换排序 简单分析后可知'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://bernard035.github.io/posts/"},{"@type":"ListItem","position":2,"name":"2021 牛客寒假多校2 筛法 构造 思维","item":"https://bernard035.github.io/posts/2021-2-20210219/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"2021 牛客寒假多校2 筛法 构造 思维","name":"2021 牛客寒假多校2 筛法 构造 思维","description":"牛牛与整除分块 $N=10$时$S={10,5,3,2,1}$\n$$\\large{S={\\frac{N}{1},\\frac{N}{2},\\frac{N}{3},\\frac{N}{4},\\dots ,\\frac{N}{\\lfloor \\sqrt{N} \\rfloor },\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor }}（特判）,\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor -1}},\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor -2}},\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor -3}},\\dots \\frac{N}{\\frac{N}{1}},}}$$\n化简可得\n$$\\large{S={\\frac{N}{1},\\frac{N}{2},\\frac{N}{3},\\frac{N}{4},\\dots ,\\frac{N}{\\lfloor \\sqrt{N} \\rfloor },{\\lfloor \\sqrt{N} \\rfloor }（特判）,\\lfloor \\sqrt{N} \\rfloor -1,\\lfloor \\sqrt{N} \\rfloor -2,\\lfloor \\sqrt{N} \\rfloor -3,\\dots 1}}$$\n于是以$\\sqrt{n}$为界，在左边或者右边找对应的位置即可。\n#include \u0026lt;bits/stdc++.h\u0026gt; #define sc(x) scanf(\u0026#34;%lld\u0026#34;, \u0026amp;(x)) #define pr(x) printf(\u0026#34;%lld\\n\u0026#34;, (x)) #define rep(i, l, r) for (int i = (l); i \u0026lt;= (r); ++i) using namespace std; typedef long long ll; const int N = 1e5 + 7; const int mod = 1e9 + 7; int main() { ll T, n, x; sc(T); while (T--) { sc(n), sc(x); ll a = sqrt(n); if (x \u0026lt;= a) pr(x); else { ll l = n / a; ll ans = 0; if (a != l) ++ans; ll now = n / x; ans += a - now + a; pr(ans); } } return 0; } 牛牛与交换排序 简单分析后可知\n","keywords":["题解","牛客"],"articleBody":"牛牛与整除分块 $N=10$时$S={10,5,3,2,1}$\n$$\\large{S={\\frac{N}{1},\\frac{N}{2},\\frac{N}{3},\\frac{N}{4},\\dots ,\\frac{N}{\\lfloor \\sqrt{N} \\rfloor },\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor }}（特判）,\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor -1}},\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor -2}},\\frac{N}{\\frac{N}{\\lfloor \\sqrt{N} \\rfloor -3}},\\dots \\frac{N}{\\frac{N}{1}},}}$$\n化简可得\n$$\\large{S={\\frac{N}{1},\\frac{N}{2},\\frac{N}{3},\\frac{N}{4},\\dots ,\\frac{N}{\\lfloor \\sqrt{N} \\rfloor },{\\lfloor \\sqrt{N} \\rfloor }（特判）,\\lfloor \\sqrt{N} \\rfloor -1,\\lfloor \\sqrt{N} \\rfloor -2,\\lfloor \\sqrt{N} \\rfloor -3,\\dots 1}}$$\n于是以$\\sqrt{n}$为界，在左边或者右边找对应的位置即可。\n#include #define sc(x) scanf(\"%lld\", \u0026(x)) #define pr(x) printf(\"%lld\\n\", (x)) #define rep(i, l, r) for (int i = (l); i \u003c= (r); ++i) using namespace std; typedef long long ll; const int N = 1e5 + 7; const int mod = 1e9 + 7; int main() { ll T, n, x; sc(T); while (T--) { sc(n), sc(x); ll a = sqrt(n); if (x \u003c= a) pr(x); else { ll l = n / a; ll ans = 0; if (a != l) ++ans; ll now = n / x; ans += a - now + a; pr(ans); } } return 0; } 牛牛与交换排序 简单分析后可知\n第一次操作必然使最小的、不在其位的数让它归位 那么长度就已经固定了 那么接下来要做的就是模拟，看能否完成排序即可 可以用deque双端队列模拟，也可以用平衡树\n#include #define sc(x) scanf(\"%d\", \u0026(x)) #define pr(x) printf(\"%lld\\n\", (x)) #define rep(i, l, r) for (int i = (l); i \u003c= (r); ++i) using namespace std; typedef long long ll; const int N = 1e5 + 7; const int mod = 1e9 + 7; int n, a[N]; deque q; int main() { sc(n); rep(i, 1, n) sc(a[i]); int x = 0; //第一个不在正确位置上的数 // aka 不在正确位置上的 最小的数 rep(i, 1, n) if (a[i] != i) { x = i; break; } if (!x) return puts(\"yes\\n1\"), 0; //当前已经有序 int now, len; rep(i, x + 1, n) if (a[i] == x) { now = i; // 这个最小的错位数 现在在now这个位置 len = i - x + 1; // 需要翻转的线段长度 break; } rep(i, x, now - 1) q.emplace_front(a[i]); bool tag = 0; for (int i = x; i + len - 1 \u003c= n; i++) { if (!tag) q.emplace_front(a[i + len - 1]); else q.emplace_back(a[i + len - 1]); if (tag) { if (q.front() != i) tag = 0; } else { if (q.back() != i) tag = 1; } if (tag) { if (q.front() != i) return puts(\"no\"), 0; q.pop_front(); } else { if (q.back() != i) return puts(\"no\"), 0; q.pop_back(); } } for (int i = n - len + 2; i \u003c= n; i++) { if (tag) { if (q.front() != i) return puts(\"no\"), 0; q.pop_front(); } else { if (q.back() != i) return puts(\"no\"), 0; q.pop_back(); } } printf(\"yes\\n%d\", len); return 0; } 牛牛与比赛颁奖 本题其实是一道非常基础的离散化+差分的板子题。\n#include #define sc(x) scanf(\"%d\", \u0026(x)) #define pr(x) printf(\"%d \", (x)) #define rep(i, l, r) for (int i = (l); i \u003c= (r); ++i) using namespace std; typedef long long ll; const int N = 1e5 + 7; const int mod = 1e9 + 7; typedef pair pii; pii a[N]; vector ori; // 存储原值 unordered_map pos; // key:原值 val: 离散化后 int d[N * 2]; // 差分数组 int num[N]; // num[x]表示过x题的队伍数目 int main() { int n, m; sc(n), sc(m); rep(i, 1, m) sc(a[i].first), sc(a[i].second); // 离散化 rep(i, 1, m) { ori.emplace_back(a[i].first); ori.emplace_back(a[i].second + 1); } sort(ori.begin(), ori.end()); ori.erase(unique(ori.begin(), ori.end()), ori.end()); int sz = ori.size(); for (int i = 0; i \u003c sz; ++i) pos[ori[i]] = i; // 差分 rep(i, 1, m) { d[pos[a[i].first]]++; d[pos[a[i].second + 1]]--; } // 前缀和 for (int i = 1; i \u003c sz; ++i) d[i] += d[i - 1]; // 统计过x题的人数 --sz; int maxAcNum = 0; for (int i = 0; i \u003c sz; ++i) { int acNum = d[i]; //该区间过题数目 maxAcNum = max(maxAcNum, acNum); //更新最多过题数 int teamNum = ori[i + 1] - ori[i]; //该区间队伍数目 num[acNum] += teamNum; } // 计算名额 int au = (n + 10 - 1) / 10; int ag = (n + 4 - 1) / 4; int cu = (n + 2 - 1) / 2; // 计算答案 int ans1 = 0, ans2 = 0, ans3 = 0; for (int i = maxAcNum; i; --i) // 要求至少过1题 if (ans1 \u003c au) ans1 += num[i]; else if (ans1 + ans2 \u003c ag) ans2 += num[i]; else if (ans1 + ans2 + ans3 \u003c cu) ans3 += num[i]; cout \u003c\u003c ans1 \u003c\u003c ' ' \u003c\u003c ans2 \u003c\u003c ' ' \u003c\u003c ans3; return 0; } 更优雅的做法是直接查询差分的map，这样就省去了离散化的过程，码量很小。\n#include using namespace std; const int N = 2e5 + 10; int g[N]; map mp; int num[5]; int main() { int n, m; scanf(\"%d%d\", \u0026n, \u0026m); for (int i = 1, x, y; i \u003c= m; ++i) { scanf(\"%d%d\", \u0026x, \u0026y); mp[x]++, mp[y + 1]--; } num[1] = (n + 10 - 1) / 10; num[2] = (n + 4 - 1) / 4; num[3] = (n + 2 - 1) / 2; int now = 0, pre = 1, maxn = 0; for (auto \u0026i : mp) { // 遍历差分map maxn = max(maxn, now); g[now] += i.first - pre; // 前后位置差值就是这个区间的人数 now += i.second; // 加上差分量 差分量就是过题数的位移量 pre = i.first; } int ans1 = 0, ans2 = 0, ans3 = 0; for (int i = maxn; i; --i) // 要求至少过1题 if (ans1 \u003c num[1]) ans1 += g[i]; else if (ans1 + ans2 \u003c num[2]) ans2 += g[i]; else if (ans1 + ans2 + ans3 \u003c num[3]) ans3 += g[i]; cout \u003c\u003c ans1 \u003c\u003c ' ' \u003c\u003c ans2 \u003c\u003c ' ' \u003c\u003c ans3; return 0; } 牛牛的“质因数” 埃筛做法\n首先什么是埃筛：\n#include #include const int N = 100 + 8; int isPrime[N]; void sieve() { memset(isPrime, -1, sizeof isPrime); isPrime[0] = isPrime[1] = 0; for (int i = 2; i \u003c N; ++i) if (isPrime[i]) for (int j = 2; i * j \u003c N; ++j) isPrime[i * j] = 0; } int main() { sieve(); for (int i = 2; i \u003c N; ++i) if (isPrime[i]) printf(\"%d \", i); return 0; } 可以发现，在朴素的埃筛里，对于每一个合数，它会被每个它的质因数筛到。而如果是质数，他的质因数合并就是它本身。\n所以只需要实时更新下每个数的质因数合并即可。\n#include #define sc(x) scanf(\"%lld\", \u0026(x)) #define pr(x) printf(\"%lld\\n\", (x)) #define rep(i, l, r) for (int i = l; i \u003c= r; ++i) using namespace std; typedef long long ll; const int N = 4e6 + 7; const int mod = 1e9 + 7; bitset isPrime; ll ans[N]; int main() { ll w[10] = {1}; rep(i, 1, 9) w[i] = w[i - 1] * 10; ll n; sc(n); isPrime.set(); rep(i, 2, n) { if (isPrime[i]) { ans[i] = i; int len = log10(i) + 1; for (int j = 2; i * j \u003c= n; ++j) { int now = i * j; isPrime[now] = 0; do { ans[i * j] = (ans[i * j] * w[len] % mod + i) % mod; now /= i; } while (now % i == 0); } } } ll res = 0; rep(i, 2, n) res = (res + ans[i]) % mod; pr(res); return 0; } 这种做法时间复杂度$O(n\\log n)$，本题300ms\n欧拉筛 + DFS\n欧拉筛是近似线性的筛法，这意味着不能像埃筛一样，对每个数更新答案。\n但是可以从另一个角度出发：\n对于每个质数，它的质因数合并就是它本身。 对于每个合数，它的质因数合并是它所有质因数的拼接。 反过来说，可以用所有的质因数乘出来所有的数，对于质因数合并，也就是拼接。 所以每个数和它的质因数合并都是一一对应的。 所以，可以直接去尝试拼接就可以了，如果是在所求范围内的，就加上权重即可，这也是唯一分解定理的逆向应用，非常巧妙。\n#include #define sc(x) scanf(\"%lld\", \u0026(x)) #define pr(x) printf(\"%lld\\n\", (x)) #define rep(i, l, r) for (int i = l; i \u003c= r; ++i) using namespace std; typedef long long ll; const int N = 4e6 + 7; const int mod = 1e9 + 7; bitset isPrime; int prim[N + 10]; int pn = 0; ll ans, n; int w[10] = {1}; int pw[N]; void pre(int N) { rep(i, 1, 9) w[i] = w[i - 1] * 10; isPrime.set(); for (int i = 2; i \u003c= N; i++) { if (isPrime[i]) pw[pn] = w[int(log10(i) + 1)], prim[pn++] = i; for (int j = 0; j \u003c pn \u0026\u0026 i * prim[j] \u003c= N; ++j) { isPrime[i * prim[j]] = 0; if (i % prim[j] == 0) break; } } } void dfs(int pos, ll key, ll val) { ans = (ans + val) % mod; for (int i = pos; i \u003c pn; ++i) { // merge with bigger prime num if (key * prim[i] \u003e n) return; dfs(i, key * prim[i], (val * pw[i] % mod + prim[i]) % mod); } } int main() { sc(n); pre(n); for (int i = 0; i \u003c pn \u0026\u0026 prim[i] \u003c= n; ++i) // start dfs from each prime num dfs(i, prim[i], prim[i]); pr(ans); return 0; } 这种做法时间复杂度$O (n)$，本题70ms\n牛牛想要成为hacker 本题很容易想到用斐波那契数列构建，但是fib很快就会超过1e9，数据项并不够。\n所以：\n不可能找不到三角形，只能推迟，但无法阻止 时间复杂度提示$O(n^2\\log _2n)$ \u003e\u003e\u003e from math import log2 \u003e\u003e\u003e log2(100000) 16.609640474436812 比赛的时候我想到了这里，但当时以为就是要让i循环走到16之后即可，所构建的数据也让i循环走到了21。但其实这是不够的：因为对于每个i循环，k并没有走$n^2$次。\n所以为了让次数尽可能多，必须降序构建。\n最优的构造应当是降序的fib序列。\nfib = [1, 1] while fib[-1]+fib[-2] \u003c 1e9: fib.append(fib[-1]+fib[-2]) fib.reverse() n = int(input()) sz = len(fib) for i in range(n): print(fib[i] if i \u003c sz else 1, end=' ') 这也是一种比较有趣的写法\n#include #define sc(x) scanf(\"%lld\", \u0026(x)) #define pr(x) printf(\"%lld \", (x)) #define rep(i, l, r) for (int i = (l); i \u003c= (r); ++i) using namespace std; typedef long long ll; const int N = 1e5 + 7; int main() { int n; scanf(\"%d\", \u0026n); int x = 1 \u003c\u003c 29; for(int i = 1;i \u003c= n;i++){ printf(\"%d \", x); if(x \u003e 1) x \u003e\u003e= 1; } return 0; } 本文整理自作者牛客博客（https://blog.nowcoder.net/n/b72b0da26b7341d78634c7c25bd77d28），发布于 2021-02-19。\n","wordCount":"1431","inLanguage":"en","image":"https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2021-02-19T12:00:00+08:00","dateModified":"2021-02-19T12:00:00+08:00","author":{"@type":"Person","name":"Me"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bernard035.github.io/posts/2021-2-20210219/"},"publisher":{"@type":"Organization","name":"Bernard's Blog","logo":{"@type":"ImageObject","url":"https://bernard035.github.io/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://bernard035.github.io/ accesskey=h title="Home (Alt + H)"><img src=https://bernard035.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://bernard035.github.io/categories/ title=categories><span>categories</span></a></li><li><a href=https://bernard035.github.io/tags/ title=tags><span>tags</span></a></li><li><a href=https://bernard035.github.io title=bernard035.github.io><span>bernard035.github.io</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>Posts</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">2021 牛客寒假多校2 筛法 构造 思维</h1><div class=post-meta><span title='2021-02-19 12:00:00 +0800 +0800'>February 19, 2021</span>&nbsp;·&nbsp;<span>7 min</span>&nbsp;·&nbsp;<span>1431 words</span>&nbsp;·&nbsp;<span>Me</span>&nbsp;|&nbsp;<span>
+<a href=https://github.com/%3cpath_to_repo%3e/content/posts/2021-2-20210219.md rel="noopener noreferrer edit" target=_blank>Suggest Changes</a></span></div></header><details class=toc><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#牛牛与整除分块>牛牛与整除分块</a></li><li><a href=#牛牛与交换排序>牛牛与交换排序</a></li><li><a href=#牛牛与比赛颁奖>牛牛与比赛颁奖</a></li><li><a href=#牛牛的质因数>牛牛的“质因数”</a></li><li><a href=#牛牛想要成为hacker>牛牛想要成为hacker</a></li></ul></nav></div></details><div class="post-content md-content"><h2 id=牛牛与整除分块>牛牛与整除分块<a hidden class=anchor aria-hidden=true href=#牛牛与整除分块>#</a></h2><p>$N=10$时$S={10,5,3,2,1}$</p><p>$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor }}（特判）,\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -1}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -2}},\frac{N}{\frac{N}{\lfloor \sqrt{N} \rfloor -3}},\dots \frac{N}{\frac{N}{1}},}}$$</p><p>化简可得</p><p>$$\large{S={\frac{N}{1},\frac{N}{2},\frac{N}{3},\frac{N}{4},\dots ,\frac{N}{\lfloor \sqrt{N} \rfloor },{\lfloor \sqrt{N} \rfloor }（特判）,\lfloor \sqrt{N} \rfloor -1,\lfloor \sqrt{N} \rfloor -2,\lfloor \sqrt{N} \rfloor -3,\dots 1}}$$</p><p>于是以$\sqrt{n}$为界，在左边或者右边找对应的位置即可。</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sc(x) scanf(&#34;%lld&#34;, &amp;(x))
+#define pr(x) printf(&#34;%lld\n&#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+int main() {
+    ll T, n, x;
+    sc(T);
+    while (T--) {
+        sc(n), sc(x);
+        ll a = sqrt(n);
+        if (x &lt;= a)
+            pr(x);
+        else {
+            ll l = n / a;
+            ll ans = 0;
+            if (a != l) ++ans;
+            ll now = n / x;
+            ans += a - now + a;
+            pr(ans);
+        }
+    }
+    return 0;
+}
+</code></pre><h2 id=牛牛与交换排序>牛牛与交换排序<a hidden class=anchor aria-hidden=true href=#牛牛与交换排序>#</a></h2><p>简单分析后可知</p><ul><li>第一次操作必然使最小的、不在其位的数让它归位</li><li>那么长度就已经固定了</li><li>那么接下来要做的就是模拟，看能否完成排序即可</li></ul><p>可以用deque双端队列模拟，也可以用<a href="https://ac.nowcoder.com/acm/contest/view-submission?submissionId=46674066">平衡树</a></p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sc(x) scanf(&#34;%d&#34;, &amp;(x))
+#define pr(x) printf(&#34;%lld\n&#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+int n, a[N];
+deque&lt;int&gt; q;
+
+int main() {
+    sc(n);
+    rep(i, 1, n) sc(a[i]);
+    int x = 0;  //第一个不在正确位置上的数
+    // aka 不在正确位置上的 最小的数
+    rep(i, 1, n) if (a[i] != i) {
+        x = i;
+        break;
+    }
+    if (!x) return puts(&#34;yes\n1&#34;), 0;  //当前已经有序
+    int now, len;
+    rep(i, x + 1, n) if (a[i] == x) {
+        now = i;          // 这个最小的错位数 现在在now这个位置
+        len = i - x + 1;  // 需要翻转的线段长度
+        break;
+    }
+    rep(i, x, now - 1) q.emplace_front(a[i]);
+    bool tag = 0;
+    for (int i = x; i + len - 1 &lt;= n; i++) {
+        if (!tag)
+            q.emplace_front(a[i + len - 1]);
+        else
+            q.emplace_back(a[i + len - 1]);
+        if (tag) {
+            if (q.front() != i) tag = 0;
+        } else {
+            if (q.back() != i) tag = 1;
+        }
+        if (tag) {
+            if (q.front() != i) return puts(&#34;no&#34;), 0;
+            q.pop_front();
+        } else {
+            if (q.back() != i) return puts(&#34;no&#34;), 0;
+            q.pop_back();
+        }
+    }
+    for (int i = n - len + 2; i &lt;= n; i++) {
+        if (tag) {
+            if (q.front() != i) return puts(&#34;no&#34;), 0;
+            q.pop_front();
+        } else {
+            if (q.back() != i) return puts(&#34;no&#34;), 0;
+            q.pop_back();
+        }
+    }
+    printf(&#34;yes\n%d&#34;, len);
+    return 0;
+}
+</code></pre><h2 id=牛牛与比赛颁奖>牛牛与比赛颁奖<a hidden class=anchor aria-hidden=true href=#牛牛与比赛颁奖>#</a></h2><p>本题其实是一道非常基础的离散化+差分的板子题。</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sc(x) scanf(&#34;%d&#34;, &amp;(x))
+#define pr(x) printf(&#34;%d &#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+typedef pair&lt;int, int&gt; pii;
+pii a[N];
+vector&lt;int&gt; ori;              // 存储原值
+unordered_map&lt;int, int&gt; pos;  // key:原值 val: 离散化后
+int d[N * 2];                 // 差分数组
+int num[N];                   // num[x]表示过x题的队伍数目
+int main() {
+    int n, m;
+    sc(n), sc(m);
+    rep(i, 1, m) sc(a[i].first), sc(a[i].second);
+    // 离散化
+    rep(i, 1, m) {
+        ori.emplace_back(a[i].first);
+        ori.emplace_back(a[i].second + 1);
+    }
+    sort(ori.begin(), ori.end());
+    ori.erase(unique(ori.begin(), ori.end()), ori.end());
+    int sz = ori.size();
+    for (int i = 0; i &lt; sz; ++i) pos[ori[i]] = i;
+    // 差分
+    rep(i, 1, m) {
+        d[pos[a[i].first]]++;
+        d[pos[a[i].second + 1]]--;
+    }
+    // 前缀和
+    for (int i = 1; i &lt; sz; ++i) d[i] += d[i - 1];
+    // 统计过x题的人数
+    --sz;
+    int maxAcNum = 0;
+    for (int i = 0; i &lt; sz; ++i) {
+        int acNum = d[i];                   //该区间过题数目
+        maxAcNum = max(maxAcNum, acNum);    //更新最多过题数
+        int teamNum = ori[i + 1] - ori[i];  //该区间队伍数目
+        num[acNum] += teamNum;
+    }
+    // 计算名额
+    int au = (n + 10 - 1) / 10;
+    int ag = (n + 4 - 1) / 4;
+    int cu = (n + 2 - 1) / 2;
+    // 计算答案
+    int ans1 = 0, ans2 = 0, ans3 = 0;
+    for (int i = maxAcNum; i; --i)  // 要求至少过1题
+        if (ans1 &lt; au)
+            ans1 += num[i];
+        else if (ans1 + ans2 &lt; ag)
+            ans2 += num[i];
+        else if (ans1 + ans2 + ans3 &lt; cu)
+            ans3 += num[i];
+    cout &lt;&lt; ans1 &lt;&lt; &#39; &#39; &lt;&lt; ans2 &lt;&lt; &#39; &#39; &lt;&lt; ans3;
+    return 0;
+}
+</code></pre><p>更优雅的做法是直接查询差分的map，这样就省去了离散化的过程，码量很小。</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int N = 2e5 + 10;
+int g[N];
+map&lt;int, int&gt; mp;
+int num[5];
+int main() {
+    int n, m;
+    scanf(&#34;%d%d&#34;, &amp;n, &amp;m);
+    for (int i = 1, x, y; i &lt;= m; ++i) {
+        scanf(&#34;%d%d&#34;, &amp;x, &amp;y);
+        mp[x]++, mp[y + 1]--;
+    }
+    num[1] = (n + 10 - 1) / 10;
+    num[2] = (n + 4 - 1) / 4;
+    num[3] = (n + 2 - 1) / 2;
+    int now = 0, pre = 1, maxn = 0;
+    for (auto &amp;i : mp) {  // 遍历差分map
+        maxn = max(maxn, now);
+        g[now] += i.first - pre;  // 前后位置差值就是这个区间的人数
+        now += i.second;  // 加上差分量 差分量就是过题数的位移量
+        pre = i.first;
+    }
+    int ans1 = 0, ans2 = 0, ans3 = 0;
+    for (int i = maxn; i; --i)  // 要求至少过1题
+        if (ans1 &lt; num[1])
+            ans1 += g[i];
+        else if (ans1 + ans2 &lt; num[2])
+            ans2 += g[i];
+        else if (ans1 + ans2 + ans3 &lt; num[3])
+            ans3 += g[i];
+    cout &lt;&lt; ans1 &lt;&lt; &#39; &#39; &lt;&lt; ans2 &lt;&lt; &#39; &#39; &lt;&lt; ans3;
+    return 0;
+}
+</code></pre><h2 id=牛牛的质因数>牛牛的“质因数”<a hidden class=anchor aria-hidden=true href=#牛牛的质因数>#</a></h2><p><strong>埃筛做法</strong></p><p>首先什么是埃筛：</p><pre tabindex=0><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+const int N = 100 + 8;
+int isPrime[N];
+void sieve() {
+    memset(isPrime, -1, sizeof isPrime);
+    isPrime[0] = isPrime[1] = 0;
+    for (int i = 2; i &lt; N; ++i)
+        if (isPrime[i])
+            for (int j = 2; i * j &lt; N; ++j) isPrime[i * j] = 0;
+}
+int main() {
+    sieve();
+    for (int i = 2; i &lt; N; ++i)
+        if (isPrime[i]) printf(&#34;%d &#34;, i);
+    return 0;
+}
+</code></pre><p>可以发现，在朴素的埃筛里，对于每一个合数，它会被每个它的质因数筛到。而如果是质数，他的质因数合并就是它本身。</p><p>所以只需要实时更新下每个数的质因数合并即可。</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sc(x) scanf(&#34;%lld&#34;, &amp;(x))
+#define pr(x) printf(&#34;%lld\n&#34;, (x))
+#define rep(i, l, r) for (int i = l; i &lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 4e6 + 7;
+const int mod = 1e9 + 7;
+bitset&lt;N&gt; isPrime;
+ll ans[N];
+int main() {
+    ll w[10] = {1};
+    rep(i, 1, 9) w[i] = w[i - 1] * 10;
+    ll n;
+    sc(n);
+    isPrime.set();
+    rep(i, 2, n) {
+        if (isPrime[i]) {
+            ans[i] = i;
+            int len = log10(i) + 1;
+            for (int j = 2; i * j &lt;= n; ++j) {
+                int now = i * j;
+                isPrime[now] = 0;
+                do {
+                    ans[i * j] = (ans[i * j] * w[len] % mod + i) % mod;
+                    now /= i;
+                } while (now % i == 0);
+            }
+        }
+    }
+    ll res = 0;
+    rep(i, 2, n) res = (res + ans[i]) % mod;
+    pr(res);
+    return 0;
+}
+</code></pre><p>这种做法时间复杂度$O(n\log n)$，<a href="https://ac.nowcoder.com/acm/contest/view-submission?submissionId=46775813">本题300ms</a></p><hr><p><strong>欧拉筛 + DFS</strong></p><p>欧拉筛是近似线性的筛法，这意味着不能像埃筛一样，对每个数更新答案。</p><p>但是可以从另一个角度出发：</p><ul><li>对于每个质数，它的质因数合并就是它本身。</li><li>对于每个合数，它的质因数合并是它所有质因数的拼接。</li><li>反过来说，可以用所有的质因数乘出来所有的数，对于质因数合并，也就是拼接。</li><li>所以每个数和它的质因数合并都是一一对应的。</li></ul><p>所以，可以直接去尝试拼接就可以了，如果是在所求范围内的，就加上权重即可，这也是唯一分解定理的逆向应用，非常巧妙。</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sc(x) scanf(&#34;%lld&#34;, &amp;(x))
+#define pr(x) printf(&#34;%lld\n&#34;, (x))
+#define rep(i, l, r) for (int i = l; i &lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 4e6 + 7;
+const int mod = 1e9 + 7;
+bitset&lt;N&gt; isPrime;
+int prim[N + 10];
+int pn = 0;
+ll ans, n;
+int w[10] = {1};
+int pw[N];
+void pre(int N) {
+    rep(i, 1, 9) w[i] = w[i - 1] * 10;
+    isPrime.set();
+    for (int i = 2; i &lt;= N; i++) {
+        if (isPrime[i]) pw[pn] = w[int(log10(i) + 1)], prim[pn++] = i;
+        for (int j = 0; j &lt; pn &amp;&amp; i * prim[j] &lt;= N; ++j) {
+            isPrime[i * prim[j]] = 0;
+            if (i % prim[j] == 0) break;
+        }
+    }
+}
+void dfs(int pos, ll key, ll val) {
+    ans = (ans + val) % mod;
+    for (int i = pos; i &lt; pn; ++i) { // merge with bigger prime num
+        if (key * prim[i] &gt; n) return;
+        dfs(i, key * prim[i], (val * pw[i] % mod + prim[i]) % mod);
+    }
+}
+int main() {
+    sc(n);
+    pre(n);
+    for (int i = 0; i &lt; pn &amp;&amp; prim[i] &lt;= n; ++i)
+        // start dfs from each prime num
+        dfs(i, prim[i], prim[i]);
+    pr(ans);
+    return 0;
+}
+</code></pre><p>这种做法时间复杂度$O (n)$，<a href="https://ac.nowcoder.com/acm/contest/view-submission?submissionId=46775901">本题70ms</a></p><h2 id=牛牛想要成为hacker>牛牛想要成为hacker<a hidden class=anchor aria-hidden=true href=#牛牛想要成为hacker>#</a></h2><p>本题很容易想到用斐波那契数列构建，但是fib很快就会超过1e9，数据项并不够。</p><p>所以：</p><ul><li>不可能找不到三角形，只能推迟，但无法阻止</li><li>时间复杂度提示$O(n^2\log _2n)$</li></ul><pre tabindex=0><code>&gt;&gt;&gt; from math import log2
+&gt;&gt;&gt; log2(100000)
+16.609640474436812
+</code></pre><p>比赛的时候我想到了这里，但当时以为就是要让i循环走到16之后即可，所构建的数据也让i循环走到了21。但其实这是不够的：因为对于每个i循环，k并没有走$n^2$次。</p><p>所以为了让次数尽可能多，必须降序构建。</p><p>最优的构造应当是降序的fib序列。</p><pre tabindex=0><code>fib = [1, 1]
+while fib[-1]+fib[-2] &lt; 1e9:
+    fib.append(fib[-1]+fib[-2])
+fib.reverse()
+n = int(input())
+sz = len(fib)
+for i in range(n):
+    print(fib[i] if i &lt; sz else 1, end=&#39; &#39;)
+</code></pre><p>这也是一种比较有趣的写法</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sc(x) scanf(&#34;%lld&#34;, &amp;(x))
+#define pr(x) printf(&#34;%lld &#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+int main() {
+    int n;
+    scanf(&#34;%d&#34;, &amp;n);
+    int x = 1 &lt;&lt; 29;
+    for(int i = 1;i &lt;= n;i++){
+        printf(&#34;%d &#34;, x);
+        if(x &gt; 1) x &gt;&gt;= 1;
+    }
+    return 0;
+}
+</code></pre><hr><blockquote><p>本文整理自作者牛客博客（https://blog.nowcoder.net/n/b72b0da26b7341d78634c7c25bd77d28），发布于 2021-02-19。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://bernard035.github.io/tags/%E9%A2%98%E8%A7%A3/>题解</a></li><li><a href=https://bernard035.github.io/tags/%E7%89%9B%E5%AE%A2/>牛客</a></li></ul><nav class=paginav><a class=prev href=https://bernard035.github.io/posts/tips-20210227/><span class=title>« Prev</span>
+<span>常数TIPS</span>
+</a><a class=next href=https://bernard035.github.io/posts/2021-3-segment-tree-game-theory-20210219/><span class=title>Next »</span>
+<span>2021 牛客寒假多校3 线段树 思维 暴力 博弈</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 2021 牛客寒假多校2 筛法 构造 思维 on x" href="https://x.com/intent/tweet/?text=2021%20%e7%89%9b%e5%ae%a2%e5%af%92%e5%81%87%e5%a4%9a%e6%a0%a12%20%e7%ad%9b%e6%b3%95%20%e6%9e%84%e9%80%a0%20%e6%80%9d%e7%bb%b4&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f&amp;hashtags=%e9%a2%98%e8%a7%a3%2c%e7%89%9b%e5%ae%a2"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2021 牛客寒假多校2 筛法 构造 思维 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f&amp;title=2021%20%e7%89%9b%e5%ae%a2%e5%af%92%e5%81%87%e5%a4%9a%e6%a0%a12%20%e7%ad%9b%e6%b3%95%20%e6%9e%84%e9%80%a0%20%e6%80%9d%e7%bb%b4&amp;summary=2021%20%e7%89%9b%e5%ae%a2%e5%af%92%e5%81%87%e5%a4%9a%e6%a0%a12%20%e7%ad%9b%e6%b3%95%20%e6%9e%84%e9%80%a0%20%e6%80%9d%e7%bb%b4&amp;source=https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2021 牛客寒假多校2 筛法 构造 思维 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f&title=2021%20%e7%89%9b%e5%ae%a2%e5%af%92%e5%81%87%e5%a4%9a%e6%a0%a12%20%e7%ad%9b%e6%b3%95%20%e6%9e%84%e9%80%a0%20%e6%80%9d%e7%bb%b4"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2021 牛客寒假多校2 筛法 构造 思维 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2021 牛客寒假多校2 筛法 构造 思维 on whatsapp" href="https://api.whatsapp.com/send?text=2021%20%e7%89%9b%e5%ae%a2%e5%af%92%e5%81%87%e5%a4%9a%e6%a0%a12%20%e7%ad%9b%e6%b3%95%20%e6%9e%84%e9%80%a0%20%e6%80%9d%e7%bb%b4%20-%20https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2021 牛客寒假多校2 筛法 构造 思维 on telegram" href="https://telegram.me/share/url?text=2021%20%e7%89%9b%e5%ae%a2%e5%af%92%e5%81%87%e5%a4%9a%e6%a0%a12%20%e7%ad%9b%e6%b3%95%20%e6%9e%84%e9%80%a0%20%e6%80%9d%e7%bb%b4&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2021 牛客寒假多校2 筛法 构造 思维 on ycombinator" href="https://news.ycombinator.com/submitlink?t=2021%20%e7%89%9b%e5%ae%a2%e5%af%92%e5%81%87%e5%a4%9a%e6%a0%a12%20%e7%ad%9b%e6%b3%95%20%e6%9e%84%e9%80%a0%20%e6%80%9d%e7%bb%b4&u=https%3a%2f%2fbernard035.github.io%2fposts%2f2021-2-20210219%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://bernard035.github.io/>Bernard's Blog</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

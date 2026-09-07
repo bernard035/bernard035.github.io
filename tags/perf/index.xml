@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Perf on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/perf/</link>
+    <description>Recent content in Perf on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2026 17:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/perf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>perf stat 硬件事件组编排最佳实践</title>
+      <link>https://bernard035.github.io/posts/perf-stat-event-groups/</link>
+      <pubDate>Thu, 03 Sep 2026 17:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/perf-stat-event-groups/</guid>
+      <description>&lt;h1 id=&#34;perf-stat-硬件事件组编排最佳实践&#34;&gt;perf stat 硬件事件组编排最佳实践&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;perf stat&lt;/code&gt; 是 CPU 性能分析的第一入口，但事件编排不当会导致数据被多路复用（multiplexing）缩放污染，甚至得到自相矛盾的结论。本文从 PMU 硬件约束出发，系统梳理事件组（event groups）的编排原则、常见陷阱与推荐组合。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;一为什么事件编排很重要&#34;&gt;一、为什么事件编排很重要&lt;/h2&gt;
+&lt;p&gt;每个 CPU 核心的 PMU（Performance Monitoring Unit）只有&lt;strong&gt;有限的硬件计数器&lt;/strong&gt;，而 &lt;code&gt;perf stat&lt;/code&gt; 需要同时监控多个性能事件。当事件数超过计数器数量时，perf 会自动启用&lt;strong&gt;计数器多路复用&lt;/strong&gt;：事件分时轮询计数器，测量值按运行时间比例缩放。&lt;/p&gt;
+&lt;p&gt;缩放公式：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;缩放值 = 原始计数 × (time_enabled / time_running)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;问题在于：&lt;strong&gt;缩放引入误差&lt;/strong&gt;，且两个分别缩放的事件（如 instructions 与 cycles）不再来自同一时间窗口，据此计算的 IPC 可能失真。事件组的本质目的就是：&lt;strong&gt;让语义相关的多个事件在同一时间窗口、同一 PMU 上被原子地采集&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;二event-group-基础&#34;&gt;二、Event Group 基础&lt;/h2&gt;
+&lt;p&gt;用 &lt;code&gt;{}&lt;/code&gt; 把事件编为一组，表示这些事件应尽可能同时调度：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;perf stat -e &lt;span class=&#34;s1&#34;&gt;&amp;#39;{instructions,cycles,cache-misses}&amp;#39;&lt;/span&gt; ./my_program
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;两个进阶技巧：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;强组（strong group）&lt;/strong&gt;：默认组是&amp;quot;弱约束&amp;quot;——调度器尽力而为，必要时仍会拆分。追加 &lt;code&gt;:S&lt;/code&gt; 修饰符变成强组，&lt;strong&gt;无法整组调度时直接报错&lt;/strong&gt;而不是静默降级，适合对数据一致性要求高的场景：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;perf stat -e &lt;span class=&#34;s1&#34;&gt;&amp;#39;{instructions,cycles}:S&amp;#39;&lt;/span&gt; ./my_program
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;组级修饰符&lt;/strong&gt;：修饰符作用于整组，如 &lt;code&gt;{cycles,instructions}:u&lt;/code&gt; 表示只统计用户态，避免逐个事件书写。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;三pmu-计数器资源约束&#34;&gt;三、PMU 计数器资源约束&lt;/h2&gt;
+&lt;h3 id=&#34;31-计数器数量&#34;&gt;3.1 计数器数量&lt;/h3&gt;
+&lt;p&gt;以主流 x86 平台为例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;固定计数器（fixed counters）&lt;/strong&gt;：3 个，专用于 &lt;code&gt;instructions&lt;/code&gt;、&lt;code&gt;cycles&lt;/code&gt;、&lt;code&gt;ref-cycles&lt;/code&gt;，不参与通用计数器分配（Ice Lake 及之后还有一个 &lt;code&gt;slots&lt;/code&gt; 固定计数器，服务于 topdown 分析）；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;通用计数器（generic counters）&lt;/strong&gt;：通常 4~8 个，供任意通用事件竞争。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关键限制：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

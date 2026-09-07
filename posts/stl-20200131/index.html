@@ -1,0 +1,466 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>初级STL-关联式容器 | Bernard's Blog</title><meta name=keywords content="模板"><meta name=description content='废话
+想了一下还是在这里写了，博客园没设置好真的就是一股十年前的味道，虽然说我理智上很欣赏这样的商业味道不浓的网站，但是它的UI设计我生理上还是抵触的。可能等我学了JS以后会自己去倒腾一下吧。
+另外反正大家都用的是markdown，就算复制粘贴一下也不费事，另外牛客网成功地建立了一个社交关系所以在这里发一发博客还能交流一下。
+首先这篇笔记要感谢ZT大佬的帮助，如果不是ZT大佬本菜鸡连课都听不了嘤嘤嘤……
+本文基本上来自于https://www.icourse163.org/learn/PKU-1001553023
+PKU郭炜老师的《程序设计与算法（一）C语言程序设计》课程，内容实在是良心。
+sort
+以前都没人告诉过本菜鸡从大到小居然有标准模板可以直接套，本菜鸡以前一直是自己写一个cmp依据函数……
+int a[]= {8,5,4,6,7};
+sort(a,a+5,greater<int>());//直接用模板
+二分查找
+前提是数据有序
+int a[]= {8,6,5,3,1};
+int flag=binary_search(a,a+5,6);//有就返回1 没有就返回0
+int flag1=binary_search(a,a+5,6,greater<int>()); //必须和排序依据相吻合
+int b[5]= {1,3,5,8,9};    
+int *p1=lower_bound(b,b+5,3);
+//返回的是一个指针：下标最小的 大于等于[值]的元素地址 下界 
+//如果找不到 指向b+5 即范围的右边界 右边界不在查找范围内
+int *p2=upper_bound(b,b+5,3);//返回下标最小的 大于[值]的元素地址 上界 
+sort(b,b+5,greater<int>());
+int *p3=lower_bound(b,b+5,3,greater<int>());
+//返回的是按照排序依据，在值后面的，也就是说，这种情况下，返回的是 下标最小的 大于等于[值]的元素地址
+cout<<p1-b<<endl;//输出该元素下标
+multiset
+可以使用multiset set multimap map这样的“排序容器”，它们自带平衡二叉树，在插入的时候就可以排序。
+要指向容器里的元素，必须使用【迭代器】，迭代器和指针一样，可以++ &ndash; != ==，但是不能比较大小，不能加减整数，不能相减。这是multiset迭代器的特性，并非所有迭代器都是这样。
+声明一个迭代器和别的容器是一样的：
+定义
+multiset<int>a;
+multiset<int>iterator it;
+for(it=a.begin();it!=a.end();it++) cout<<*it<<" ";
+a.begin()等返回值也是迭代器，另外，multiset不允许像数组那样访问，我猜测这是它的迭代器和别的容器的迭代器不同的原因。
+插入
+a.insert(x);//插入
+寻找
+multiset<int>::iterator pi;
+pi=a.find(5);//查找有没有5 有就返回迭代器
+if(pi==a.end()) cout<<"not found"<<endl;//没有找到就返回a.end的迭代器
+二分查找上下界
+    multiset<int>::iterator p1,p2;
+
+    p1=a.lower_bound(12);cout<<*p1<<endl;
+    //返回>=&#39;值&#39;的元素的迭代器 
+    p2=a.upper_bound(6);cout<<*p2<<endl;
+    //返回>&#39;值&#39;的元素的迭代器
+删除某个元素
+a.erase(p1);//删除p1指向的元素
+自定义规则排序的multiset
+#include <iostream>
+#include <cstring>
+#include <set> //使用multiset和set需要此头文件
+using namespace std;
+struct Rule1 {//这个似乎只能写成这样的结构体 结构体里面居然可以有函数
+bool operator()( const int & a,const int & b) const {
+return (a%10) < (b%10);
+}//返回值为true则说明a必须排在b前面
+};
+int main() {
+    multiset<int, greater<int> > st; //排序规则为从大到小
+    int a[10] = {1, 22, 12, 13, 7, 13, 21, 19, 32, 81 };
+    for(int i = 0; i < 10; ++i)
+        st.insert(a[i]);
+    multiset<int, greater<int> >::iterator i;
+    for(i = st.begin(); i != st.end(); ++i)
+        cout << * i << ",";
+    cout << endl;
+    multiset<int, Rule1 > st2;//st2的元素排序规则为：个位数小的排前面
+    for(int i = 0; i < 10; ++i)
+        st2.insert(a[i]);
+    multiset<int, Rule1>::iterator p;
+    for(p = st2.begin(); p != st2.end(); ++p)
+        cout << * p << ",";
+    cout << endl;
+    p = st2.find(133);//可以找到 13 find的原理在于找不到的值不比它大也不比它小
+    cout << * p << endl;
+    return 0;
+}
+//find(x): 在排序容器中找一个元素y，使得“x必须排在y前面”和 “y必须排在x前面”都不成立
+#include <iostream>
+#include <cstring>
+#include <set> //使用multiset和set需要此头文件
+using namespace std;
+struct Student {
+    char name[20];
+    int id;
+    int score;
+};
+Student students [] = { {"Jack", 112, 78}, {"Mary", 102, 85},
+    {"Ala", 333, 92}, {"Zero", 101, 70}, {"Cindy", 102, 78}
+};
+struct Rule {
+    bool operator() (const Student & s1, const Student & s2) const {
+        if( s1.score != s2.score)
+            return s1.score > s2.score;
+        else
+            return (strcmp(s1.name, s2.name) < 0);
+    }
+};
+int main() {
+    multiset<Student, Rule> st;
+    for(int i = 0; i < 5; ++i)
+        st.insert(students[i]); //插入的是students[i]的复制品
+    multiset<Student, Rule>::iterator p;
+    for(p = st.begin(); p != st.end(); ++p)
+        cout << p->score << " " << p->name << " "
+             << p->id << endl;
+    Student s = { "Mary", 1000, 85};
+    p = st.find(s);
+    if( p != st.end())
+        cout << p->score << " " << p->name << " "
+             << p->id << endl;
+    return 0;
+}
+pair 模板
+pair<T1,T2>类型等价于：
+struct {
+T1 first;
+T2 second;
+};
+例如：pair<int, double> a;
+等价于：
+struct {
+int first;
+double second;
+} a;
+a.first = 1;
+a.second = 93.93;
+其实pair就是一个对象。而make_pair则可以快速生成一个pair对象'><meta name=author content="Me"><link rel=canonical href=https://bernard035.github.io/posts/stl-20200131/><link crossorigin=anonymous href=/assets/css/stylesheet.2bbc84d5b7beae4659b88227754941ffa9fa06a4de78fdb8990d3c303fc3665f.css integrity="sha256-K7yE1be+rkZZuIIndUlB/6n6BqTeeP24mQ08MD/DZl8=" rel="preload stylesheet" as=style><link rel=icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://bernard035.github.io/posts/stl-20200131/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1})'></script><meta property="og:url" content="https://bernard035.github.io/posts/stl-20200131/"><meta property="og:site_name" content="Bernard's Blog"><meta property="og:title" content="初级STL-关联式容器"><meta property="og:description" content='废话 想了一下还是在这里写了，博客园没设置好真的就是一股十年前的味道，虽然说我理智上很欣赏这样的商业味道不浓的网站，但是它的UI设计我生理上还是抵触的。可能等我学了JS以后会自己去倒腾一下吧。
+另外反正大家都用的是markdown，就算复制粘贴一下也不费事，另外牛客网成功地建立了一个社交关系所以在这里发一发博客还能交流一下。
+首先这篇笔记要感谢ZT大佬的帮助，如果不是ZT大佬本菜鸡连课都听不了嘤嘤嘤……
+本文基本上来自于https://www.icourse163.org/learn/PKU-1001553023
+PKU郭炜老师的《程序设计与算法（一）C语言程序设计》课程，内容实在是良心。
+sort 以前都没人告诉过本菜鸡从大到小居然有标准模板可以直接套，本菜鸡以前一直是自己写一个cmp依据函数……
+int a[]= {8,5,4,6,7}; sort(a,a+5,greater<int>());//直接用模板 二分查找 前提是数据有序
+int a[]= {8,6,5,3,1}; int flag=binary_search(a,a+5,6);//有就返回1 没有就返回0 int flag1=binary_search(a,a+5,6,greater<int>()); //必须和排序依据相吻合 int b[5]= {1,3,5,8,9}; int *p1=lower_bound(b,b+5,3); //返回的是一个指针：下标最小的 大于等于[值]的元素地址 下界 //如果找不到 指向b+5 即范围的右边界 右边界不在查找范围内 int *p2=upper_bound(b,b+5,3);//返回下标最小的 大于[值]的元素地址 上界 sort(b,b+5,greater<int>()); int *p3=lower_bound(b,b+5,3,greater<int>()); //返回的是按照排序依据，在值后面的，也就是说，这种情况下，返回的是 下标最小的 大于等于[值]的元素地址 cout<<p1-b<<endl;//输出该元素下标 multiset 可以使用multiset set multimap map这样的“排序容器”，它们自带平衡二叉树，在插入的时候就可以排序。
+要指向容器里的元素，必须使用【迭代器】，迭代器和指针一样，可以++ – != ==，但是不能比较大小，不能加减整数，不能相减。这是multiset迭代器的特性，并非所有迭代器都是这样。
+声明一个迭代器和别的容器是一样的：
+定义 multiset<int>a; multiset<int>iterator it; for(it=a.begin();it!=a.end();it++) cout<<*it<<" "; a.begin()等返回值也是迭代器，另外，multiset不允许像数组那样访问，我猜测这是它的迭代器和别的容器的迭代器不同的原因。
+插入 a.insert(x);//插入 寻找 multiset<int>::iterator pi; pi=a.find(5);//查找有没有5 有就返回迭代器 if(pi==a.end()) cout<<"not found"<<endl;//没有找到就返回a.end的迭代器 二分查找上下界 multiset<int>::iterator p1,p2; p1=a.lower_bound(12);cout<<*p1<<endl; //返回>=&#39;值&#39;的元素的迭代器 p2=a.upper_bound(6);cout<<*p2<<endl; //返回>&#39;值&#39;的元素的迭代器 删除某个元素 a.erase(p1);//删除p1指向的元素 自定义规则排序的multiset #include <iostream> #include <cstring> #include <set> //使用multiset和set需要此头文件 using namespace std; struct Rule1 {//这个似乎只能写成这样的结构体 结构体里面居然可以有函数 bool operator()( const int & a,const int & b) const { return (a%10) < (b%10); }//返回值为true则说明a必须排在b前面 }; int main() { multiset<int, greater<int> > st; //排序规则为从大到小 int a[10] = {1, 22, 12, 13, 7, 13, 21, 19, 32, 81 }; for(int i = 0; i < 10; ++i) st.insert(a[i]); multiset<int, greater<int> >::iterator i; for(i = st.begin(); i != st.end(); ++i) cout << * i << ","; cout << endl; multiset<int, Rule1 > st2;//st2的元素排序规则为：个位数小的排前面 for(int i = 0; i < 10; ++i) st2.insert(a[i]); multiset<int, Rule1>::iterator p; for(p = st2.begin(); p != st2.end(); ++p) cout << * p << ","; cout << endl; p = st2.find(133);//可以找到 13 find的原理在于找不到的值不比它大也不比它小 cout << * p << endl; return 0; } //find(x): 在排序容器中找一个元素y，使得“x必须排在y前面”和 “y必须排在x前面”都不成立 #include <iostream> #include <cstring> #include <set> //使用multiset和set需要此头文件 using namespace std; struct Student { char name[20]; int id; int score; }; Student students [] = { {"Jack", 112, 78}, {"Mary", 102, 85}, {"Ala", 333, 92}, {"Zero", 101, 70}, {"Cindy", 102, 78} }; struct Rule { bool operator() (const Student & s1, const Student & s2) const { if( s1.score != s2.score) return s1.score > s2.score; else return (strcmp(s1.name, s2.name) < 0); } }; int main() { multiset<Student, Rule> st; for(int i = 0; i < 5; ++i) st.insert(students[i]); //插入的是students[i]的复制品 multiset<Student, Rule>::iterator p; for(p = st.begin(); p != st.end(); ++p) cout << p->score << " " << p->name << " " << p->id << endl; Student s = { "Mary", 1000, 85}; p = st.find(s); if( p != st.end()) cout << p->score << " " << p->name << " " << p->id << endl; return 0; } pair 模板 pair<T1,T2>类型等价于： struct { T1 first; T2 second; }; 例如：pair<int, double> a; 等价于： struct { int first; double second; } a; a.first = 1; a.second = 93.93; 其实pair就是一个对象。而make_pair则可以快速生成一个pair对象'><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-01-31T12:00:00+08:00"><meta property="article:modified_time" content="2020-01-31T12:00:00+08:00"><meta property="article:tag" content="模板"><meta property="og:image" content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="初级STL-关联式容器"><meta name=twitter:description content='废话 想了一下还是在这里写了，博客园没设置好真的就是一股十年前的味道，虽然说我理智上很欣赏这样的商业味道不浓的网站，但是它的UI设计我生理上还是抵触的。可能等我学了JS以后会自己去倒腾一下吧。
+另外反正大家都用的是markdown，就算复制粘贴一下也不费事，另外牛客网成功地建立了一个社交关系所以在这里发一发博客还能交流一下。
+首先这篇笔记要感谢ZT大佬的帮助，如果不是ZT大佬本菜鸡连课都听不了嘤嘤嘤……
+本文基本上来自于https://www.icourse163.org/learn/PKU-1001553023
+PKU郭炜老师的《程序设计与算法（一）C语言程序设计》课程，内容实在是良心。
+sort 以前都没人告诉过本菜鸡从大到小居然有标准模板可以直接套，本菜鸡以前一直是自己写一个cmp依据函数……
+int a[]= {8,5,4,6,7}; sort(a,a+5,greater<int>());//直接用模板 二分查找 前提是数据有序
+int a[]= {8,6,5,3,1}; int flag=binary_search(a,a+5,6);//有就返回1 没有就返回0 int flag1=binary_search(a,a+5,6,greater<int>()); //必须和排序依据相吻合 int b[5]= {1,3,5,8,9}; int *p1=lower_bound(b,b+5,3); //返回的是一个指针：下标最小的 大于等于[值]的元素地址 下界 //如果找不到 指向b+5 即范围的右边界 右边界不在查找范围内 int *p2=upper_bound(b,b+5,3);//返回下标最小的 大于[值]的元素地址 上界 sort(b,b+5,greater<int>()); int *p3=lower_bound(b,b+5,3,greater<int>()); //返回的是按照排序依据，在值后面的，也就是说，这种情况下，返回的是 下标最小的 大于等于[值]的元素地址 cout<<p1-b<<endl;//输出该元素下标 multiset 可以使用multiset set multimap map这样的“排序容器”，它们自带平衡二叉树，在插入的时候就可以排序。
+要指向容器里的元素，必须使用【迭代器】，迭代器和指针一样，可以++ – != ==，但是不能比较大小，不能加减整数，不能相减。这是multiset迭代器的特性，并非所有迭代器都是这样。
+声明一个迭代器和别的容器是一样的：
+定义 multiset<int>a; multiset<int>iterator it; for(it=a.begin();it!=a.end();it++) cout<<*it<<" "; a.begin()等返回值也是迭代器，另外，multiset不允许像数组那样访问，我猜测这是它的迭代器和别的容器的迭代器不同的原因。
+插入 a.insert(x);//插入 寻找 multiset<int>::iterator pi; pi=a.find(5);//查找有没有5 有就返回迭代器 if(pi==a.end()) cout<<"not found"<<endl;//没有找到就返回a.end的迭代器 二分查找上下界 multiset<int>::iterator p1,p2; p1=a.lower_bound(12);cout<<*p1<<endl; //返回>=&#39;值&#39;的元素的迭代器 p2=a.upper_bound(6);cout<<*p2<<endl; //返回>&#39;值&#39;的元素的迭代器 删除某个元素 a.erase(p1);//删除p1指向的元素 自定义规则排序的multiset #include <iostream> #include <cstring> #include <set> //使用multiset和set需要此头文件 using namespace std; struct Rule1 {//这个似乎只能写成这样的结构体 结构体里面居然可以有函数 bool operator()( const int & a,const int & b) const { return (a%10) < (b%10); }//返回值为true则说明a必须排在b前面 }; int main() { multiset<int, greater<int> > st; //排序规则为从大到小 int a[10] = {1, 22, 12, 13, 7, 13, 21, 19, 32, 81 }; for(int i = 0; i < 10; ++i) st.insert(a[i]); multiset<int, greater<int> >::iterator i; for(i = st.begin(); i != st.end(); ++i) cout << * i << ","; cout << endl; multiset<int, Rule1 > st2;//st2的元素排序规则为：个位数小的排前面 for(int i = 0; i < 10; ++i) st2.insert(a[i]); multiset<int, Rule1>::iterator p; for(p = st2.begin(); p != st2.end(); ++p) cout << * p << ","; cout << endl; p = st2.find(133);//可以找到 13 find的原理在于找不到的值不比它大也不比它小 cout << * p << endl; return 0; } //find(x): 在排序容器中找一个元素y，使得“x必须排在y前面”和 “y必须排在x前面”都不成立 #include <iostream> #include <cstring> #include <set> //使用multiset和set需要此头文件 using namespace std; struct Student { char name[20]; int id; int score; }; Student students [] = { {"Jack", 112, 78}, {"Mary", 102, 85}, {"Ala", 333, 92}, {"Zero", 101, 70}, {"Cindy", 102, 78} }; struct Rule { bool operator() (const Student & s1, const Student & s2) const { if( s1.score != s2.score) return s1.score > s2.score; else return (strcmp(s1.name, s2.name) < 0); } }; int main() { multiset<Student, Rule> st; for(int i = 0; i < 5; ++i) st.insert(students[i]); //插入的是students[i]的复制品 multiset<Student, Rule>::iterator p; for(p = st.begin(); p != st.end(); ++p) cout << p->score << " " << p->name << " " << p->id << endl; Student s = { "Mary", 1000, 85}; p = st.find(s); if( p != st.end()) cout << p->score << " " << p->name << " " << p->id << endl; return 0; } pair 模板 pair<T1,T2>类型等价于： struct { T1 first; T2 second; }; 例如：pair<int, double> a; 等价于： struct { int first; double second; } a; a.first = 1; a.second = 93.93; 其实pair就是一个对象。而make_pair则可以快速生成一个pair对象'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://bernard035.github.io/posts/"},{"@type":"ListItem","position":2,"name":"初级STL-关联式容器","item":"https://bernard035.github.io/posts/stl-20200131/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"初级STL-关联式容器","name":"初级STL-关联式容器","description":"废话 想了一下还是在这里写了，博客园没设置好真的就是一股十年前的味道，虽然说我理智上很欣赏这样的商业味道不浓的网站，但是它的UI设计我生理上还是抵触的。可能等我学了JS以后会自己去倒腾一下吧。\n另外反正大家都用的是markdown，就算复制粘贴一下也不费事，另外牛客网成功地建立了一个社交关系所以在这里发一发博客还能交流一下。\n首先这篇笔记要感谢ZT大佬的帮助，如果不是ZT大佬本菜鸡连课都听不了嘤嘤嘤……\n本文基本上来自于https://www.icourse163.org/learn/PKU-1001553023\nPKU郭炜老师的《程序设计与算法（一）C语言程序设计》课程，内容实在是良心。\nsort 以前都没人告诉过本菜鸡从大到小居然有标准模板可以直接套，本菜鸡以前一直是自己写一个cmp依据函数……\nint a[]= {8,5,4,6,7}; sort(a,a+5,greater\u0026lt;int\u0026gt;());//直接用模板 二分查找 前提是数据有序\nint a[]= {8,6,5,3,1}; int flag=binary_search(a,a+5,6);//有就返回1 没有就返回0 int flag1=binary_search(a,a+5,6,greater\u0026lt;int\u0026gt;()); //必须和排序依据相吻合 int b[5]= {1,3,5,8,9}; int *p1=lower_bound(b,b+5,3); //返回的是一个指针：下标最小的 大于等于[值]的元素地址 下界 //如果找不到 指向b+5 即范围的右边界 右边界不在查找范围内 int *p2=upper_bound(b,b+5,3);//返回下标最小的 大于[值]的元素地址 上界 sort(b,b+5,greater\u0026lt;int\u0026gt;()); int *p3=lower_bound(b,b+5,3,greater\u0026lt;int\u0026gt;()); //返回的是按照排序依据，在值后面的，也就是说，这种情况下，返回的是 下标最小的 大于等于[值]的元素地址 cout\u0026lt;\u0026lt;p1-b\u0026lt;\u0026lt;endl;//输出该元素下标 multiset 可以使用multiset set multimap map这样的“排序容器”，它们自带平衡二叉树，在插入的时候就可以排序。\n要指向容器里的元素，必须使用【迭代器】，迭代器和指针一样，可以++ \u0026ndash; != ==，但是不能比较大小，不能加减整数，不能相减。这是multiset迭代器的特性，并非所有迭代器都是这样。\n声明一个迭代器和别的容器是一样的：\n定义 multiset\u0026lt;int\u0026gt;a; multiset\u0026lt;int\u0026gt;iterator it; for(it=a.begin();it!=a.end();it++) cout\u0026lt;\u0026lt;*it\u0026lt;\u0026lt;\u0026#34; \u0026#34;; a.begin()等返回值也是迭代器，另外，multiset不允许像数组那样访问，我猜测这是它的迭代器和别的容器的迭代器不同的原因。\n插入 a.insert(x);//插入 寻找 multiset\u0026lt;int\u0026gt;::iterator pi; pi=a.find(5);//查找有没有5 有就返回迭代器 if(pi==a.end()) cout\u0026lt;\u0026lt;\u0026#34;not found\u0026#34;\u0026lt;\u0026lt;endl;//没有找到就返回a.end的迭代器 二分查找上下界 multiset\u0026lt;int\u0026gt;::iterator p1,p2; p1=a.lower_bound(12);cout\u0026lt;\u0026lt;*p1\u0026lt;\u0026lt;endl; //返回\u0026gt;=\u0026#39;值\u0026#39;的元素的迭代器 p2=a.upper_bound(6);cout\u0026lt;\u0026lt;*p2\u0026lt;\u0026lt;endl; //返回\u0026gt;\u0026#39;值\u0026#39;的元素的迭代器 删除某个元素 a.erase(p1);//删除p1指向的元素 自定义规则排序的multiset #include \u0026lt;iostream\u0026gt; #include \u0026lt;cstring\u0026gt; #include \u0026lt;set\u0026gt; //使用multiset和set需要此头文件 using namespace std; struct Rule1 {//这个似乎只能写成这样的结构体 结构体里面居然可以有函数 bool operator()( const int \u0026amp; a,const int \u0026amp; b) const { return (a%10) \u0026lt; (b%10); }//返回值为true则说明a必须排在b前面 }; int main() { multiset\u0026lt;int, greater\u0026lt;int\u0026gt; \u0026gt; st; //排序规则为从大到小 int a[10] = {1, 22, 12, 13, 7, 13, 21, 19, 32, 81 }; for(int i = 0; i \u0026lt; 10; ++i) st.insert(a[i]); multiset\u0026lt;int, greater\u0026lt;int\u0026gt; \u0026gt;::iterator i; for(i = st.begin(); i != st.end(); ++i) cout \u0026lt;\u0026lt; * i \u0026lt;\u0026lt; \u0026#34;,\u0026#34;; cout \u0026lt;\u0026lt; endl; multiset\u0026lt;int, Rule1 \u0026gt; st2;//st2的元素排序规则为：个位数小的排前面 for(int i = 0; i \u0026lt; 10; ++i) st2.insert(a[i]); multiset\u0026lt;int, Rule1\u0026gt;::iterator p; for(p = st2.begin(); p != st2.end(); ++p) cout \u0026lt;\u0026lt; * p \u0026lt;\u0026lt; \u0026#34;,\u0026#34;; cout \u0026lt;\u0026lt; endl; p = st2.find(133);//可以找到 13 find的原理在于找不到的值不比它大也不比它小 cout \u0026lt;\u0026lt; * p \u0026lt;\u0026lt; endl; return 0; } //find(x): 在排序容器中找一个元素y，使得“x必须排在y前面”和 “y必须排在x前面”都不成立 #include \u0026lt;iostream\u0026gt; #include \u0026lt;cstring\u0026gt; #include \u0026lt;set\u0026gt; //使用multiset和set需要此头文件 using namespace std; struct Student { char name[20]; int id; int score; }; Student students [] = { {\u0026#34;Jack\u0026#34;, 112, 78}, {\u0026#34;Mary\u0026#34;, 102, 85}, {\u0026#34;Ala\u0026#34;, 333, 92}, {\u0026#34;Zero\u0026#34;, 101, 70}, {\u0026#34;Cindy\u0026#34;, 102, 78} }; struct Rule { bool operator() (const Student \u0026amp; s1, const Student \u0026amp; s2) const { if( s1.score != s2.score) return s1.score \u0026gt; s2.score; else return (strcmp(s1.name, s2.name) \u0026lt; 0); } }; int main() { multiset\u0026lt;Student, Rule\u0026gt; st; for(int i = 0; i \u0026lt; 5; ++i) st.insert(students[i]); //插入的是students[i]的复制品 multiset\u0026lt;Student, Rule\u0026gt;::iterator p; for(p = st.begin(); p != st.end(); ++p) cout \u0026lt;\u0026lt; p-\u0026gt;score \u0026lt;\u0026lt; \u0026#34; \u0026#34; \u0026lt;\u0026lt; p-\u0026gt;name \u0026lt;\u0026lt; \u0026#34; \u0026#34; \u0026lt;\u0026lt; p-\u0026gt;id \u0026lt;\u0026lt; endl; Student s = { \u0026#34;Mary\u0026#34;, 1000, 85}; p = st.find(s); if( p != st.end()) cout \u0026lt;\u0026lt; p-\u0026gt;score \u0026lt;\u0026lt; \u0026#34; \u0026#34; \u0026lt;\u0026lt; p-\u0026gt;name \u0026lt;\u0026lt; \u0026#34; \u0026#34; \u0026lt;\u0026lt; p-\u0026gt;id \u0026lt;\u0026lt; endl; return 0; } pair 模板 pair\u0026lt;T1,T2\u0026gt;类型等价于： struct { T1 first; T2 second; }; 例如：pair\u0026lt;int, double\u0026gt; a; 等价于： struct { int first; double second; } a; a.first = 1; a.second = 93.93; 其实pair就是一个对象。而make_pair则可以快速生成一个pair对象\n","keywords":["模板"],"articleBody":"废话 想了一下还是在这里写了，博客园没设置好真的就是一股十年前的味道，虽然说我理智上很欣赏这样的商业味道不浓的网站，但是它的UI设计我生理上还是抵触的。可能等我学了JS以后会自己去倒腾一下吧。\n另外反正大家都用的是markdown，就算复制粘贴一下也不费事，另外牛客网成功地建立了一个社交关系所以在这里发一发博客还能交流一下。\n首先这篇笔记要感谢ZT大佬的帮助，如果不是ZT大佬本菜鸡连课都听不了嘤嘤嘤……\n本文基本上来自于https://www.icourse163.org/learn/PKU-1001553023\nPKU郭炜老师的《程序设计与算法（一）C语言程序设计》课程，内容实在是良心。\nsort 以前都没人告诉过本菜鸡从大到小居然有标准模板可以直接套，本菜鸡以前一直是自己写一个cmp依据函数……\nint a[]= {8,5,4,6,7}; sort(a,a+5,greater());//直接用模板 二分查找 前提是数据有序\nint a[]= {8,6,5,3,1}; int flag=binary_search(a,a+5,6);//有就返回1 没有就返回0 int flag1=binary_search(a,a+5,6,greater()); //必须和排序依据相吻合 int b[5]= {1,3,5,8,9}; int *p1=lower_bound(b,b+5,3); //返回的是一个指针：下标最小的 大于等于[值]的元素地址 下界 //如果找不到 指向b+5 即范围的右边界 右边界不在查找范围内 int *p2=upper_bound(b,b+5,3);//返回下标最小的 大于[值]的元素地址 上界 sort(b,b+5,greater()); int *p3=lower_bound(b,b+5,3,greater()); //返回的是按照排序依据，在值后面的，也就是说，这种情况下，返回的是 下标最小的 大于等于[值]的元素地址 cout\u003c","wordCount":"1159","inLanguage":"en","image":"https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2020-01-31T12:00:00+08:00","dateModified":"2020-01-31T12:00:00+08:00","author":{"@type":"Person","name":"Me"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bernard035.github.io/posts/stl-20200131/"},"publisher":{"@type":"Organization","name":"Bernard's Blog","logo":{"@type":"ImageObject","url":"https://bernard035.github.io/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://bernard035.github.io/ accesskey=h title="Home (Alt + H)"><img src=https://bernard035.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://bernard035.github.io/categories/ title=categories><span>categories</span></a></li><li><a href=https://bernard035.github.io/tags/ title=tags><span>tags</span></a></li><li><a href=https://bernard035.github.io title=bernard035.github.io><span>bernard035.github.io</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>Posts</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">初级STL-关联式容器</h1><div class=post-meta><span title='2020-01-31 12:00:00 +0800 +0800'>January 31, 2020</span>&nbsp;·&nbsp;<span>6 min</span>&nbsp;·&nbsp;<span>1159 words</span>&nbsp;·&nbsp;<span>Me</span>&nbsp;|&nbsp;<span>
+<a href=https://github.com/%3cpath_to_repo%3e/content/posts/stl-20200131.md rel="noopener noreferrer edit" target=_blank>Suggest Changes</a></span></div></header><details class=toc><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#废话>废话</a></li><li><a href=#sort>sort</a></li><li><a href=#二分查找>二分查找</a></li><li><a href=#multiset>multiset</a><ul><li><a href=#定义>定义</a></li><li><a href=#插入>插入</a></li><li><a href=#寻找>寻找</a></li><li><a href=#二分查找上下界>二分查找上下界</a></li><li><a href=#删除某个元素>删除某个元素</a></li><li><a href=#自定义规则排序的multiset>自定义规则排序的multiset</a></li></ul></li><li><a href=#pair-模板>pair 模板</a></li><li><a href=#set>set</a></li><li><a href=#multimap>multimap</a><ul><li><a href=#multimap的应用>multimap的应用</a></li></ul></li><li><a href=#map>map</a><ul><li><a href=#map例题单词词频统计程序>map例题：单词词频统计程序</a></li><li><a href=#成绩排名模板>成绩排名模板</a></li></ul></li></ul></nav></div></details><div class="post-content md-content"><h2 id=废话>废话<a hidden class=anchor aria-hidden=true href=#废话>#</a></h2><p>想了一下还是在这里写了，博客园没设置好真的就是一股十年前的味道，虽然说我理智上很欣赏这样的商业味道不浓的网站，但是它的UI设计我生理上还是抵触的。可能等我学了JS以后会自己去倒腾一下吧。<br>另外反正大家都用的是markdown，就算复制粘贴一下也不费事，另外牛客网成功地建立了一个社交关系所以在这里发一发博客还能交流一下。</p><p>首先这篇笔记要感谢ZT大佬的帮助，如果不是ZT大佬本菜鸡连课都听不了嘤嘤嘤……<br>本文基本上来自于<a href=https://www.icourse163.org/learn/PKU-1001553023>https://www.icourse163.org/learn/PKU-1001553023</a><br>PKU郭炜老师的《程序设计与算法（一）C语言程序设计》课程，内容实在是良心。</p><h2 id=sort>sort<a hidden class=anchor aria-hidden=true href=#sort>#</a></h2><p>以前都没人告诉过本菜鸡从大到小居然有标准模板可以直接套，本菜鸡以前一直是自己写一个cmp依据函数……</p><pre tabindex=0><code>int a[]= {8,5,4,6,7};
+sort(a,a+5,greater&lt;int&gt;());//直接用模板
+</code></pre><h2 id=二分查找>二分查找<a hidden class=anchor aria-hidden=true href=#二分查找>#</a></h2><p>前提是数据有序</p><pre tabindex=0><code>int a[]= {8,6,5,3,1};
+int flag=binary_search(a,a+5,6);//有就返回1 没有就返回0
+int flag1=binary_search(a,a+5,6,greater&lt;int&gt;()); //必须和排序依据相吻合
+</code></pre><pre tabindex=0><code>int b[5]= {1,3,5,8,9};    
+int *p1=lower_bound(b,b+5,3);
+//返回的是一个指针：下标最小的 大于等于[值]的元素地址 下界 
+//如果找不到 指向b+5 即范围的右边界 右边界不在查找范围内
+int *p2=upper_bound(b,b+5,3);//返回下标最小的 大于[值]的元素地址 上界 
+sort(b,b+5,greater&lt;int&gt;());
+int *p3=lower_bound(b,b+5,3,greater&lt;int&gt;());
+//返回的是按照排序依据，在值后面的，也就是说，这种情况下，返回的是 下标最小的 大于等于[值]的元素地址
+cout&lt;&lt;p1-b&lt;&lt;endl;//输出该元素下标
+</code></pre><h2 id=multiset>multiset<a hidden class=anchor aria-hidden=true href=#multiset>#</a></h2><p>可以使用multiset set multimap map这样的“排序容器”，它们自带平衡二叉树，在插入的时候就可以排序。<br>要指向容器里的元素，必须使用【迭代器】，<strong>迭代器和指针一样，可以++ &ndash; != ==，但是不能比较大小，不能加减整数，不能相减</strong>。这是multiset迭代器的特性，并非所有迭代器都是这样。<br>声明一个迭代器和别的容器是一样的：</p><h3 id=定义>定义<a hidden class=anchor aria-hidden=true href=#定义>#</a></h3><pre tabindex=0><code>multiset&lt;int&gt;a;
+multiset&lt;int&gt;iterator it;
+for(it=a.begin();it!=a.end();it++) cout&lt;&lt;*it&lt;&lt;&#34; &#34;;
+</code></pre><p>a.begin()等返回值也是迭代器，另外，multiset不允许像数组那样访问，我猜测这是它的迭代器和别的容器的迭代器不同的原因。</p><h3 id=插入>插入<a hidden class=anchor aria-hidden=true href=#插入>#</a></h3><pre tabindex=0><code>a.insert(x);//插入
+</code></pre><h3 id=寻找>寻找<a hidden class=anchor aria-hidden=true href=#寻找>#</a></h3><pre tabindex=0><code>multiset&lt;int&gt;::iterator pi;
+pi=a.find(5);//查找有没有5 有就返回迭代器
+if(pi==a.end()) cout&lt;&lt;&#34;not found&#34;&lt;&lt;endl;//没有找到就返回a.end的迭代器
+</code></pre><h3 id=二分查找上下界>二分查找上下界<a hidden class=anchor aria-hidden=true href=#二分查找上下界>#</a></h3><pre tabindex=0><code>    multiset&lt;int&gt;::iterator p1,p2;
+
+    p1=a.lower_bound(12);cout&lt;&lt;*p1&lt;&lt;endl;
+    //返回&gt;=&#39;值&#39;的元素的迭代器 
+    p2=a.upper_bound(6);cout&lt;&lt;*p2&lt;&lt;endl;
+    //返回&gt;&#39;值&#39;的元素的迭代器
+</code></pre><h3 id=删除某个元素>删除某个元素<a hidden class=anchor aria-hidden=true href=#删除某个元素>#</a></h3><pre tabindex=0><code>a.erase(p1);//删除p1指向的元素
+</code></pre><h3 id=自定义规则排序的multiset>自定义规则排序的multiset<a hidden class=anchor aria-hidden=true href=#自定义规则排序的multiset>#</a></h3><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;set&gt; //使用multiset和set需要此头文件
+using namespace std;
+struct Rule1 {//这个似乎只能写成这样的结构体 结构体里面居然可以有函数
+bool operator()( const int &amp; a,const int &amp; b) const {
+return (a%10) &lt; (b%10);
+}//返回值为true则说明a必须排在b前面
+};
+int main() {
+    multiset&lt;int, greater&lt;int&gt; &gt; st; //排序规则为从大到小
+    int a[10] = {1, 22, 12, 13, 7, 13, 21, 19, 32, 81 };
+    for(int i = 0; i &lt; 10; ++i)
+        st.insert(a[i]);
+    multiset&lt;int, greater&lt;int&gt; &gt;::iterator i;
+    for(i = st.begin(); i != st.end(); ++i)
+        cout &lt;&lt; * i &lt;&lt; &#34;,&#34;;
+    cout &lt;&lt; endl;
+    multiset&lt;int, Rule1 &gt; st2;//st2的元素排序规则为：个位数小的排前面
+    for(int i = 0; i &lt; 10; ++i)
+        st2.insert(a[i]);
+    multiset&lt;int, Rule1&gt;::iterator p;
+    for(p = st2.begin(); p != st2.end(); ++p)
+        cout &lt;&lt; * p &lt;&lt; &#34;,&#34;;
+    cout &lt;&lt; endl;
+    p = st2.find(133);//可以找到 13 find的原理在于找不到的值不比它大也不比它小
+    cout &lt;&lt; * p &lt;&lt; endl;
+    return 0;
+}
+//find(x): 在排序容器中找一个元素y，使得“x必须排在y前面”和 “y必须排在x前面”都不成立
+</code></pre><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;set&gt; //使用multiset和set需要此头文件
+using namespace std;
+struct Student {
+    char name[20];
+    int id;
+    int score;
+};
+Student students [] = { {&#34;Jack&#34;, 112, 78}, {&#34;Mary&#34;, 102, 85},
+    {&#34;Ala&#34;, 333, 92}, {&#34;Zero&#34;, 101, 70}, {&#34;Cindy&#34;, 102, 78}
+};
+struct Rule {
+    bool operator() (const Student &amp; s1, const Student &amp; s2) const {
+        if( s1.score != s2.score)
+            return s1.score &gt; s2.score;
+        else
+            return (strcmp(s1.name, s2.name) &lt; 0);
+    }
+};
+int main() {
+    multiset&lt;Student, Rule&gt; st;
+    for(int i = 0; i &lt; 5; ++i)
+        st.insert(students[i]); //插入的是students[i]的复制品
+    multiset&lt;Student, Rule&gt;::iterator p;
+    for(p = st.begin(); p != st.end(); ++p)
+        cout &lt;&lt; p-&gt;score &lt;&lt; &#34; &#34; &lt;&lt; p-&gt;name &lt;&lt; &#34; &#34;
+             &lt;&lt; p-&gt;id &lt;&lt; endl;
+    Student s = { &#34;Mary&#34;, 1000, 85};
+    p = st.find(s);
+    if( p != st.end())
+        cout &lt;&lt; p-&gt;score &lt;&lt; &#34; &#34; &lt;&lt; p-&gt;name &lt;&lt; &#34; &#34;
+             &lt;&lt; p-&gt;id &lt;&lt; endl;
+    return 0;
+}
+</code></pre><h2 id=pair-模板>pair 模板<a hidden class=anchor aria-hidden=true href=#pair-模板>#</a></h2><pre tabindex=0><code>pair&lt;T1,T2&gt;类型等价于：
+struct {
+T1 first;
+T2 second;
+};
+例如：pair&lt;int, double&gt; a;
+等价于：
+struct {
+int first;
+double second;
+} a;
+a.first = 1;
+a.second = 93.93;
+</code></pre><p>其实pair就是一个对象。而make_pair则可以快速生成一个pair对象</p><pre tabindex=0><code>make_pair(5,&#39;d&#39;);//无需指出变量类型
+make_pair(a.f,b.g);//也可以从结构体里抽调，用途比较广泛
+</code></pre><h2 id=set>set<a hidden class=anchor aria-hidden=true href=#set>#</a></h2><blockquote><p>set和multiset的区别在于容器里<strong>不能有重复元素</strong><br>a和b重复 等价于 “a必须排在b前面” 和“b必须排在a前面”都不成立</p></blockquote><blockquote><p>set插入元素<strong>可能不成功</strong></p></blockquote><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;set&gt; //使用multiset和set需要此头文件
+using namespace std;
+using namespace std;
+int main() {
+    set&lt;int&gt; st;
+    int a[10] = { 1, 2, 3, 8, 7, 7, 5, 6, 8, 12 };
+    for(int i = 0; i &lt; 10; ++i)
+        st.insert(a[i]);
+    cout &lt;&lt; st.size() &lt;&lt; endl; //输出：8
+    set&lt;int&gt;::iterator i;
+    for(i = st.begin(); i != st.end(); ++i)
+        cout &lt;&lt; * i &lt;&lt; &#34;,&#34;; //输出：1,2,3,5,6,7,8,12,
+    cout &lt;&lt; endl;
+    pair&lt;set&lt;int&gt;::iterator, bool&gt; result = st.insert(2);//一个是迭代器 一个是bool
+    if( ! result.second ) //条件成立说明插入不成功
+        cout &lt;&lt; * result.first &lt;&lt; &#34; already exists.&#34;&lt;&lt; endl;
+    else
+        cout &lt;&lt; * result.first &lt;&lt; &#34; inserted.&#34; &lt;&lt; endl;
+    return 0;
+}
+</code></pre><h2 id=multimap>multimap<a hidden class=anchor aria-hidden=true href=#multimap>#</a></h2><blockquote><p>multimap容器里的元素，都是pair形式的</p><pre tabindex=0><code>multimap&lt;T1,T2&gt; mp;
+</code></pre><p>则mp里的元素都是如下类型：</p><pre tabindex=0><code>struct {
+T1 first;  //关键字
+T2 second; //值
+};
+</code></pre><p>multimap中的元素按照first排序，并可以按first进行查找<br>缺省的排序规则是 &ldquo;<strong>a.first &lt; b.first</strong>&rdquo; 为true,则a排在b前面</p></blockquote><h3 id=multimap的应用>multimap的应用<a hidden class=anchor aria-hidden=true href=#multimap的应用>#</a></h3><blockquote><p>一个学生成绩录入和查询系统，接受以下两种输入:<br>Add name id score<br>Query score<br>name是个不超过16字符的字符串，中间没有空格，代表学生姓名。id<br>是个整数，代表学号。score是个整数，表示分数。学号不会重复，分数<br>和姓名都可能重复。<br>两种输入交替出现。第一种输入表示要添加一个学生的信息，碰到这<br>种输入，就记下学生的姓名、id和分数。第二种输入表示要查询，碰到这<br>种输入，就输出已有记录中分数比score低的最高分获得者的姓名、学号<br>和分数。如果有多个学生都满足条件，就输出学号最大的那个学生的信<br>息。如果找不到满足条件的学生，则输出“Nobody”<br>multimap的应用<br>输入样例：<br>Add Jack 12 78<br>Query 78<br>Query 81<br>Add Percy 9 81<br>Add Marry 8 81<br>Query 82<br>Add Tom 11 79<br>Query 80<br>Query 81<br>输出样例：<br>Nobody<br>Jack 12 78<br>Percy 9 81<br>Tom 11 79<br>Tom 11 79</p></blockquote><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;map&gt; //使用multimap和map需要包含此头文件
+#include &lt;cstring&gt;
+using namespace std;
+struct StudentInfo {
+    int id;
+    char name[20];
+};
+struct Student {
+    int score;
+    StudentInfo info;
+};
+typedef multimap&lt;int, StudentInfo&gt; MAP_STD;
+// 此后 MAP_STD 等价于 multimap&lt;int,StudentInfo&gt;
+// typedef int * PINT;
+// 则此后 PINT 等价于 int *。 即 PINT p; 等价于 int * p;
+int main() {
+    MAP_STD mp;
+    Student st;
+    char cmd[20];
+    while( cin &gt;&gt; cmd ) {
+        if( cmd[0] == &#39;A&#39;) {
+            cin &gt;&gt; st.info.name &gt;&gt; st.info.id &gt;&gt; st.score ;
+            mp.insert(make_pair(st.score, st.info ));
+        } //make_pair生成一个 pair&lt;int,StudentInfo&gt;变量
+//其first 等于 st.score, second 等于 st.info
+        else if( cmd[0] == &#39;Q&#39; ) {
+            int score;
+            cin &gt;&gt; score;
+            MAP_STD::iterator p = mp.lower_bound (score);
+            if( p != mp.begin()) {
+                --p;
+                score = p-&gt;first; //比要查询分数低的最高分
+                MAP_STD::iterator maxp = p;
+                int maxId = p-&gt;second.id;
+                for(; p != mp.begin() &amp;&amp;
+                        p-&gt;first == score; --p) {
+//遍历所有成绩和score相等的学生
+                    if( p-&gt;second.id &gt; maxId ) {
+                        maxp = p;
+                        maxId = p-&gt;second.id ;
+                    }
+                }
+                if( p-&gt;first == score) {
+//如果上面循环是因为 p == mp.begin() 而终止，则p指向的元素还要处理
+                    if( p-&gt;second.id &gt; maxId ) {
+                        maxp = p;
+                        maxId = p-&gt;second.id ;
+                    }
+                }
+                cout &lt;&lt; maxp-&gt;second.name &lt;&lt; &#34; &#34;
+                     &lt;&lt; maxp-&gt;second.id &lt;&lt; &#34; &#34;
+                     &lt;&lt; maxp-&gt;first &lt;&lt; endl;
+            }
+//lower_bound的结果就是 begin，说明没人分数比查询分数低
+            else
+                cout &lt;&lt; &#34;Nobody&#34; &lt;&lt; endl;
+        }
+    }
+    return 0;
+}
+</code></pre><h2 id=map>map<a hidden class=anchor aria-hidden=true href=#map>#</a></h2><blockquote><p>不能有<strong>关键字重复</strong>的元素</p></blockquote><blockquote><p>可以使用 [ ] ，下标为关键字，返回值为first和关键字相同的元素的second</p></blockquote><blockquote><p>插入元素可能失败</p></blockquote><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+using namespace std;
+struct Student {
+    string name;
+    int score;
+};
+Student students[5] = {
+    {&#34;Jack&#34;, 89}, {&#34;Tom&#34;, 74}, {&#34;Cindy&#34;, 87}, {&#34;Alysa&#34;, 87}, {&#34;Micheal&#34;, 98}
+};
+typedef map&lt;string, int&gt; MP;
+int main() {
+    MP mp;
+    for(int i = 0; i &lt; 5; ++i)
+        mp.insert(make_pair(students[i].name, students[i].score));
+    cout &lt;&lt; mp[&#34;Jack&#34;] &lt;&lt; endl; // 输出 89
+    mp[&#34;Jack&#34;] = 60; //修改名为&#34;Jack&#34;的元素的second
+    for(MP::iterator i = mp.begin(); i != mp.end(); ++i)
+        cout &lt;&lt; &#34;(&#34; &lt;&lt; i-&gt;first &lt;&lt; &#34;,&#34; &lt;&lt; i-&gt;second &lt;&lt; &#34;) &#34;;
+//输出：(Alysa,87) (Cindy,87) (Jack,60) (Micheal,98) (Tom,74)
+    cout &lt;&lt; endl;
+    Student st;
+    st.name = &#34;Jack&#34;;
+    st.score = 99;
+    pair&lt;MP::iterator, bool&gt; p = mp.insert(make_pair(st.name, st.score));
+    if( p.second )
+        cout &lt;&lt; &#34;(&#34; &lt;&lt; p.first-&gt;first &lt;&lt; &#34;,&#34;&lt;&lt; p.first-&gt;second &lt;&lt; &#34;) inserted&#34; &lt;&lt; endl;
+    else
+        cout &lt;&lt; &#34;insertion failed&#34; &lt;&lt; endl; //输出此信息
+    mp[&#34;Harry&#34;] = 78; //插入一元素，其first为&#34;Harry&#34;,然后将其second改为78
+    MP::iterator q = mp.find(&#34;Harry&#34;);
+    cout &lt;&lt; &#34;(&#34; &lt;&lt; q-&gt;first &lt;&lt; &#34;,&#34; &lt;&lt; q-&gt;second &lt;&lt; &#34;)&#34; &lt;&lt; endl;
+//输出 (Harry,78)
+    return 0;
+}
+</code></pre><h3 id=map例题单词词频统计程序>map例题：单词词频统计程序<a hidden class=anchor aria-hidden=true href=#map例题单词词频统计程序>#</a></h3><blockquote><p>输入大量单词，每个单词，一行，不超过20字符，没有空格。按出现次数从多到少输出这些单词及其出现次数。出现次数相同的，字典序靠前的在前面。<br>输入样例：<br>this<br>is<br>ok<br>this<br>plus<br>that<br>is<br>plus<br>plus<br>输出样例：<br>plus 3<br>is 2<br>this 2<br>ok 1<br>that 1</p></blockquote><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;set&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+using namespace std;
+struct Word {
+    int times;
+    string wd;
+};
+struct Rule {
+    bool operator () ( const Word &amp; w1, const Word &amp; w2) const {
+        if( w1.times != w2.times)
+            return w1.times &gt; w2.times;
+        else
+            return w1.wd &lt; w2.wd;
+    }
+};
+int main() {
+    string s;
+    set&lt;Word, Rule&gt; st;
+    map&lt;string, int&gt; mp;
+    while( cin &gt;&gt; s )  mp[s]++ ;
+    for( map&lt;string, int&gt;::iterator i = mp.begin();i != mp.end(); i++) {
+        Word tmp;
+        tmp.wd = i-&gt;first;
+        tmp.times = i-&gt;second;
+        st.insert(tmp);
+    }
+    for(set&lt;Word, Rule&gt;::iterator i = st.begin();i != st.end(); i++)
+        cout &lt;&lt; i -&amp;g***t;&lt; &#34; &#34; &lt;&lt; i -&gt; times &lt;&lt; endl;//显示错误 但是编辑界面是正常的
+}
+</code></pre><h3 id=成绩排名模板>成绩排名模板<a hidden class=anchor aria-hidden=true href=#成绩排名模板>#</a></h3><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+using namespace std;
+struct student {
+    string name;
+    int score;
+};
+struct Rule {
+    bool operator()(const student &amp;s1,const student &amp;s2) {
+        if(s1.score==s2.score) return s1.name&lt;s2.name;
+        else return s1.score&gt;s2.score;
+    }
+};
+int main() {
+    map&lt;string,int&gt;mp;
+    set&lt;student,Rule&gt;st;
+    string str;
+    int num;
+    int n;
+    cin&gt;&gt;n;
+    while(n--) {
+        cin&gt;&gt;str&gt;&gt;num;
+        mp[str]=num;
+    }
+    for(map&lt;string,int&gt;::iterator it=mp.begin(); it!=mp.end(); it++) {
+        student tmp;
+        tmp.name=it-&gt;first;
+        tmp.score=it-&gt;second;
+        st.insert(tmp);
+    }
+    for(set&lt;student,Rule&gt;::iterator it=st.begin(); it!=st.end(); it++) {
+        cout&lt;&lt;it-&gt;name&lt;&lt;&#34; &#34;&lt;&lt;it-&gt;score&lt;&lt;endl;
+    }
+    st.clear();
+    mp.clear();
+    return 0;
+}
+</code></pre><hr><blockquote><p>本文整理自作者牛客博客（https://blog.nowcoder.net/n/3f96174d3914415c822d7e093a2117bc），发布于 2020-01-31。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://bernard035.github.io/tags/%E6%A8%A1%E6%9D%BF/>模板</a></li></ul><nav class=paginav><a class=prev href=https://bernard035.github.io/posts/poj-2456-20200202/><span class=title>« Prev</span>
+<span>POJ 2456 二分 贪心</span>
+</a><a class=next href=https://bernard035.github.io/posts/cp-notes-20200130/><span class=title>Next »</span>
+<span>算法竞赛代码规范</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 初级STL-关联式容器 on x" href="https://x.com/intent/tweet/?text=%e5%88%9d%e7%ba%a7STL-%e5%85%b3%e8%81%94%e5%bc%8f%e5%ae%b9%e5%99%a8&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f&amp;hashtags=%e6%a8%a1%e6%9d%bf"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 初级STL-关联式容器 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f&amp;title=%e5%88%9d%e7%ba%a7STL-%e5%85%b3%e8%81%94%e5%bc%8f%e5%ae%b9%e5%99%a8&amp;summary=%e5%88%9d%e7%ba%a7STL-%e5%85%b3%e8%81%94%e5%bc%8f%e5%ae%b9%e5%99%a8&amp;source=https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 初级STL-关联式容器 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f&title=%e5%88%9d%e7%ba%a7STL-%e5%85%b3%e8%81%94%e5%bc%8f%e5%ae%b9%e5%99%a8"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 初级STL-关联式容器 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 初级STL-关联式容器 on whatsapp" href="https://api.whatsapp.com/send?text=%e5%88%9d%e7%ba%a7STL-%e5%85%b3%e8%81%94%e5%bc%8f%e5%ae%b9%e5%99%a8%20-%20https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 初级STL-关联式容器 on telegram" href="https://telegram.me/share/url?text=%e5%88%9d%e7%ba%a7STL-%e5%85%b3%e8%81%94%e5%bc%8f%e5%ae%b9%e5%99%a8&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 初级STL-关联式容器 on ycombinator" href="https://news.ycombinator.com/submitlink?t=%e5%88%9d%e7%ba%a7STL-%e5%85%b3%e8%81%94%e5%bc%8f%e5%ae%b9%e5%99%a8&u=https%3a%2f%2fbernard035.github.io%2fposts%2fstl-20200131%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://bernard035.github.io/>Bernard's Blog</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

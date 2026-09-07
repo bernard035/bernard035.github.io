@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>蓝桥杯 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/</link>
+    <description>Recent content in 蓝桥杯 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 05 Jun 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>蓝桥杯 2021 国赛</title>
+      <link>https://bernard035.github.io/posts/2021-20210605/</link>
+      <pubDate>Sat, 05 Jun 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-20210605/</guid>
+      <description>&lt;h2 id=&#34;a&#34;&gt;A&lt;/h2&gt;
+&lt;p&gt;200/8=25&lt;/p&gt;
+&lt;h2 id=&#34;b&#34;&gt;B&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e6 + 7;
+bool isPrime(int n) {
+    for (int i = 2, x = sqrt(n); i &amp;lt;= x; ++i) {
+        if (n % i == 0) return 0;
+    }
+    return 1;
+}
+bool ok(int n) {
+    while (n) {
+        if (n % 10 != 2 and n % 10 != 3 and n % 10 != 5 and n % 10 != 7) {
+            return 0;
+        }
+        n /= 10;
+    }
+    return 1;
+}
+int main() {
+    int cnt = 0;
+    rep(i, 2, 20210605) if (ok(i) and isPrime(i))++ cnt;
+    printf(&amp;#34;%d\n&amp;#34;, cnt);  // 1903
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;c&#34;&gt;C&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+typedef long long ll;
+using namespace std;
+const int N = 5e5 + 7;
+int nextDay(int n) {
+    int y = n / 10000;
+    int d = n % 100;
+    int m = n / 100 % 100;
+    if (m == 12 and d == 31)
+        y += 1, m = 1, d = 1;
+    else if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 ||
+             m == 12) {
+        if (d == 31)
+            m += 1, d = 1;
+        else
+            ++d;
+    } else if (m == 2) {
+        if (y % 4 == 0) {
+            if (d == 29)
+                m += 1, d = 1;
+            else
+                d += 1;
+        } else {
+            if (d == 28)
+                m += 1, d = 1;
+            else
+                d += 1;
+        }
+    } else {
+        if (d == 30)
+            m += 1, d = 1;
+        else
+            d += 1;
+    }
+    return y * 10000 + m * 100 + d;
+}
+bool chk(int n) {
+    int res = 0;
+    while (n) {
+        res += n % 10;
+        n /= 10;
+    }
+    int t = sqrt(n);
+    return res == t * t;
+}
+int main() {
+    int cnt = 0;
+    for (int i = 20010101; i &amp;lt;= 20211231; i = nextDay(i))
+        if (chk(i)) ++cnt;
+    cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; endl;  // 977
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;d&#34;&gt;D&lt;/h2&gt;
+&lt;h2 id=&#34;e&#34;&gt;E&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e6 + 7;
+int main() {
+    string s;
+    cin &amp;gt;&amp;gt; s;
+    for (char &amp;amp;c : s)
+        if (islower(c)) c += &amp;#39;A&amp;#39; - &amp;#39;a&amp;#39;;
+    cout &amp;lt;&amp;lt; s;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;f&#34;&gt;F&lt;/h2&gt;
+&lt;h2 id=&#34;g&#34;&gt;G&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+ll f[65][55];
+int num[65], k;
+ll dfs(int len, int cnt, bool limit) {
+    if (!len) return cnt == k;  // 到达终态，判断
+    if (cnt &amp;gt; k) return 0;      // 剪枝
+    if (!limit &amp;amp;&amp;amp; ~f[len][cnt])
+        return f[len][cnt];  // 如果未达到终态，且已计算过，即可复用
+    ll &amp;amp;x = f[len][cnt], ans(0);
+    int ed = limit ? num[len] : 1;  // 边界
+    for (int i = 0; i &amp;lt;= ed; ++i) {
+        ans += dfs(len - 1, cnt + (i == 1), limit &amp;amp;&amp;amp; i == ed);
+    }
+    if (!limit) x = ans;  // 记录复用
+    return ans;
+}
+int main() {
+    int len(0);
+    ll n;
+    scanf(&amp;#34;%lld%d&amp;#34;, &amp;amp;n, &amp;amp;k);
+    memset(f, -1, sizeof f);
+    while (n) {
+        num[++len] = n &amp;amp; 1;
+        n &amp;gt;&amp;gt;= 1;
+    }
+    cout &amp;lt;&amp;lt; dfs(len, 0, true) &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/d64064848bdd4c96b81f2ae8085189ec），发布于 2021-06-05。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>蓝桥杯 2020 国赛</title>
+      <link>https://bernard035.github.io/posts/2020-20210601/</link>
+      <pubDate>Tue, 01 Jun 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-20210601/</guid>
+      <description>&lt;h2 id=&#34;a&#34;&gt;A&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/8403d580ac108b8b.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%d\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+bool chk(int n) {
+    while (n) {
+        if (n % 10 == 2) return 1;
+        n /= 10;
+    }
+    return 0;
+}
+int main() {
+    int res = 0;
+    rep(i, 1, 2020) res += chk(i);
+    pr(res);  // 563
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;b&#34;&gt;B&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/f2bbdbc1ff4cd4ff.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>第十二届蓝桥杯大赛软件赛省赛 C/C&#43;&#43; 大学 B 组</title>
+      <link>https://bernard035.github.io/posts/cplusplus-20210418/</link>
+      <pubDate>Sun, 18 Apr 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cplusplus-20210418/</guid>
+      <description>&lt;h2 id=&#34;试题-a-空间&#34;&gt;试题 A: 空间&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/4a79ef1e23c79fc1.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;1 byte=8 bit1\ byte = 8\ bit1 byte=8 bit&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; 256*1024*1024*8//32
+67108864
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;试题-b-卡片&#34;&gt;试题 B: 卡片&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/f80f6d5174924592.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+int a[10];
+bool chk(int x) {
+    while (x) {
+        if (a[x % 10] &amp;lt; 1)
+            return 0;
+        else
+            a[x % 10] -= 1;
+        x /= 10;
+    }
+    return 1;
+}
+int main() {
+    rep(i, 0, 9) a[i] = 2021;
+    int i = 1;
+    while (chk(i)) ++i;
+    cout &amp;lt;&amp;lt; i - 1 &amp;lt;&amp;lt; endl;  // 3181
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;试题-c-直线&#34;&gt;试题 C: 直线&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/0ab9e5f24e57a5c2.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>蓝桥杯官网 往届试题</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20210406/</link>
+      <pubDate>Tue, 06 Apr 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20210406/</guid>
+      <description>&lt;h2 id=&#34;带分数&#34;&gt;带分数&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i,l,r) for(int i=l;i&amp;lt;=r;++i)
+using namespace std;
+int a[15];
+int main() {
+    for(int i=0; i&amp;lt;10; ++i)a[i]=i;
+    int n,ans=0;
+    scanf(&amp;#34;%d&amp;#34;,&amp;amp;n);
+    do {
+        for(int p=1; p&amp;lt;8; ++p) { // 整数到 i
+            for(int d=p+1; d&amp;lt;=8; ++d) { // 分数到j
+                int num=0,up=0,down=0;
+                for(int i=1;i&amp;lt;=p;++i)num=num*10+a[i];
+                for(int i=p+1;i&amp;lt;=d;++i)up=up*10+a[i];
+                for(int i=d+1;i&amp;lt;=9;++i)down=down*10+a[i];
+                if(up%down==0){
+                    if(num+up/down==n){
+                            ++ans;
+                    }
+                }
+            }
+        }
+    } while (next_permutation(a+1,a+10));
+    printf(&amp;#34;%d&amp;#34;,ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;不会T。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; from math import factorial as f
+&amp;gt;&amp;gt;&amp;gt; f(9)*8*8
+23224320
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;数字三角形&#34;&gt;数字三角形&lt;/h2&gt;
+&lt;p&gt;暴力代码：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020 第十一届蓝桥杯 省赛 第二场 B组 C/C&#43;&#43;</title>
+      <link>https://bernard035.github.io/posts/2020-cplusplus-20210323/</link>
+      <pubDate>Tue, 23 Mar 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-cplusplus-20210323/</guid>
+      <description>&lt;h2 id=&#34;门牌制作&#34;&gt;门牌制作&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+int main() {
+    int cnt = 0;
+    rep(i, 1, 2020) {
+        int now = i;
+        while (now) {
+            if (now % 10 == 2) ++cnt;
+            now /= 10;
+        }
+    }
+    cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;  // 624
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;既约分数&#34;&gt;既约分数&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+int main() {
+    int cnt = 0;
+    rep(i, 1, 2020) rep(j, 1, 2020) cnt += __gcd(i, j) == 1;
+    cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;  // 2481215
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;蛇形填数&#34;&gt;蛇形填数&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+void put(int x, int y, int val) {
+    if (x == 20 and y == 20) cout &amp;lt;&amp;lt; val &amp;lt;&amp;lt; endl, exit(0);
+    if (x == 1 and y % 2 == 1)
+        put(x, y + 1, ++val);
+    else if (y == 1 and x % 2 == 0)
+        put(x + 1, y, ++val);
+    else if ((x + y) % 2 == 1)
+        put(x + 1, y - 1, ++val);
+    else
+        put(x - 1, y + 1, ++val);
+}
+int main() {
+    put(1, 1, 1); // 761
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;跑步锻炼&#34;&gt;跑步锻炼&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+inline bool isLeapYear(int y) {
+    return y % 4 == 0 &amp;amp;&amp;amp; y % 100 != 0 || y % 400 == 0;
+}
+bool isDate(int n) {
+    int y = n / 10000;
+    int m = n / 100 % 100;
+    int d = n % 100;
+    if (m &amp;lt; 1 || m &amp;gt; 12) return 0;
+    if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12)
+        return d &amp;gt;= 1 &amp;amp;&amp;amp; d &amp;lt;= 31;
+    else if (m == 2) {
+        if (isLeapYear(y))
+            return d &amp;gt;= 1 &amp;amp;&amp;amp; d &amp;lt;= 29;
+        else
+            return d &amp;gt;= 1 &amp;amp;&amp;amp; d &amp;lt;= 28;
+    } else
+        return d &amp;gt;= 1 &amp;amp;&amp;amp; d &amp;lt;= 30;
+}
+int nextDate(int n) {
+    int y = n / 10000;
+    int m = n / 100 % 100;
+    int d = n % 100;
+    if (m == 12) {
+        if (d == 31)
+            y += 1, m = 1, d = 1;
+        else
+            d += 1;
+    } else if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10) {
+        if (d == 31)
+            m += 1, d = 1;
+        else
+            d += 1;
+    } else if (m == 2) {
+        if (isLeapYear(y)) {
+            if (d == 29)
+                m += 1, d = 1;
+            else
+                d += 1;
+        } else {
+            if (d == 28)
+                m += 1, d = 1;
+            else
+                d += 1;
+        }
+    } else {
+        if (d == 30)
+            m += 1, d = 1;
+        else
+            d += 1;
+    }
+    return y * 10000 + m * 100 + d;
+}
+int main() {
+    int cnt = 0, th = 5;
+    for (int i = 20000101; i &amp;lt;= 20201001; i = nextDate(i)) {
+        if (th + 1 == 1 || i % 100 == 1)
+            cnt += 2;
+        else
+            ++cnt;
+        th = (th + 1) % 7;
+    }
+    cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;  // 8879
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;七段码&#34;&gt;七段码&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+const int N = 10;
+int fa[N];
+void init() {
+    for (int i = 0; i &amp;lt; N; ++i) fa[i] = i;
+}
+int Find(int x) {
+    if (x != fa[x]) fa[x] = Find(fa[x]);
+    return fa[x];
+}
+bool isOn[N];
+void merge(int x, int y) {
+    if (!isOn[x] || !isOn[y]) return;
+    fa[Find(y)] = Find(x);
+}
+bool isOk(int sta) {
+    init();
+    for (int i = 1; i &amp;lt;= 7; ++i) {
+        isOn[i] = sta &amp;amp; 1;
+        sta &amp;gt;&amp;gt;= 1;
+    }
+    merge(1, 2);
+    merge(1, 6);
+    merge(2, 3);
+    merge(2, 7);
+    merge(3, 7);
+    merge(3, 4);
+    merge(4, 5);
+    merge(5, 6);
+    merge(5, 7);
+    merge(6, 7);
+    int blocks = 0;
+    for (int i = 1; i &amp;lt;= 7; ++i)
+        if (isOn[i]) blocks += (i == Find(i));
+    return blocks == 1;
+}
+int main() {
+    int cnt = 0;
+    for (int i = 1; i &amp;lt; (1 &amp;lt;&amp;lt; 7); ++i) cnt += isOk(i);
+    cout &amp;lt;&amp;lt; cnt &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;  // 80
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;成绩统计&#34;&gt;成绩统计&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+int main() {
+    int n, x, ok = 0, good = 0;
+    cin &amp;gt;&amp;gt; n;
+    for (int i = 0; i &amp;lt; n; ++i) {
+        cin &amp;gt;&amp;gt; x;
+        if (x &amp;gt;= 60) ++ok;
+        if (x &amp;gt;= 85) ++good;
+    }
+    double r1 = ok * 100.0 / n;
+    double r2 = good * 100.0 / n;
+    printf(&amp;#34;%.0lf%%\n%.0lf%%\n&amp;#34;, r1, r2);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;回文日期&#34;&gt;回文日期&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+inline bool isLeapYear(int y) {
+    return y % 4 == 0 &amp;amp;&amp;amp; y % 100 != 0 || y % 400 == 0;
+}
+int nextDate(int n) {
+    int y = n / 10000;
+    int m = n / 100 % 100;
+    int d = n % 100;
+    if (m == 12) {
+        if (d == 31)
+            y += 1, m = 1, d = 1;
+        else
+            d += 1;
+    } else if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10) {
+        if (d == 31)
+            m += 1, d = 1;
+        else
+            d += 1;
+    } else if (m == 2) {
+        if (isLeapYear(y)) {
+            if (d == 29)
+                m += 1, d = 1;
+            else
+                d += 1;
+        } else {
+            if (d == 28)
+                m += 1, d = 1;
+            else
+                d += 1;
+        }
+    } else {
+        if (d == 30)
+            m += 1, d = 1;
+        else
+            d += 1;
+    }
+    return y * 10000 + m * 100 + d;
+}
+int digit[10];
+bool isPalindrome(int n) {
+    for (int i = 1; i &amp;lt;= 8; ++i) {
+        digit[i] = n % 10;
+        n /= 10;
+    }
+    for (int L = 1, R = 8; L &amp;lt;= R; ++L, --R)
+        if (digit[L] != digit[R]) return 0;
+    return 1;
+}
+inline bool ABAB() {
+    return digit[1] != digit[2] &amp;amp;&amp;amp; digit[1] == digit[3] &amp;amp;&amp;amp; digit[2] == digit[4];
+}
+int main() {
+    int n;
+    cin &amp;gt;&amp;gt; n;
+    int x = nextDate(n);
+    int ans = 0;
+    while (1) {
+        if (isPalindrome(x)) {
+            if (!ans) ans = x;
+            if (ABAB()) break;
+        }
+        x = nextDate(x);
+    }
+    printf(&amp;#34;%d\n%d\n&amp;#34;, ans, x);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;子串分值和&#34;&gt;子串分值和&lt;/h2&gt;
+&lt;p&gt;将&lt;strong&gt;枚举区间算权值&lt;/strong&gt;的问题转化为&lt;strong&gt;枚举点对总权值的贡献&lt;/strong&gt;的问题，也就是&lt;strong&gt;枚举单点所能贡献的区间&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020蓝桥杯院内选拔赛 题解</title>
+      <link>https://bernard035.github.io/posts/2020-20201219/</link>
+      <pubDate>Sat, 19 Dec 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-20201219/</guid>
+      <description>&lt;p&gt;赛后总结就是菜死了。&lt;/p&gt;
+&lt;p&gt;本场比赛个人难度分级：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A&lt;/li&gt;
+&lt;li&gt;CDGM&lt;/li&gt;
+&lt;li&gt;BFH&lt;/li&gt;
+&lt;li&gt;IJL&lt;/li&gt;
+&lt;li&gt;K&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;听说E有问题，我看了大概15min也没看懂，就不评价难度了&lt;/p&gt;
+&lt;p&gt;缩短博客长度，只发核心代码。&lt;/p&gt;
+&lt;h2 id=&#34;水题&#34;&gt;水题&lt;/h2&gt;
+&lt;h3 id=&#34;a&#34;&gt;A&lt;/h3&gt;
+&lt;p&gt;牛客输出字符串的题目一律用PHP&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/\*I like &amp;#34;algorithmic competitions&amp;#34; and I want to be stronger*/\
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;c&#34;&gt;C&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int main(){
+    ll T=read();
+    while(T--){
+        ll a=read(),b=read(),c=read();
+        ll aa=read(),bb=read(),cc=read();
+        ll ans=min(c,aa)+min(b,cc)+min(a,bb);
+        pr(ans);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;d&#34;&gt;D&lt;/h3&gt;
+&lt;p&gt;可以用函数封装来提高代码复用性能但是懒得改了。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const ll mod = 1e9 + 7;
+inline ll read();
+int main() {
+    string who;
+    while (cin &amp;gt;&amp;gt; who) {
+        string op, s;
+        int len;
+        cin &amp;gt;&amp;gt; op &amp;gt;&amp;gt; len &amp;gt;&amp;gt; s;
+        if (who == &amp;#34;sender&amp;#34;) {
+            int c0 = 0, c1 = 0;
+            for (int i = 0; i &amp;lt; len; ++i) {
+                if (s[i] == &amp;#39;0&amp;#39;)
+                    ++c0;
+                else
+                    ++c1;
+            }
+            cout &amp;lt;&amp;lt; s;
+            if (op == &amp;#34;even&amp;#34;) {
+                if (c1 % 2 == 0)
+                    cout &amp;lt;&amp;lt; 0 &amp;lt;&amp;lt; endl;
+                else
+                    cout &amp;lt;&amp;lt; 1 &amp;lt;&amp;lt; endl;
+            } else {
+                if (c1 % 2 == 0)
+                    cout &amp;lt;&amp;lt; 1 &amp;lt;&amp;lt; endl;
+                else
+                    cout &amp;lt;&amp;lt; 0 &amp;lt;&amp;lt; endl;
+            }
+        } else {
+            int c0 = 0, c1 = 0;
+            for (int i = 0; i &amp;lt; len - 1; ++i) {
+                if (s[i] == &amp;#39;0&amp;#39;)
+                    ++c0;
+                else
+                    ++c1;
+            }
+            if (op == &amp;#34;even&amp;#34;) {
+                if (c1 % 2 == 0) {
+                    puts(s[len - 1] == &amp;#39;0&amp;#39; ? &amp;#34;ACK&amp;#34; : &amp;#34;NAK&amp;#34;);
+                } else
+                    puts(s[len - 1] == &amp;#39;1&amp;#39; ? &amp;#34;ACK&amp;#34; : &amp;#34;NAK&amp;#34;);
+            } else {
+                if (c1 % 2 == 0) {
+                    puts(s[len - 1] == &amp;#39;1&amp;#39; ? &amp;#34;ACK&amp;#34; : &amp;#34;NAK&amp;#34;);
+                } else
+                    puts(s[len - 1] == &amp;#39;0&amp;#39; ? &amp;#34;ACK&amp;#34; : &amp;#34;NAK&amp;#34;);
+            }
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;g&#34;&gt;G&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int main() {
+    ll n = read();
+    if (n &amp;lt; 3) puts(&amp;#34;No answer!&amp;#34;);
+    for (ll i = 1; i * 3 &amp;lt;= n; ++i) {
+        pr(i * 3);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;m&#34;&gt;M&lt;/h3&gt;
+&lt;p&gt;题目本意并非暴力，但是数据比较弱。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>第十届蓝桥杯 个人题解</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20201011/</link>
+      <pubDate>Sun, 11 Oct 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20201011/</guid>
+      <description>&lt;h2 id=&#34;组队&#34;&gt;组队&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/26a33b4923a26985.png&#34;&gt;&lt;br&gt;
+&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/a112b566a0ea222d.png&#34;&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;
+int main(void) {
+    freopen(&amp;#34;team.txt&amp;#34;,&amp;#34;r&amp;#34;,stdin);
+    int a[21][6];
+    for(int i=1; i&amp;lt;=20; ++i)
+        for(int j=0; j&amp;lt;=5; ++j)//每个人前面有一个序号 
+            scanf(&amp;#34;%d&amp;#34;,&amp;amp;a[i][j]);
+    int ans=0;
+    for(int i1=1; i1&amp;lt;=20; ++i1) {
+        for(int i2=1; i2&amp;lt;=20; ++i2) {
+            if(i2==i1)continue;
+            for(int i3=1; i3&amp;lt;=20; i3++) {
+                if(i3==i1||i3==i2)continue;
+                for(int i4=1; i4&amp;lt;=20; ++i4) {
+                    if(i4==i1||i4==i2||i4==i3)continue;
+                    for(int i5=1; i5&amp;lt;=20; ++i5) {
+                        if(i5==i1||i5==i2||i5==i3||i5==i4)continue;
+                        if(a[i1][1]+a[i2][2]+a[i3][3]+a[i4][4]+a[i5][5]&amp;gt;ans)ans=a[i1][1]+a[i2][2]+a[i3][3]+a[i4][4]+a[i5][5];
+                    }
+                }
+            }
+        }
+    }
+    printf(&amp;#34;%d\n&amp;#34;,ans);//490 
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;cstdio&amp;gt;
+#include&amp;lt;iostream&amp;gt;
+using namespace std;
+const int n=20;
+const int m=5;
+int a[n+1][m+1];
+int vis[m+1];
+int ans=0;
+void dfs(int lv,int sum) {
+    if(lv==6) {
+        ans=max(ans,sum);
+        return;
+    }
+    for(int i=1; i&amp;lt;=n; ++i) {
+        bool f=0;
+        for(int j=1; j&amp;lt;lv; ++j) {
+            if(vis[j]==i) {
+                f=1;
+            }
+        }
+        if(!f) {
+            vis[lv]=i;
+            dfs(lv+1,sum+a[i][lv]);
+        }
+    }
+}
+int main() {
+    for(int i=1; i&amp;lt;=20; ++i)
+        for(int j=0; j&amp;lt;=5; ++j)//每个人前面有一个序号
+            scanf(&amp;#34;%d&amp;#34;,&amp;amp;a[i][j]);
+    dfs(1,0);
+    cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;年号字串&#34;&gt;年号字串&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/ab52c45ba1f7ed6f.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>第九届蓝桥杯 CB 个人题解</title>
+      <link>https://bernard035.github.io/posts/cb-20200930/</link>
+      <pubDate>Wed, 30 Sep 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cb-20200930/</guid>
+      <description>&lt;h2 id=&#34;第几天&#34;&gt;第几天&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;2000年的1月1日，是那一年的第1天。&lt;br&gt;
+那么，2000年的5月4日，是那一年的第几天？&lt;br&gt;
+注意：需要提交的是一个整数，不要填写任何多余内容。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;百年不闰四百年闰所以2000年是闰年，所以 ${31+29+31+30+4=31*4=125}$天&lt;/p&gt;
+&lt;p&gt;蓝桥杯要是对日期情有独钟我就应该搞一下excel&lt;/p&gt;
+&lt;p&gt;以及Windows自带计算器是只算gap的&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/9fa1be450f77bf1d.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;明码&#34;&gt;明码&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;汉字的字形存在于字库中，即便在今天，16点阵的字库也仍然使用广泛。&lt;br&gt;
+16点阵的字库把每个汉字看成是16x16个像素信息。并把这些信息记录在字节中。&lt;br&gt;
+一个字节可以存储8位信息，用32个字节就可以存一个汉字的字形了。&lt;br&gt;
+把每个字节转为2进制表示，1表示墨迹，0表示底色。每行2个字节，&lt;br&gt;
+一共16行，布局是：&lt;br&gt;
+第1字节，第2字节&lt;br&gt;
+第3字节，第4字节&lt;br&gt;
+&amp;hellip;.&lt;br&gt;
+第31字节, 第32字节&lt;br&gt;
+这道题目是给你一段多个汉字组成的信息，每个汉字用32个字节表示，这里给出了字节作为有符号整数的值。&lt;br&gt;
+题目的要求隐藏在这些信息中。你的任务是复原这些汉字的字形，从中看出题目的要求，并根据要求填写答案。&lt;br&gt;
+这段信息是（一共10个汉字）：&lt;br&gt;
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0&lt;br&gt;
+16 64 16 64 34 68 127 126 66 -124 67 4 66 4 66 -124 126 100 66 36 66 4 66 4 66 4 126 4 66 40 0 16&lt;br&gt;
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0&lt;br&gt;
+0 -128 64 -128 48 -128 17 8 1 -4 2 8 8 80 16 64 32 64 -32 64 32 -96 32 -96 33 16 34 8 36 14 40 4&lt;br&gt;
+4 0 3 0 1 0 0 4 -1 -2 4 0 4 16 7 -8 4 16 4 16 4 16 8 16 8 16 16 16 32 -96 64 64&lt;br&gt;
+16 64 20 72 62 -4 73 32 5 16 1 0 63 -8 1 0 -1 -2 0 64 0 80 63 -8 8 64 4 64 1 64 0 -128&lt;br&gt;
+0 16 63 -8 1 0 1 0 1 0 1 4 -1 -2 1 0 1 0 1 0 1 0 1 0 1 0 1 0 5 0 2 0&lt;br&gt;
+2 0 2 0 7 -16 8 32 24 64 37 -128 2 -128 12 -128 113 -4 2 8 12 16 18 32 33 -64 1 0 14 0 112 0&lt;br&gt;
+1 0 1 0 1 0 9 32 9 16 17 12 17 4 33 16 65 16 1 32 1 64 0 -128 1 0 2 0 12 0 112 0&lt;br&gt;
+0 0 0 0 7 -16 24 24 48 12 56 12 0 56 0 -32 0 -64 0 -128 0 0 0 0 1 -128 3 -64 1 -128 0 0&lt;br&gt;
+注意：需要提交的是一个整数，不要填写任何多余内容。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020 蓝桥杯 C/C&#43;&#43; 大学 B 组 第一场 个人题解</title>
+      <link>https://bernard035.github.io/posts/2020-cplusplus-20200728/</link>
+      <pubDate>Tue, 28 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-cplusplus-20200728/</guid>
+      <description>&lt;h2 id=&#34;跑步训练&#34;&gt;跑步训练&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/870b3edb130fd7bd.png&#34; title=&#34;A&#34;&gt;&lt;/p&gt;
+&lt;p&gt;首先将跑1分钟和休息1分钟组合成一个轮次。每个轮次消耗300体力。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; 10000//300
+33
+&amp;gt;&amp;gt;&amp;gt; 10000%300
+100
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;所以能完成33个轮次，也就是66分钟。&lt;/p&gt;
+&lt;p&gt;剩下的100体力 &amp;lt; 600体力。所以全部用于跑。&lt;/p&gt;
+&lt;p&gt;跑一分钟消耗600体力，所以一秒钟消耗10体力。&lt;/p&gt;
+&lt;p&gt;所以最后100体力能坚持10s。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; 66*60+10
+3970
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;答： $3970$&lt;/p&gt;
+&lt;p&gt;上面的做法是错的。&lt;/p&gt;
+&lt;p&gt;必须预留一个轮次的空间，否则会出现现金流冻结。&lt;/p&gt;
+&lt;p&gt;先进行32个轮次，此时耗时64min，此时剩余400体力，全部用于跑，耗时40s。&lt;/p&gt;
+&lt;p&gt;答案是$64*60+40=3880s$&lt;/p&gt;
+&lt;h2 id=&#34;纪念日&#34;&gt;纪念日&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/cb569f20bb6a6bd0.png&#34; title=&#34;B&#34;&gt;&lt;/p&gt;
+&lt;p&gt;首先考虑闰年的定义：4的倍数置闰，100的倍数不置闰，但400的倍数置闰。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;cnt = 0
+for i in range(1922, 2021):
+    if i % 4 == 0: cnt += 1
+print(cnt)
+# 25
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;所以一共闰了$25$天&lt;/p&gt;
+&lt;p&gt;然后把时间切割成三段：$1921.7.23 - 1922.1.1 - 2020.1.1 - 2020.6.30$&lt;/p&gt;
+&lt;p&gt;先计算中间段，一共是$98$年。&lt;/p&gt;
+&lt;p&gt;然后计算前段，$31-23+1+31+30+31+30+31=162$天。&lt;/p&gt;
+&lt;p&gt;然后计算后段，闰日不计，$31+28+31+30+31+30=181$天。&lt;/p&gt;
+&lt;p&gt;故答案为$(98*365+25+181+162)&lt;em&gt;60&lt;/em&gt;24=52038720$分钟。&lt;/p&gt;
+&lt;p&gt;也可以把2020补给1921，这样1921的天数就是$365-22=343$天。&lt;/p&gt;
+&lt;p&gt;那么答案就是$(98*365+343+25)&lt;em&gt;60&lt;/em&gt;24=52038720$分钟。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/a72a662508639fe6.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;合并检测&#34;&gt;合并检测&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/c4958d7a5b0bcb97.png&#34; title=&#34;C&#34;&gt;&lt;/p&gt;
+&lt;p&gt;首先模拟情况，100个人里有一个感染者。&lt;/p&gt;
+&lt;p&gt;第一轮需要$100/k$个试剂盒，第二轮需要$k$个试剂盒。&lt;/p&gt;
+&lt;p&gt;我想只对 100的因数考虑，因为如果不是因数就会出现浪费的情况，不知道这种想法有没有错。&lt;/p&gt;
+&lt;p&gt;其实主要是因为如果100不能整除k的话就要考虑平均期望，比较麻烦不太想算。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;n = 100
+ans = 100
+tar = 1
+for i in range(2, 51):
+    if n % i: continue
+    a = n / i
+    cost = a + i
+    if cost &amp;lt; ans:
+        ans = cost
+        tar = i
+print(tar)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我的答案是10&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>蓝桥杯练习</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200228/</link>
+      <pubDate>Fri, 28 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200228/</guid>
+      <description>&lt;h2 id=&#34;十六进制转八进制&#34;&gt;十六进制转八进制&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+int deal(char x) {
+    if(x&amp;gt;=&amp;#39;A&amp;#39;) return x-&amp;#39;A&amp;#39;+10;
+    else return x-&amp;#39;0&amp;#39;;
+}
+int main() {
+    string hex;
+    while(cin&amp;gt;&amp;gt;hex) {
+        int len=hex.size(),i=0;
+        if(len%3==1) printf(&amp;#34;%o&amp;#34;,deal(hex[0])),i=1;
+        else if(len%3==2) printf(&amp;#34;%o&amp;#34;,deal(hex[0])*16+deal(hex[1])),i=2;
+        else printf(&amp;#34;%o&amp;#34;,deal(hex[0])*16*16+deal(hex[1])*16+deal(hex[2])),i=3;
+        for(; i&amp;lt;len; i+=3) 
+              printf(&amp;#34;%04o&amp;#34;,deal(hex[i])*16*16+deal(hex[i+1])*16+deal(hex[i+2]));
+        printf(&amp;#34;\n&amp;#34;);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;刘晟大佬的思路，数字逻辑，直接映射。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+int main() {
+    string s;
+    while(cin&amp;gt;&amp;gt;s) {
+        int n=s.size();
+        vector&amp;lt;int&amp;gt;bin;
+        for(int i=n-1; i&amp;gt;=0; --i) {
+            int x;
+            if(s[i]&amp;gt;=&amp;#39;0&amp;#39;&amp;amp;&amp;amp;s[i]&amp;lt;=&amp;#39;9&amp;#39;) x=s[i]-&amp;#39;0&amp;#39;;
+            else x=s[i]-&amp;#39;A&amp;#39;+10;
+            if(!x) bin.push_back(0);
+            for(; x; x/=2) bin.push_back(x&amp;amp;1);
+            if(bin.size()%4!=0) for(int i=0,tmp=4-bin.size()%4; i&amp;lt;tmp; i++) bin.push_back(0);
+        }
+        if(bin.size()%3!=0) for(int i=0,tmp=3-bin.size()%3; i&amp;lt;tmp; i++) bin.push_back(0);
+        vector&amp;lt;int&amp;gt;oct;
+        int nb=bin.size();
+        for(int i=0; i&amp;lt;nb; i+=3) oct.push_back(bin[i]+bin[i+1]*2+bin[i+2]*4);
+        int no=oct.size();
+        if(!oct[no-1])--no;
+        for(int i=no-1; i&amp;gt;=0; --i) printf(&amp;#34;%d&amp;#34;,oct[i]);
+        printf(&amp;#34;\n&amp;#34;);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;转换成二进制再转换成八进制。上面容器（向量），下面数组。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

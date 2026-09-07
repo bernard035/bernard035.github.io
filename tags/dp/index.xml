@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>DP on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/dp/</link>
+    <description>Recent content in DP on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 17 Apr 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/dp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>区间DP</title>
+      <link>https://bernard035.github.io/posts/dp-20210417/</link>
+      <pubDate>Sat, 17 Apr 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/dp-20210417/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;给n个数。定义$d_i=max(a_1,a_2,…,a_i)−min(a_1,a_2,…,a_i)$。&lt;br&gt;
+你可以随意排列这n个数，求$d_n$的可能的最小值。&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;solution&lt;/h2&gt;
+&lt;p&gt;比较有意思的区间DP：$dp[i][j]$表示从$i$到$j$的最小$d$。&lt;br&gt;
+排序后，每次向左或向右拓展一位，都会更新最小值/最大值&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+int a[2005], n;
+ll dp[2005][2005];
+int main() {
+    cin &amp;gt;&amp;gt; n;
+    for (int i = 1; i &amp;lt;= n; ++i) cin &amp;gt;&amp;gt; a[i];
+    sort(a + 1, a + 1 + n);
+    for (int len = 1; len &amp;lt; n; ++len) {
+        for (int L = n - len, R = n; L; --L, --R) {
+            dp[L][R] = min(dp[L + 1][R], dp[L][R - 1]) + a[R] - a[L];
+        }
+    }
+    cout &amp;lt;&amp;lt; dp[1][n] &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/15f476bac461444d93cd0450d922df63），发布于 2021-04-17。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>求DAG有向无环图直径 dp</title>
+      <link>https://bernard035.github.io/posts/dag-dp-20210328/</link>
+      <pubDate>Sun, 28 Mar 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/dag-dp-20210328/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;动态规划对状态空间的遍历构成一张有向无环图，遍历顺序就是该有向无环图的一个拓扑序。&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%d\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+vector&amp;lt;int&amp;gt; g[N], id;
+int dp[N];
+int main() {
+    int n, m;
+    sc(n), sc(m);
+    for (int i = 0, a, b; i &amp;lt; m; ++i) {
+        sc(a), sc(b);
+        g[a].emplace_back(b), g[b].emplace_back(a);
+    }
+    for (int i = 0; i &amp;lt; n; i++) id.emplace_back(i);
+    sort(id.begin(), id.end(),
+         [&amp;amp;](int a, int b) { return g[a].size() &amp;lt; g[b].size(); });
+    // 按度从小到大排序
+    int ans = 0;
+    for (int i : id) {
+        dp[i] = 1;
+        for (int j : g[i])
+            if (g[j].size() &amp;lt; g[i].size())  // 可以继承
+                dp[i] = max(dp[i], dp[j] + 1); // 无权
+        ans = max(ans, dp[i]);
+    }
+    pr(ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/8399aad063fb424bafc50392af49b82a），发布于 2021-03-28。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WZB&#39;s Harem  状压DP</title>
+      <link>https://bernard035.github.io/posts/wzb-harem-dp-20210120/</link>
+      <pubDate>Wed, 20 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/wzb-harem-dp-20210120/</guid>
+      <description>&lt;p&gt;状压DP&lt;/p&gt;
+&lt;p&gt;每一列对于每一行是唯一确定的，这一点契合了状态压缩的特性。&lt;/p&gt;
+&lt;p&gt;出题人的话：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一道状压 dp。首先不考虑皇后的差异性，把所有皇后当作是一样的，在第 i 行第 k 列安排一位皇后的方案数为 &lt;code&gt;f[i][j|(1&amp;lt;&amp;lt;k)] += f[i][j]((j&amp;gt;&amp;gt;k)&amp;amp;1==0)&lt;/code&gt;。因为皇后不可能是一样的，所以最后的结果为 &lt;code&gt;f[n][1&amp;lt;&amp;lt;(n-1)]*(n!)&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+typedef long long ll;
+using namespace std;
+const int MOD = 1e9 + 7;
+const int maxn = 22;
+const int maxm = (1 &amp;lt;&amp;lt; 21) + 10;
+int n;
+int g[maxn][maxn];   //图
+int s[maxn][maxm];   // s[x][]表示有x个1的所有状态
+int p[maxn];         //行游标
+int dp[maxn][maxm];  // n行 m个状态 里有多少个合法情况
+int main() {
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;n);
+    for (int i = 1; i &amp;lt;= n; ++i)
+        for (int j = 1; j &amp;lt;= n; ++j) scanf(&amp;#34;%d&amp;#34;, &amp;amp;g[i][j]);
+    for (int i = 0; i &amp;lt; (1 &amp;lt;&amp;lt; n); ++i) {
+        //枚举所有长度为n的二进制串，表示一行的可选状态
+        int cnt = __builtin_popcount(i);  // i里有多少个1
+        s[cnt][++p[cnt]] = i;             // s[x][]表示x个1的所有状态
+    }
+    dp[0][0] = 1;
+    for (int i = 1; i &amp;lt;= n; ++i) {
+        for (int j = 1; j &amp;lt;= n; ++j) {
+            if (g[i][j]) continue;  //不可选
+            for (int k = 1; k &amp;lt;= p[i - 1]; k++) {
+                //枚举i-1个1的所有状态：之前选的所有状态
+                int pre = s[i - 1][k];  //前面几行可能的选择状态
+                if ((pre &amp;gt;&amp;gt; (j - 1)) &amp;amp; 1) continue;
+                //不能有同一列 且 不可达此状态 这正是状压的可行性
+                int cur = pre | (1 &amp;lt;&amp;lt; (j - 1));  //把从右往左第j位置1
+                dp[i][cur] = (dp[i][cur] + dp[i - 1][pre]) % MOD;
+                // 当前状态
+            }
+        }
+    }
+    ll fac = 1;
+    for (ll i = 1; i &amp;lt;= n; i++) fac = fac * i % MOD;  //全排列
+    printf(&amp;#34;%lld\n&amp;#34;, fac * dp[n][(1 &amp;lt;&amp;lt; n) - 1] % MOD);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/8d78d4985aeb462da234eda65e46b67a），发布于 2021-01-20。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>小M和天平 bitset dp</title>
+      <link>https://bernard035.github.io/posts/bitset-dp-20210118/</link>
+      <pubDate>Mon, 18 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/bitset-dp-20210118/</guid>
+      <description>&lt;p&gt;bitset对dp的优化，非常典型&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+const int N = 1e4;
+bitset&amp;lt;N + N + 100&amp;gt; b;
+int main() {
+    int a, c;
+    while (~scanf(&amp;#34;%d&amp;#34;, &amp;amp;a)) {
+        b.reset();
+        b[N] = 1;
+        while (a--) {
+            scanf(&amp;#34;%d&amp;#34;, &amp;amp;c);
+            b |= (b &amp;lt;&amp;lt; c) | (b &amp;gt;&amp;gt; c);
+        }
+        scanf(&amp;#34;%d&amp;#34;, &amp;amp;a);
+        while (a--) {
+            scanf(&amp;#34;%d&amp;#34;, &amp;amp;c);
+            if (c &amp;gt; 10000)
+                puts(&amp;#34;NO&amp;#34;);
+            else if (b[N + c])
+                puts(&amp;#34;YES&amp;#34;);
+            else
+                puts(&amp;#34;NO&amp;#34;);
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/4f630def25b94aac8d8479375f5b86e8），发布于 2021-01-18。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>树形DP maki和tree</title>
+      <link>https://bernard035.github.io/posts/dp-maki-tree-20200912/</link>
+      <pubDate>Sat, 12 Sep 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/dp-maki-tree-20200912/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 10;
+int n;
+ll res, dp[N][2];
+char str[N];
+vector&amp;lt;int&amp;gt; g[N];
+void dfs(int x, int fa) {
+    if (str[x] == &amp;#39;W&amp;#39;) dp[x][0] = 1;  //表示子树中无黑色路径数量
+    for (int to : g[x]) {
+        //遍历根为x的子树
+        if (to == fa) continue;  //不回头
+        dfs(to, x);
+        if (str[x] == &amp;#39;B&amp;#39;) res += dp[x][0] * dp[to][0] + dp[to][0];
+        //之前走过的子树中的白色路径数量 乘以 新分支中的白色路径数量
+        else
+            res += dp[x][1] * dp[to][0] + dp[x][0] * dp[to][1];
+        //之前走过的子树中的黑色合法路径数量 乘以 新分支中白色路径数量
+        //加上镜像情况
+        dp[x][0] += dp[to][0];  //将新分支中情况统计计入本节点
+        dp[x][1] += dp[to][1];
+    }
+    if (str[x] == &amp;#39;B&amp;#39;) dp[x][1] = dp[x][0] + 1, dp[x][0] = 0;
+    //如果是黑色点，更新黑色点可行路径量
+    //而且黑色点不存在可行的白色点路径
+}
+int main() {
+    cin &amp;gt;&amp;gt; n;
+    scanf(&amp;#34;%s&amp;#34;, str + 1);
+    for (int i = 1, x, y; i &amp;lt; n; i++)
+        scanf(&amp;#34;%d %d&amp;#34;, &amp;amp;x, &amp;amp;y), g[x].push_back(y), g[y].push_back(x);
+    dfs(1, 1);
+    cout &amp;lt;&amp;lt; res;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/3099e7dc6d3e459294fc16b1549f7916），发布于 2020-09-12。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>寒假训练赛2 mod pow 数三角 dp inv</title>
+      <link>https://bernard035.github.io/posts/2-mod-pow-dp-20200207/</link>
+      <pubDate>Fri, 07 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2-mod-pow-dp-20200207/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg&#34;&gt;https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg&lt;/a&gt;&lt;br&gt;
+题解传送门&lt;/p&gt;
+&lt;p&gt;本次比赛C题DP挺经典的，值得回顾。&lt;/p&gt;
+&lt;h1 id=&#34;g题-判正误&#34;&gt;G题 判正误&lt;/h1&gt;
+&lt;h2 id=&#34;判断-图片说明&#34;&gt;判断 图片说明&lt;/h2&gt;
+&lt;p&gt;最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……&lt;br&gt;
+如果不取模直接快速幂也过不了。&lt;br&gt;
+这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。&lt;/p&gt;
+&lt;h2 id=&#34;cpp代码&#34;&gt;cpp代码&lt;/h2&gt;
+&lt;h3 id=&#34;多次取模快速幂&#34;&gt;多次取模快速幂&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+//const int mod=1e9+7;
+ll qkpow(ll x, ll y,int mod) {
+    if(x==0) return 0;
+    else if(y==0) return 1;
+    ll ans = 1;
+    x = x % mod;
+    while (y) {
+        if(y&amp;amp;1) ans = ans*x %mod;
+        x = x*x %mod;
+        y = y&amp;gt;&amp;gt;1;
+    }
+    return ans;
+}
+ll a,b,c,d,e,f,g;
+bool check(int mod){
+    ll ans1=qkpow(a,d,mod);
+        ll ans2=qkpow(b,e,mod);
+        ll ans3=qkpow(c,f,mod);
+        if(g-ans1-ans2==ans3) return 1;
+        else return 0;
+}
+int main() {
+    int T;
+    sscc;
+    cin&amp;gt;&amp;gt;T;
+    while(T--) {
+        cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b&amp;gt;&amp;gt;c&amp;gt;&amp;gt;d&amp;gt;&amp;gt;e&amp;gt;&amp;gt;f&amp;gt;&amp;gt;g;
+        int flag=1;
+        int mod=1e9+7;
+        if(!check(mod)) flag=0;
+        mod=1e9+11;
+        if(!check(mod)) flag=0;
+        mod=1e9+1;
+        if(!check(mod)) flag=0;
+        if(flag)cout&amp;lt;&amp;lt;&amp;#34;Yes&amp;#34;&amp;lt;&amp;lt;endl;
+        else cout&amp;lt;&amp;lt;&amp;#34;No&amp;#34;&amp;lt;&amp;lt;endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;多次取模来确保答案准确性，时间消耗会增加约40%不过离1s还是很远。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>股票买卖问题 纪念品 2019CSP-J普及组C题 DP学习</title>
+      <link>https://bernard035.github.io/posts/2019csp-dp-20200206/</link>
+      <pubDate>Thu, 06 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2019csp-dp-20200206/</guid>
+      <description>&lt;p&gt;中间一度怀疑是牛客的测评机出问题了……才发现是自己的数组越界。&lt;br&gt;
+太艰难了。&lt;br&gt;
+&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/2340/C&#34;&gt;https://ac.nowcoder.com/acm/contest/2340/C&lt;/a&gt;&lt;br&gt;
+题目是比较简单的，思路大概就是求解第一天到第t-1天的最佳策略，所以大概也可以说是一道贪心的题目。&lt;br&gt;
+那么怎么确定最佳策略呢——填表。每个纪念品都会覆盖到某个值下的最优解，并且可以使得后续可以直接调用其生成的最优解，最后推出m对应的生成价值。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N=1e4+5;
+int main() {
+    int a[105][105];
+    int val[N]= {0};
+    int t,n,m;
+    cin&amp;gt;&amp;gt;t&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    for(int i=0; i&amp;lt;t; i++)
+        for(int j=0; j&amp;lt;n; j++)
+            cin&amp;gt;&amp;gt;a[i][j];
+    t--;//最后一天直接卖掉 所以不算 我就是这里傻到然后数组越界（讲道理我置零了）（算了无所谓了
+    for(int i=0; i&amp;lt;t; i++) {//遍历每一天
+        memset(val,0,sizeof(val));
+        for(int j=0; j&amp;lt;n; j++)//遍历每一个商品
+            for(int k=a[i][j]; k&amp;lt;=m; k++)
+                val[k]=max(val[k],a[i+1][j]-a[i][j]+val[k-a[i][j]]);
+                //当天可以收割的最高价值
+        m+=val[m];
+    }
+    cout&amp;lt;&amp;lt;m&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;for(int k=a[i][j]; k&amp;lt;=m; k++)
+                val[k]=max(val[k],a[i+1][j]-a[i][j]+val[k-a[i][j]]);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我总觉得这一块效率太低了，居然是一个一个填进入，而且每一位都要调用一次max函数，总觉得有更优的方案。&lt;br&gt;
+这个方案生成了大量的无用数据，如果数据覆盖范围广的话还好说，就只有两三个值的时候很多数据都是无效的。&lt;br&gt;
+挖坑again。顺便吐槽马上学校又要开网课了，致命的高数下，而且我下学期课又多，天知道还有没有时间填坑……&lt;/p&gt;
+&lt;p&gt;有一种绥靖政策的优化：如果明天降价就不考虑了&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+typedef long long ll;
+using namespace std;
+int t,n,m,a[105][105],dp[10005];
+int main() {
+    int i,j,k;
+    cin&amp;gt;&amp;gt;t&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    for(i=1; i&amp;lt;=t; i++) 
+        for(j=1; j&amp;lt;=n; j++) 
+            scanf(&amp;#34;%d&amp;#34;,&amp;amp;a[i][j]);
+    for(i=1; i&amp;lt;t; i++) {
+        memset(dp,0,sizeof(dp));
+        for(j=1; j&amp;lt;=n; j++) {
+            if(a[i][j]&amp;gt;=a[i+1][j]) continue;
+            for(k=a[i][j]; k&amp;lt;=m; k++) 
+                dp[k]=max(dp[k],dp[k-a[i][j]]+a[i+1][j]-a[i][j]);
+        }
+        m=m+dp[m];
+    }
+    cout&amp;lt;&amp;lt;m;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;写到这里就越来越觉得是贪心了，那么是怎么解决“放长线钓大鱼”的问题的呢？&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

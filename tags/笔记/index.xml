@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>笔记 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 笔记 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 13 Jul 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>算法总结</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20210713/</link>
+      <pubDate>Tue, 13 Jul 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20210713/</guid>
+      <description>&lt;h2 id=&#34;图片说明&#34;&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/2be2ab9d0aa4b199.png&#34; title=&#34;图片标题&#34;&gt;&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/0c6ab9fd56484e1ba8e56360e462c18b），发布于 2021-07-13。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Linux 对拍脚本</title>
+      <link>https://bernard035.github.io/posts/linux-20210510-2/</link>
+      <pubDate>Mon, 10 May 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/linux-20210510-2/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#!/bin/bash
+g++ std.cpp -o std -Wall
+g++ my.cpp -o my -Wall
+while true; do
+    clear
+    python3 creat.py
+    ./std                                 #&amp;lt;in.txt&amp;gt; std.out
+    ./my                                  #&amp;lt;data.in&amp;gt; my.out
+    if diff -b -B -q std.txt my.txt; then # diff -b -B -q后解俩文件是比较这俩文件的意思，-b -B -q是忽略制表符行末空格以及空行的影响。如果没差别则会返回逻辑真
+        echo &amp;#34;AC!&amp;#34;
+    else
+        echo &amp;#34;Fake! Wrong Answer!&amp;#34;
+        diff std.txt my.txt
+        break 
+    fi        # //if的终止标志
+done          # //while的终止标志
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/347560a61814465faad7d55f290a476e），发布于 2021-05-10。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Linux 对拍脚本</title>
+      <link>https://bernard035.github.io/posts/linux-20210510/</link>
+      <pubDate>Mon, 10 May 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/linux-20210510/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#!/bin/bash
+g++ std.cpp -o std -Wall
+g++ my.cpp -o my -Wall
+while true; do
+    clear
+    python3 creat.py
+    ./std                                 #&amp;lt;in.txt&amp;gt; std.out
+    ./my                                  #&amp;lt;data.in&amp;gt; my.out
+    if diff -b -B -q std.txt my.txt; then # diff -b -B -q后解俩文件是比较这俩文件的意思，-b -B -q是忽略制表符行末空格以及空行的影响。如果没差别则会返回逻辑真
+        echo &amp;#34;AC!&amp;#34;
+    else
+        echo &amp;#34;Fake! Wrong Answer!&amp;#34;
+        diff std.txt my.txt
+        break 
+    fi        # //if的终止标志
+done          # //while的终止标志
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/347560a61814465faad7d55f290a476e），发布于 2021-05-10。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>完全二叉树的后序遍历转层序遍历</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20201130/</link>
+      <pubDate>Mon, 30 Nov 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20201130/</guid>
+      <description>&lt;p&gt;因为是完全二叉树，所以可以用数组模拟，原理同树状数组。&lt;/p&gt;
+&lt;p&gt;后序遍历倒过来就是根-右-左。数据结构课上也是这样建树的。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%d &amp;#34;, x)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const ll mod = 1e9 + 7;
+int post[N], a[N];
+int n, p = 1;
+void build(int i) {
+    if (p &amp;gt; n || i &amp;gt; n) return;
+    a[i] = post[p++];
+    build(i * 2 + 1);
+    build(i * 2);
+}
+int main() {
+    sc(n);
+    for (int i = 0; i &amp;lt; n; ++i) sc(post[n - i]);
+    build(1);
+    for (int i = 1; i &amp;lt;= n; ++i) pr(a[i]);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;比赛的时候去看后面一题了。算是策略不对吧。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>多组输入与T组输入</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20201022/</link>
+      <pubDate>Thu, 22 Oct 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20201022/</guid>
+      <description>&lt;h2 id=&#34;多组输入&#34;&gt;多组输入&lt;/h2&gt;
+&lt;p&gt;多组输入要求你处理到文件的结尾(EOF，end of file)。&lt;/p&gt;
+&lt;p&gt;也就是说，输入完一组数据以后，你的程序不能结束，而应该等待下一组输入。&lt;/p&gt;
+&lt;p&gt;对于每一组输入，应当在循环体内完成对这一组数据的处理，并按照格式要求输出答案。&lt;/p&gt;
+&lt;p&gt;比如&lt;a href=&#34;http://acm.hdu.edu.cn/showproblem.php?pid=1000&#34;&gt;HDU1000&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/e16e926ef4937665.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;它要求你处理到文件的结尾，并且对于每一组输入，在一行中输出答案，所以程序应该这样写：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int a, b;
+    while (scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;a, &amp;amp;b) != EOF) {
+    //在这两个大括号之间，处理数据并输出答案
+        printf(&amp;#34;%d\n&amp;#34;, a + b);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样的题目也是用多组输入的：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/c448321f02a63609.png&#34; title=&#34;HDU2000&#34;&gt;&lt;/p&gt;
+&lt;p&gt;只要题目中说了多组输入，或者说了要求处理到文件的结尾，都应该使用这样的格式。&lt;/p&gt;
+&lt;p&gt;如果暂时不明白也没关系，先用上再说。&lt;/p&gt;
+&lt;h2 id=&#34;t组输入&#34;&gt;T组输入&lt;/h2&gt;
+&lt;p&gt;T组输入是指，输入数据会指定输入的组数，你的程序应当读入T后，执行T次对数据的读入，处理和输出。&lt;/p&gt;
+&lt;p&gt;比如&lt;a href=&#34;http://acm.hdu.edu.cn/showproblem.php?pid=1090&#34;&gt;HDU1090&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/933b56876f473c3b.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所以下面的代码可以满足要求：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int a, b, T;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;T);
+    while (T--) {
+        scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;a, &amp;amp;b);
+        printf(&amp;#34;%d\n&amp;#34;, a + b);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果这样写你看不懂的话，这个循环也可以这样表示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int a, b, T;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;T);
+    for (int i = 0; i &amp;lt; T; i++) {
+        scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;a, &amp;amp;b);
+        printf(&amp;#34;%d\n&amp;#34;, a + b);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;比如这题，就是比较典型的T组输入&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020 新生周练 第五周 5-9</title>
+      <link>https://bernard035.github.io/posts/2020-5-9-20200727/</link>
+      <pubDate>Mon, 27 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-5-9-20200727/</guid>
+      <description>&lt;h2 id=&#34;5005&#34;&gt;5005&lt;/h2&gt;
+&lt;p&gt;移动字母&lt;/p&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;给定一个只包含小写字母的字符串s，高飞想将这个字符串中的所有的字母&amp;rsquo;x&amp;rsquo;全部移动到字符串的末尾，而且保证其它字符的相对顺序不变。&lt;/p&gt;
+&lt;p&gt;其中字符串s的长度&amp;lt;=1e6。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;xa
+axaaa
+axbcxavxv&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;ax
+aaaax
+abcavvxxx&lt;/p&gt;
+&lt;h3 id=&#34;标程&#34;&gt;标程&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#define N 1000005
+char s[N], t[N];
+int main() {
+    while (~scanf(&amp;#34;%s&amp;#34;, s)) {
+        int n = strlen(s), cnt = 0, j = 0;
+        for (int i = 0; i &amp;lt; n; ++i)
+            if (s[i] == &amp;#39;x&amp;#39;) ++cnt;
+            else t[j++] = s[i];
+        for (int i = 0; i &amp;lt; cnt; ++i) t[j++] = &amp;#39;x&amp;#39;;
+        t[j] = 0;
+        puts(t);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;5006&#34;&gt;5006&lt;/h2&gt;
+&lt;p&gt;高飞听音乐&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020软院算法组新生周练 - 第二周 1-4</title>
+      <link>https://bernard035.github.io/posts/2020-1-4-20200715/</link>
+      <pubDate>Wed, 15 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-1-4-20200715/</guid>
+      <description>&lt;h2 id=&#34;hamman的烦恼&#34;&gt;Hamman的烦恼&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;Hamman成绩非常好，编程能力也很强，所以就有很多小白去问他一些非常简单的题目，Hamman非常热情，但是问他问题的人太多了，他实在忙不过来，于是他决定从第 0 时刻开始每 s 个时刻回答一位同学的问题。 Q 个同学来问问题，如果某位同学第 t 时刻来，还有等多久才能问Hamman问题。&lt;/p&gt;
+&lt;h3 id=&#34;input&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;多组输入，处理到文件的末尾。
+每组数据的第一行两个整数 s , Q 。
+接下来 Q 行每行一个整数 t。&lt;/p&gt;
+&lt;p&gt;(1&amp;lt;s,t&amp;lt;1e9,1&amp;lt;Q&amp;lt;1e5)&lt;/p&gt;
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;每行一个整数表示答案。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;3 4&lt;br&gt;
+1&lt;br&gt;
+2&lt;br&gt;
+3&lt;br&gt;
+4&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;2&lt;br&gt;
+1&lt;br&gt;
+0&lt;br&gt;
+2&lt;/p&gt;
+&lt;h3 id=&#34;标程&#34;&gt;标程&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;stdlib.h&amp;gt;
+int main(){
+	int s,q,t;
+	while(~scanf(&amp;#34;%d%d&amp;#34;,&amp;amp;s,&amp;amp;q)) {
+		while(q--) {
+		scanf(&amp;#34;%d&amp;#34;,&amp;amp;t);
+		printf(&amp;#34;%d\n&amp;#34;,(s-t%s)%s);
+		}
+	}
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;hamman的三棵香蕉树&#34;&gt;Hamman的三棵香蕉树&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description-1&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;Hamman最喜欢吃香蕉。
+现在有三棵有编号的香蕉树。第一棵树上有a根香蕉，第二棵树上有b根香蕉，第三棵树上有c根香蕉。
+每次他都能做两种操作中的一种：
+1.从第一棵中取一根香蕉，从第二棵树上取两根香蕉(只有当第一棵树至少有一根香蕉，第二棵树至少有两根香蕉时，才能进行这一操作)；
+2.从第二棵中取一根香蕉，从第三棵树上取两根香蕉(只有当第二棵树至少有一根香蕉，第三棵树至少有两根香蕉时，才能进行这一操作)。
+他想得到最大数量的香蕉，但他不知道该怎么做。一开始，他没有香蕉。你能帮他吗？&lt;/p&gt;
+&lt;h3 id=&#34;input-1&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;第一行包含一个整数。t (1≤t≤100)-测试用例的数量。下一个t行以下列格式描述测试用例：&lt;br&gt;
+每行包含三个非负整数。a, b和c，由空格分隔(0≤a,b,c≤1000)-第一棵树、第二棵数和第三棵数上的香蕉数目。&lt;/p&gt;
+&lt;h3 id=&#34;output-1&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;列印t行，测试用例的答案与输入的顺序相同。测试用例的答案是整数&amp;ndash;在进行一些操作之后，Hamman大佬可以得到香蕉数&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020软院算法组新生周练 第二周 定稿</title>
+      <link>https://bernard035.github.io/posts/2020-20200715/</link>
+      <pubDate>Wed, 15 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-20200715/</guid>
+      <description>&lt;h2 id=&#34;bernard的矩阵&#34;&gt;Bernard的矩阵&lt;/h2&gt;
+&lt;p&gt;Bernard现在得到了一个包含n×m个数的整数序列，现在他需要把这n×m个数按顺序规划成一个n行m列的矩阵并输出，请你帮他完成这个任务。&lt;/p&gt;
+&lt;h3 id=&#34;input&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;一行，输入两个整数n和m，用空格分隔，第二行包含n×m个整数。&lt;/p&gt;
+&lt;p&gt;整数均在32位整数范围内，1&amp;lt;=n,m&amp;lt;=10&lt;/p&gt;
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;输出规划后n行m列的矩阵，每个数的后面有一个空格。&lt;/p&gt;
+&lt;p&gt;注意：没有多余的空行&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;2 3
+1 2 3 4 5 6&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;1 2 3
+4 5 6&lt;/p&gt;
+&lt;h2 id=&#34;bernard的棋盘&#34;&gt;Bernard的棋盘&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;给定一个棋盘，已知棋盘的行数是n，列数是m。
+每个整数坐标处都有一个糖果，Bernard 初始在棋盘的左下角 (1,1)出发，并且 Bernard 每次只能跳 ”日” 字，假设 Bernard 可以跳无数次，但不可以跳出棋盘，现在 Bernard 想知道他能否拿到棋盘上的所有糖果。&lt;/p&gt;
+&lt;p&gt;若Bernard现在在黄色的点上，那么他可以跳到图中的8个红色点处。
+[打开下方链接以查看图片]
+&lt;a href=&#34;https://uploadfiles.nowcoder.com/images/20200715/794972751_1594799454027_4E863266C2022179B43BA4CBAC8E9DD1&#34;&gt;https://uploadfiles.nowcoder.com/images/20200715/794972751_1594799454027_4E863266C2022179B43BA4CBAC8E9DD1&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;input-1&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;在一行中给出两个数字 n，m表示棋盘的大小 （1&amp;lt;=n,m&amp;lt;=2000)&lt;/p&gt;
+&lt;h3 id=&#34;output-1&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;若 Bernard 能拿到棋盘上所有的糖果，则输出 &amp;ldquo;Yes&amp;rdquo;，否则，输出 &amp;ldquo;No&amp;rdquo;&lt;/p&gt;
+&lt;h3 id=&#34;sample-input-1&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;4 4
+3 3&lt;/p&gt;
+&lt;h3 id=&#34;sample-output-1&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;Yes
+(说明：Bernard 可以走到所有的点上并且拿到所有的糖果。)
+No
+(说明：Bernard 一开始在左下角 (1,1) ，此时 Bernard 除了中间的点 (2,2) 无法走到，其他点都可到达。)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>软院算法组2020新生周练出题</title>
+      <link>https://bernard035.github.io/posts/2020-20200714/</link>
+      <pubDate>Tue, 14 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-20200714/</guid>
+      <description>&lt;h1 id=&#34;软院算法组2020新生周练出题&#34;&gt;软院算法组2020新生周练出题&lt;/h1&gt;
+&lt;h2 id=&#34;职责分配&#34;&gt;职责分配&lt;/h2&gt;
+&lt;h3 id=&#34;出题组&#34;&gt;出题组&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;A组：吴文龙 车文儒 蔡佳乐&lt;/li&gt;
+&lt;li&gt;B组：江新宇 肖子安 杨文冠&lt;/li&gt;
+&lt;li&gt;C组：钟涛 刘晟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;完成题目的编辑、排版工作&lt;/li&gt;
+&lt;li&gt;将题目数据按要求处理好并发布在HDUOJ&lt;/li&gt;
+&lt;li&gt;完成初步的题目测试，确保标程能跑&lt;/li&gt;
+&lt;li&gt;准备好对应周的题目讲解，推荐写博客&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;测题组&#34;&gt;测题组&lt;/h3&gt;
+&lt;p&gt;蔡泽雷 杨小亮 肖娜萍&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;独立完成题目&lt;/li&gt;
+&lt;li&gt;发现题目有问题后及时沟通&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;工作安排&#34;&gt;工作安排&lt;/h2&gt;
+&lt;h3 id=&#34;出题组-1&#34;&gt;出题组&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;A组：完成第1/4/7周的题目编辑和验证工作（题面/数据/测试）&lt;/li&gt;
+&lt;li&gt;B组：完成第2/5/8周的题目编辑和验证工作（题面/数据/测试）&lt;/li&gt;
+&lt;li&gt;C组：完成第3/6周的题目编辑和验证工作（题面/数据/测试）&lt;/li&gt;
+&lt;li&gt;第1/2/3周周练的出题工作在7.25之前完成&lt;/li&gt;
+&lt;li&gt;第4/5/6周周练的出题工作在8.10之前完成&lt;/li&gt;
+&lt;li&gt;第7/8周周练的出题工作在8.30之前完成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;测题组-1&#34;&gt;测题组&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;在8.10前完成第1/2/3周的测题&lt;/li&gt;
+&lt;li&gt;在8.30前完成第4/5/6周的测题&lt;/li&gt;
+&lt;li&gt;在9.15前完成第7/8周的测题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;周数&lt;/th&gt;
+					&lt;th&gt;测题人1&lt;/th&gt;
+					&lt;th&gt;测题人2&lt;/th&gt;
+					&lt;th&gt;截止日期&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第1周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第2周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;8.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第3周&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第4周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.25&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第5周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;8.25&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第6周&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;8.25&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第7周&lt;/td&gt;
+					&lt;td&gt;肖娜萍&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;9.10&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第8周&lt;/td&gt;
+					&lt;td&gt;杨小亮&lt;/td&gt;
+					&lt;td&gt;蔡泽雷&lt;/td&gt;
+					&lt;td&gt;9.10&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;参考题量与知识点&#34;&gt;参考题量与知识点&lt;/h2&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;周数&lt;/th&gt;
+					&lt;th&gt;题量&lt;/th&gt;
+					&lt;th&gt;知识点&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第1周&lt;/td&gt;
+					&lt;td&gt;8&lt;/td&gt;
+					&lt;td&gt;杨辉三角&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第2周&lt;/td&gt;
+					&lt;td&gt;8&lt;/td&gt;
+					&lt;td&gt;大数&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第3周&lt;/td&gt;
+					&lt;td&gt;8&lt;/td&gt;
+					&lt;td&gt;冒泡排序&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第4周&lt;/td&gt;
+					&lt;td&gt;9&lt;/td&gt;
+					&lt;td&gt;简单贪心&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第5周&lt;/td&gt;
+					&lt;td&gt;9&lt;/td&gt;
+					&lt;td&gt;物理打表&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第6周&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;基数排序&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第7周&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;前缀和&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;第8周&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;并查集&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/6872e80938ea4f40b69cc863ec746042），发布于 2020-07-14。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020软院算法组新生周练 - 第二周 5-8</title>
+      <link>https://bernard035.github.io/posts/2020-5-8-20200712/</link>
+      <pubDate>Sun, 12 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2020-5-8-20200712/</guid>
+      <description>&lt;h2 id=&#34;hammann的签到题&#34;&gt;Hammann的签到题&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;期末考试结束了，Hammann发现很多人挂了高数，只能等着重修，还要交200元的重修费。现在Hammann有了所有人的高数成绩，Hammann想知道如果所有挂科的人都在第二年重修，学校收到多少重修费？&lt;/p&gt;
+&lt;p&gt;挂科是指一门课的分数小于60分。&lt;/p&gt;
+&lt;h3 id=&#34;input&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;第一行一个整数n，表示考试的人数。(1&amp;lt;n&amp;lt;=1000)&lt;br&gt;
+接下来n行，每行表示每个人的成绩。&lt;br&gt;
+学生的成绩为0-100（包括0和100）之间的整数。&lt;/p&gt;
+&lt;h3 id=&#34;output&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;一行，表示学校能收到多少重修费。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;4&lt;br&gt;
+60&lt;br&gt;
+56&lt;br&gt;
+100&lt;br&gt;
+59&lt;/p&gt;
+&lt;h3 id=&#34;sample-output&#34;&gt;Sample Output&lt;/h3&gt;
+&lt;p&gt;400&lt;/p&gt;
+&lt;h3 id=&#34;标程&#34;&gt;标程&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int n, a, ans = 0;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;n);
+    while (n--) {
+        scanf(&amp;#34;%d&amp;#34;, &amp;amp;a);
+        if (a &amp;lt; 60) ans += 200;
+    }
+    printf(&amp;#34;%d\n&amp;#34;, ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;hammann的计数题&#34;&gt;Hammann的计数题&lt;/h2&gt;
+&lt;h3 id=&#34;problem-description-1&#34;&gt;Problem Description&lt;/h3&gt;
+&lt;p&gt;Hammann看到了一道题，他觉得非常容易想直接摸了，于是他找到了你。你能帮助他解决这道题吗？&lt;/p&gt;
+&lt;p&gt;如题：有一个十进制整数a和一个十进制数b，一个整数x(范围[0~9])，x在a和b之间（包括a和b本身）的所有数里，每一位出现的次数是奇数还是偶数呢？&lt;/p&gt;
+&lt;h3 id=&#34;input-1&#34;&gt;Input&lt;/h3&gt;
+&lt;p&gt;多组输入，每组输入各占一行。每行三个数字a,b,x(0&amp;lt;=a,b&amp;lt;=100,0&amp;lt;=x&amp;lt;=9)。
+程序执行到文件结束。&lt;/p&gt;
+&lt;h3 id=&#34;output-1&#34;&gt;Output&lt;/h3&gt;
+&lt;p&gt;对于每个测试样例，输出一行。&lt;br&gt;
+如果出现的次数为奇数，输出&amp;quot;Yes&amp;quot;，否则输出&amp;quot;No&amp;quot;(输出结果不包含双引号)。&lt;/p&gt;
+&lt;h3 id=&#34;sample-input-1&#34;&gt;Sample Input&lt;/h3&gt;
+&lt;p&gt;1 1 1&lt;br&gt;
+11 2 1&lt;br&gt;
+99 99 9&lt;br&gt;
+30 40 0&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>蓝桥杯练习</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200228/</link>
+      <pubDate>Fri, 28 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200228/</guid>
+      <description>&lt;h2 id=&#34;十六进制转八进制&#34;&gt;十六进制转八进制&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+int deal(char x) {
+    if(x&amp;gt;=&amp;#39;A&amp;#39;) return x-&amp;#39;A&amp;#39;+10;
+    else return x-&amp;#39;0&amp;#39;;
+}
+int main() {
+    string hex;
+    while(cin&amp;gt;&amp;gt;hex) {
+        int len=hex.size(),i=0;
+        if(len%3==1) printf(&amp;#34;%o&amp;#34;,deal(hex[0])),i=1;
+        else if(len%3==2) printf(&amp;#34;%o&amp;#34;,deal(hex[0])*16+deal(hex[1])),i=2;
+        else printf(&amp;#34;%o&amp;#34;,deal(hex[0])*16*16+deal(hex[1])*16+deal(hex[2])),i=3;
+        for(; i&amp;lt;len; i+=3) 
+              printf(&amp;#34;%04o&amp;#34;,deal(hex[i])*16*16+deal(hex[i+1])*16+deal(hex[i+2]));
+        printf(&amp;#34;\n&amp;#34;);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;刘晟大佬的思路，数字逻辑，直接映射。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+int main() {
+    string s;
+    while(cin&amp;gt;&amp;gt;s) {
+        int n=s.size();
+        vector&amp;lt;int&amp;gt;bin;
+        for(int i=n-1; i&amp;gt;=0; --i) {
+            int x;
+            if(s[i]&amp;gt;=&amp;#39;0&amp;#39;&amp;amp;&amp;amp;s[i]&amp;lt;=&amp;#39;9&amp;#39;) x=s[i]-&amp;#39;0&amp;#39;;
+            else x=s[i]-&amp;#39;A&amp;#39;+10;
+            if(!x) bin.push_back(0);
+            for(; x; x/=2) bin.push_back(x&amp;amp;1);
+            if(bin.size()%4!=0) for(int i=0,tmp=4-bin.size()%4; i&amp;lt;tmp; i++) bin.push_back(0);
+        }
+        if(bin.size()%3!=0) for(int i=0,tmp=3-bin.size()%3; i&amp;lt;tmp; i++) bin.push_back(0);
+        vector&amp;lt;int&amp;gt;oct;
+        int nb=bin.size();
+        for(int i=0; i&amp;lt;nb; i+=3) oct.push_back(bin[i]+bin[i+1]*2+bin[i+2]*4);
+        int no=oct.size();
+        if(!oct[no-1])--no;
+        for(int i=no-1; i&amp;gt;=0; --i) printf(&amp;#34;%d&amp;#34;,oct[i]);
+        printf(&amp;#34;\n&amp;#34;);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;转换成二进制再转换成八进制。上面容器（向量），下面数组。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>股票买卖问题 纪念品 2019CSP-J普及组C题 DP学习</title>
+      <link>https://bernard035.github.io/posts/2019csp-dp-20200206/</link>
+      <pubDate>Thu, 06 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2019csp-dp-20200206/</guid>
+      <description>&lt;p&gt;中间一度怀疑是牛客的测评机出问题了……才发现是自己的数组越界。&lt;br&gt;
+太艰难了。&lt;br&gt;
+&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/2340/C&#34;&gt;https://ac.nowcoder.com/acm/contest/2340/C&lt;/a&gt;&lt;br&gt;
+题目是比较简单的，思路大概就是求解第一天到第t-1天的最佳策略，所以大概也可以说是一道贪心的题目。&lt;br&gt;
+那么怎么确定最佳策略呢——填表。每个纪念品都会覆盖到某个值下的最优解，并且可以使得后续可以直接调用其生成的最优解，最后推出m对应的生成价值。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N=1e4+5;
+int main() {
+    int a[105][105];
+    int val[N]= {0};
+    int t,n,m;
+    cin&amp;gt;&amp;gt;t&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    for(int i=0; i&amp;lt;t; i++)
+        for(int j=0; j&amp;lt;n; j++)
+            cin&amp;gt;&amp;gt;a[i][j];
+    t--;//最后一天直接卖掉 所以不算 我就是这里傻到然后数组越界（讲道理我置零了）（算了无所谓了
+    for(int i=0; i&amp;lt;t; i++) {//遍历每一天
+        memset(val,0,sizeof(val));
+        for(int j=0; j&amp;lt;n; j++)//遍历每一个商品
+            for(int k=a[i][j]; k&amp;lt;=m; k++)
+                val[k]=max(val[k],a[i+1][j]-a[i][j]+val[k-a[i][j]]);
+                //当天可以收割的最高价值
+        m+=val[m];
+    }
+    cout&amp;lt;&amp;lt;m&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;for(int k=a[i][j]; k&amp;lt;=m; k++)
+                val[k]=max(val[k],a[i+1][j]-a[i][j]+val[k-a[i][j]]);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我总觉得这一块效率太低了，居然是一个一个填进入，而且每一位都要调用一次max函数，总觉得有更优的方案。&lt;br&gt;
+这个方案生成了大量的无用数据，如果数据覆盖范围广的话还好说，就只有两三个值的时候很多数据都是无效的。&lt;br&gt;
+挖坑again。顺便吐槽马上学校又要开网课了，致命的高数下，而且我下学期课又多，天知道还有没有时间填坑……&lt;/p&gt;
+&lt;p&gt;有一种绥靖政策的优化：如果明天降价就不考虑了&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+typedef long long ll;
+using namespace std;
+int t,n,m,a[105][105],dp[10005];
+int main() {
+    int i,j,k;
+    cin&amp;gt;&amp;gt;t&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m;
+    for(i=1; i&amp;lt;=t; i++) 
+        for(j=1; j&amp;lt;=n; j++) 
+            scanf(&amp;#34;%d&amp;#34;,&amp;amp;a[i][j]);
+    for(i=1; i&amp;lt;t; i++) {
+        memset(dp,0,sizeof(dp));
+        for(j=1; j&amp;lt;=n; j++) {
+            if(a[i][j]&amp;gt;=a[i+1][j]) continue;
+            for(k=a[i][j]; k&amp;lt;=m; k++) 
+                dp[k]=max(dp[k],dp[k-a[i][j]]+a[i+1][j]-a[i][j]);
+        }
+        m=m+dp[m];
+    }
+    cout&amp;lt;&amp;lt;m;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;写到这里就越来越觉得是贪心了，那么是怎么解决“放长线钓大鱼”的问题的呢？&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2019 ICPC ECfinal M题 终于看懂了</title>
+      <link>https://bernard035.github.io/posts/2019-icpc-ecfinal-20200203/</link>
+      <pubDate>Mon, 03 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2019-icpc-ecfinal-20200203/</guid>
+      <description>&lt;p&gt;非常感谢YLM大佬的指导。&lt;br&gt;
+&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/3732/M&#34;&gt;https://ac.nowcoder.com/acm/contest/3732/M&lt;/a&gt;&lt;br&gt;
+首先是按幂分组，这和我当时和CZL说的是一样的。&lt;br&gt;
+&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/d6c5e84a32181060.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;bits/stdc++.h&amp;gt;
+typedef long long ll;
+using namespace std;
+const int N=1e5+5;
+ll a[N],b[N],c[N],d[N],val[N],n;
+bool vis[N];
+int main(){
+    cin&amp;gt;&amp;gt;n;
+    for(int i=1;i&amp;lt;=n;i++)cin&amp;gt;&amp;gt;a[i];
+    for(int i=1;i&amp;lt;=n;i++)cin&amp;gt;&amp;gt;b[i];
+    ll ans=a[1];
+    for(int i=2;i&amp;lt;=n;i++)if(!vis[i]){ 
+        int t=0;ll res=0;
+        for(ll j=i;j&amp;lt;=n;j*=i,t++) vis[j]=1,c[t]=a[j],d[t]=b[j];
+        /*对每一个数的x次方进行遍历 遍历后对遍历过了的标记
+        把基数对应的x次方 的 收益 和 负影响分别记入数组cd
+        比如 i=2 j=2 t=0 
+        c[0]=a[2] c[1]=a[4] c[2]=a[8] c[3]=a[16]
+        d[0]=b[2] d[1]=b[4] d[2]=b[8] d[3]=b[16]*/
+        for(int j=0;j&amp;lt;(1&amp;lt;&amp;lt;t);j++) val[j]=0;
+        //对0-2^(t-1)   val数组归零  值得说明的是这里的t就是上面的存过的数的个数
+        //t=0的时候存的是自己 然后这里刚好和t-1抵消 也就是说 有几个抉择关联点 就是2的几次方个数归零 
+        for(int j=1;j&amp;lt;(1&amp;lt;&amp;lt;t);j++){//枚举01串的每一种情况 
+            for(int k=t-1;k&amp;gt;=0;k--) if(j&amp;gt;&amp;gt;k&amp;amp;1){
+            //从左往右检索 找第一个1 也就是选取的位置 只执行第一次 
+                int f=0;
+                for(int s=0;s&amp;lt;k;s++) if((k+1)%(s+1)==0&amp;amp;&amp;amp;(j&amp;gt;&amp;gt;s&amp;amp;1))f++;
+            //在串里找幂组 找到一个f就++ 
+                val[j]=max(val[j],val[j^(1&amp;lt;&amp;lt;k)]+c[k]-d[k]*f);
+            //j^(1&amp;lt;&amp;lt;k): 把首位的1变0 不能理解为什么是+c[3]-d[3] 
+                res=max(res,val[j]);
+                break; 
+            }
+        }
+        ans+=res;
+    }
+    cout&amp;lt;&amp;lt;ans&amp;lt;&amp;lt;endl;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后还有几个点&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>算法竞赛代码规范</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200130/</link>
+      <pubDate>Thu, 30 Jan 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200130/</guid>
+      <description>&lt;p&gt;虽然每个coder都有自己的编码风格，但是ICPC毕竟是团队比赛，还是有必要遵守一些公认的代码规范，以便交流。&lt;/p&gt;
+&lt;h2 id=&#34;头文件&#34;&gt;【头文件】&lt;/h2&gt;
+&lt;p&gt;使用万能头文件&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;仅在POJ等不能使用的情况下例外；&lt;/p&gt;
+&lt;h2 id=&#34;多组输入&#34;&gt;【多组输入】&lt;/h2&gt;
+&lt;p&gt;不用&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;while(scanf(&amp;#34;%d&amp;#34;,&amp;amp;a)!=EOF)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;用&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;while(~scanf(&amp;#34;%d&amp;#34;,&amp;amp;a))
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;换行&#34;&gt;【换行】&lt;/h2&gt;
+&lt;p&gt;使用K&amp;amp;R风格或Java风格
+devc++的格式化选项里有，即不要用code::blocks默认的风格&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int main()
+{
+    int a,b;
+    while(~scanf(&amp;#34;%d%d&amp;#34;,&amp;amp;a,&amp;amp;b)){
+       printf(&amp;#34;%lf\t%lf\t%lf\n&amp;#34;,a/b,(double)(a/b),(double)a/b);
+    }
+    return 0;
+}//K&amp;amp;R风格 除了主函数，左大括号不换行，右大括号换行
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int main() {
+	int a,b;
+	while(~scanf(&amp;#34;%d%d&amp;#34;,&amp;amp;a,&amp;amp;b)) {
+		printf(&amp;#34;%lf\t%lf\t%lf\n&amp;#34;,a/b,(double)(a/b),(double)a/b);
+	}
+	return 0;
+}//Java风格，所有的左大括号不换行，右大括号换行
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int main()
+{
+	int a,b;
+	while(~scanf(&amp;#34;%d%d&amp;#34;,&amp;amp;a,&amp;amp;b))
+	{
+		printf(&amp;#34;%lf\t%lf\t%lf\n&amp;#34;,a/b,(double)(a/b),(double)a/b);
+	}
+	return 0;
+}//Allman风格
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;我们可以看到Java风格的换行方式最为干净，冗余行最少，且右括号直接对齐相应的循环或条件语句，而且《算法竞赛入门到进阶》也是这样推荐的，大佬们也都采用了K&amp;amp;R或Java的对齐方式，如果不习惯请务必适应。至少我写是一定会用Java的换行方式的。
+CodeBlocks修改默认格式化方法：
+Setting-&amp;gt;Editor-&amp;gt;Source Formatter-&amp;gt;style-&amp;gt;Bracket style 修改成Java
+设置-&amp;gt;编辑器-&amp;gt;源码格式工具-&amp;gt;样式-&amp;gt;括号风格&lt;/p&gt;
+&lt;h2 id=&#34;宏&#34;&gt;【宏】&lt;/h2&gt;
+&lt;p&gt;不要用宏，const int 和typedef可以代替。
+不管是宏常量还是宏函数都容易出问题。&lt;/p&gt;
+&lt;h2 id=&#34;变量定义&#34;&gt;【变量定义】&lt;/h2&gt;
+&lt;p&gt;在离变量最近使用的地方定义。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;for(int i=0;i&amp;lt;5;i++)
+    a[i]=i*i;
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/be809143b0c047f5b347ddfaf016c0da），发布于 2020-01-30。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>POJ on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/poj/</link>
+    <description>Recent content in POJ on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 02 Feb 2020 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/poj/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>POJ 2456 二分 贪心</title>
+      <link>https://bernard035.github.io/posts/poj-2456-20200202/</link>
+      <pubDate>Sun, 02 Feb 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/poj-2456-20200202/</guid>
+      <description>&lt;p&gt;拿来练了一下二分，对于本菜鸡而言，光看不写肯定是学不会的。&lt;br&gt;
+顺便测试了一下内联函数&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;algorithm&amp;gt;
+using namespace std;
+const int N=1e5+5;
+int a[N],n,c,ans=-1;
+inline bool check(int d) {
+    int cnt=1,tmp=0;
+    for(int i=0; i&amp;lt;n; i++) {
+        if(a[i]-a[tmp]&amp;gt;=d)cnt++,tmp=i;
+        if(c==cnt) return 1;
+    }
+    return 0;
+}
+int main() {
+    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+    while(cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;c) {
+        for(int i=0; i&amp;lt;n; i++) cin&amp;gt;&amp;gt;a[i];
+        sort(a,a+n);
+        int R=(a[n-1]-a[0])/(c-1);
+        int L=1,p;
+        while(L&amp;lt;=R) {
+            p=L+((R-L)&amp;gt;&amp;gt;1);
+            if(check(p)) ans=p,L=p+1;
+            else R=p-1;
+        }
+        cout&amp;lt;&amp;lt;ans&amp;lt;&amp;lt;endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/65a0474a44db4beda16a00997b5b8634），发布于 2020-02-02。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>POJ 1222 优化穷举 位运算</title>
+      <link>https://bernard035.github.io/posts/poj-1222-20200129/</link>
+      <pubDate>Wed, 29 Jan 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/poj-1222-20200129/</guid>
+      <description>&lt;p&gt;终于有时间自己写一遍了，然后本菜鸡昨天一整夜都在debug……多亏XHL发现了我的数组越界……太艰难了&lt;/p&gt;
+&lt;p&gt;思路：穷举第一行，因为完成了一行的操作以后，要关掉第一行的灯，只能从第二行下手，也就是说，第二行的操作和第一行的状态相同，依此类推。最后检查最后一行，如果关好了，就退出穷举循环，输出结果。&lt;/p&gt;
+&lt;p&gt;菜鸡代码：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;cstring&amp;gt;
+using namespace std;
+int a[5][6],b[5][6],ans[5][6];
+void SwapLight(int i,int j) {
+    a[i][j]=!a[i][j];//自己
+    if(i) a[i-1][j]=!a[i-1][j];//上
+    if(j) a[i][j-1]=!a[i][j-1];//左
+    if(i!=4) a[i+1][j]=!a[i+1][j];//下
+    if(j!=5) a[i][j+1]=!a[i][j+1];//右
+}
+void SwapLine(int line) {
+    for(int i=0; i&amp;lt;6; i++)
+        if(ans[line][i])SwapLight(line,i);
+}
+bool Check() {//只需要检查最后一行
+    for(int j=0; j&amp;lt;6; j++)
+        if(a[4][j])return 0;
+    return 1;
+}
+void Geta(int k) {//获取第一行的操作
+    for(int i=0; i&amp;lt;6; i++) {
+        ans[0][i]=(k&amp;gt;&amp;gt;i)&amp;amp;1;
+    }
+}
+void Solve() {//优化穷举
+    for(int k=0; k&amp;lt;64; k++) {
+        memcpy(a,b,sizeof(b));
+        memset(ans,0,sizeof(ans));
+        Geta(k);
+        for(int i=1; i&amp;lt;5; i++) {
+            SwapLine(i-1);
+            for(int j=0; j&amp;lt;6; j++) {
+                if(a[i-1][j]) ans[i][j]=1;
+            }
+        }
+        SwapLine(4);
+        if(Check()) return;
+    }
+    cout&amp;lt;&amp;lt;&amp;#34;ERROR&amp;#34;&amp;lt;&amp;lt;endl;
+}
+int main() {
+    int t;
+    cin&amp;gt;&amp;gt;t;
+    for(int PU=1; PU&amp;lt;=t; PU++) {
+        for(int i=0; i&amp;lt;5; i++)
+            for(int j=0; j&amp;lt;6; j++)
+                cin&amp;gt;&amp;gt;b[i][j];
+        Solve();
+        cout&amp;lt;&amp;lt;&amp;#34;PUZZLE #&amp;#34;&amp;lt;&amp;lt;PU&amp;lt;&amp;lt;endl;
+        for(int i=0; i&amp;lt;5; i++) {
+            for(int j=0; j&amp;lt;6; j++) {
+                cout&amp;lt;&amp;lt;ans[i][j];
+                if(j!=5)cout&amp;lt;&amp;lt;&amp;#34; &amp;#34;;
+            }
+            cout&amp;lt;&amp;lt;endl;
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;郭炜老师的代码：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

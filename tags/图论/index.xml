@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>图论 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E5%9B%BE%E8%AE%BA/</link>
+    <description>Recent content in 图论 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 23 Apr 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E5%9B%BE%E8%AE%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>几种最短路的简单表述</title>
+      <link>https://bernard035.github.io/posts/shortest-path-20210423/</link>
+      <pubDate>Fri, 23 Apr 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/shortest-path-20210423/</guid>
+      <description>&lt;h1 id=&#34;spfa&#34;&gt;SPFA&lt;/h1&gt;
+&lt;p&gt;思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;初始化dis[]为最大值，dis[x]表示起点到x点的最短路长度&lt;/li&gt;
+&lt;li&gt;建立一个queue，一开始只有起点&lt;/li&gt;
+&lt;li&gt;弹出队头，对于队头节点的每个相邻点，如果能优化当前的路径，就入队，并且优化&lt;/li&gt;
+&lt;li&gt;重复3直到队空&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 3e3 + 7;
+const int mod = 1e9 + 7;
+int a[N][N];
+const int n = 2021;
+void build() {
+    rep(i, 1, n) rep(j, 1, n) {
+        if (abs(i - j) &amp;lt;= 21) a[i][j] = a[j][i] = i / __gcd(i, j) * j;
+    }
+}
+ll dis[N];
+bool vis[N];
+void spfa(int ori) {
+    fill(dis, dis + n + 1, LLONG_MAX);
+    dis[ori] = 0;
+    queue&amp;lt;int&amp;gt; q;
+    vis[ori] = 1;
+    q.push(1);
+    while (!q.empty()) {
+        int x = q.front();
+        q.pop();
+        vis[x] = 0;
+        rep(i, 1, n) if (x != i &amp;amp;&amp;amp; abs(x - i) &amp;lt;= 21) {
+            if (dis[x] + a[x][i] &amp;lt; dis[i]) {
+                dis[i] = dis[x] + a[x][i];
+                if (!vis[i]) {
+                    vis[i] = 1;
+                    q.push(i);
+                }
+            }
+        }
+    }
+}
+int main() {
+    build();
+    spfa(1);
+    pr(dis[n]);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;dij&#34;&gt;dij&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 2005;
+const int mod = 1e9 + 7;
+int a[N][N];
+ll dis[N][N];
+bool vis[N];
+vector&amp;lt;int&amp;gt; G[N];
+int n, m, c;
+struct node {
+    ll val;
+    int id;
+    bool operator&amp;lt;(const node&amp;amp; o) const { return val &amp;gt; o.val; }
+};
+void dij(int ori) {
+    ll* d = dis[ori];
+    fill(d + 1, d + n + 1, INT_MAX);
+    memset(vis, 0, sizeof vis);
+    d[ori] = 0;
+    priority_queue&amp;lt;node&amp;gt; pq;
+    pq.push({0, ori});
+    while (!pq.empty()) {
+        int x = pq.top().id;
+        pq.pop();
+        if (!vis[x]) {
+            vis[x] = 1;
+            for (int i : G[x]) {
+                if (d[x] + a[x][i] &amp;lt; d[i]) {
+                    d[i] = d[x] + a[x][i];
+                    pq.push({d[i], i});
+                }
+            }
+        }
+    }
+}
+int main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m &amp;gt;&amp;gt; c;
+    int u, v, w, minw = INT_MAX;
+    rep(i, 1, m) {
+        cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w;
+        minw = min(minw, w);
+        if (!a[u][v]) {
+            a[u][v] = w;
+            G[u].push_back(v);
+        } else {
+            a[u][v] = min(a[u][v], w);
+        }
+    }
+    rep(i, 1, n) dij(i);
+    ll minc = LLONG_MAX;
+    rep(i, 1, n) rep(j, i + 1, n) minc = min(minc, dis[i][j] + dis[j][i]);
+    if (minc &amp;lt;= c)
+        cout &amp;lt;&amp;lt; 2;
+    else if (minw &amp;lt;= c)
+        cout &amp;lt;&amp;lt; 1;
+    else
+        cout &amp;lt;&amp;lt; 0;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 3e3 + 7;
+const int mod = 1e9 + 7;
+int a[N][N];
+const int n = 2021;
+void build() {
+    rep(i, 1, n) rep(j, 1, n) {
+        if (abs(i - j) &amp;lt;= 21) a[i][j] = a[j][i] = i / __gcd(i, j) * j;
+    }
+}
+ll dis[N];
+bool vis[N];
+void dij(int ori) {
+    fill(dis, dis + n + 1, LLONG_MAX);
+    dis[ori] = 0;
+    map&amp;lt;ll, int&amp;gt; mp;
+    vis[ori] = 1;
+    mp[0] = 1;
+    while (!mp.empty()) {
+        int x = (*mp.begin()).second;
+        mp.erase(mp.begin());
+        vis[x] = 0;
+        rep(i, 1, n) if (x != i &amp;amp;&amp;amp; abs(x - i) &amp;lt;= 21) {
+            if (dis[x] + a[x][i] &amp;lt; dis[i]) {
+                dis[i] = dis[x] + a[x][i];
+                if (!vis[i]) {
+                    vis[i] = 1;
+                    mp[dis[i]] = i;
+                }
+            }
+        }
+    }
+}
+int main() {
+    build();
+    dij(1);
+    pr(dis[n]);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;floyd&#34;&gt;floyd&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;void floyd(int **g) {
+    int s = 1;
+    rep(i, 1, n) rep(j, 1, n) {
+        if (g[i][j]) {
+            g[i][j] = INT_MAX;
+        }
+    }
+    rep(k, 1, n) rep(i, 1, n) {
+        if (a[i][k] != INT_MAX) {
+            rep(j, 1, n) g[i][j] = min(g[i][j], g[i][k] + g[k][j]);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/4deaccc07bc3467d8218d85d2a225460），发布于 2021-04-23。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,380 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>寒假训练赛5 三分 贪心 博弈 | Bernard's Blog</title><meta name=keywords content="赛后分析,牛客,贪心,博弈"><meta name=description content='总结
+是收获颇丰的一场，明天醒来补题，现在记下来，免得忘记了。
+
+圆周率的表示方法const double PI=acos(-1);，我之前记过，但是忘记了，这次还是写的 const double PI=3.14159264354;(这个也是我背下来的 【J题】https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838&amp;returnHomeType=1&amp;uid=538133338- sin函数的使用方法 2*r*sin(PI/n) 表示圆内接多边形的边长，因为sin里面是弧度制，所以要特别注意- 二进制位数 log函数 十进制位数- 取余的基本原理 加减乘不会影响到取余结果 也就是说分步取余和一起取余的结果是一样的
+
+B题
+题意
+有n个点，在x轴上找一个点，让这个点到n个点中最远的点距离最短。
+也就是
+
+求选择的比赛地距离各训练基地最大距离的最小值
+
+思路
+出题人：
+
+题目要求最大距离最小，很容易想到使用二分或者三分的方法去做。
+这题使用三分会比较简单，二分会比较麻烦。
+
+
+其实我是想过用二分来写的，但是可能是写出来就变味了。另外一边写就一边感觉不对劲：结果不是随着x轴右移增加或减少的，它不一定是线性变化的。
+中间我还提出了“拟合圆”，但不知道怎么表达。
+
+我看了青竹大佬的二分写法。
+
+不是对x的坐标二分，而是对结果的值二分；- check函数的写法很关键：对圆心的取值范围判断是否有可能。
+
+
+代码
+青竹大佬 二分之王
+#include <bits/stdc++.h>
+using namespace std;
+const int maxn = 1e5 + 7;
+const double eps = 1e-6;
+typedef long long ll;
+int n;
+struct node {
+    int x, y;
+} p[maxn];
+bool check(double len) {
+    double left = -1000000000, right = 1000000000;
+    for (int i = 1; i <= n; i++) {
+        if(fabs(p[i].y*1.0) > len) return false;
+        //如果有某个点纵坐标绝对值大于len，len肯定就太短了  
+        double tmp = sqrt(len*len*1.0 - 1.0*p[i].y*p[i].y);
+        //勾股定理 把每个点都当成最远点 得到圆心区间 
+        double l = p[i].x - tmp, r = p[i].x + tmp;
+        left = max(left, l);
+        right = min(right, r);
+    }
+    return left <= right;
+}
+int main() {
+    scanf("%d", &amp;n);
+    for (int i = 1; i <= n; i++)
+        scanf("%d%d", &amp;p[i].x, &amp;p[i].y);
+    double left = 0, right = 10000000000, ans = 0;
+    while (right - left > eps) {
+        double mid = left+(right-left)/2;
+        if(check(mid)) ans = mid,right = mid;
+        else left = mid;
+    }
+    printf("%.6f\n", ans);
+    return 0;
+}
+这个浮点数的二分写法也很值得借鉴，当作一个模板。'><meta name=author content="Me"><link rel=canonical href=https://bernard035.github.io/posts/5-game-theory-greedy-20200214/><link crossorigin=anonymous href=/assets/css/stylesheet.2bbc84d5b7beae4659b88227754941ffa9fa06a4de78fdb8990d3c303fc3665f.css integrity="sha256-K7yE1be+rkZZuIIndUlB/6n6BqTeeP24mQ08MD/DZl8=" rel="preload stylesheet" as=style><link rel=icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://bernard035.github.io/posts/5-game-theory-greedy-20200214/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1})'></script><meta property="og:url" content="https://bernard035.github.io/posts/5-game-theory-greedy-20200214/"><meta property="og:site_name" content="Bernard's Blog"><meta property="og:title" content="寒假训练赛5 三分 贪心 博弈"><meta property="og:description" content='总结 是收获颇丰的一场，明天醒来补题，现在记下来，免得忘记了。
+圆周率的表示方法const double PI=acos(-1);，我之前记过，但是忘记了，这次还是写的 const double PI=3.14159264354;(这个也是我背下来的 【J题】https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838&amp;returnHomeType=1&amp;uid=538133338- sin函数的使用方法 2*r*sin(PI/n) 表示圆内接多边形的边长，因为sin里面是弧度制，所以要特别注意- 二进制位数 log函数 十进制位数- 取余的基本原理 加减乘不会影响到取余结果 也就是说分步取余和一起取余的结果是一样的 B题 题意 有n个点，在x轴上找一个点，让这个点到n个点中最远的点距离最短。
+也就是
+求选择的比赛地距离各训练基地最大距离的最小值
+思路 出题人：
+题目要求最大距离最小，很容易想到使用二分或者三分的方法去做。
+这题使用三分会比较简单，二分会比较麻烦。
+其实我是想过用二分来写的，但是可能是写出来就变味了。另外一边写就一边感觉不对劲：结果不是随着x轴右移增加或减少的，它不一定是线性变化的。
+中间我还提出了“拟合圆”，但不知道怎么表达。
+我看了青竹大佬的二分写法。
+不是对x的坐标二分，而是对结果的值二分；- check函数的写法很关键：对圆心的取值范围判断是否有可能。
+代码 青竹大佬 二分之王 #include <bits/stdc++.h> using namespace std; const int maxn = 1e5 + 7; const double eps = 1e-6; typedef long long ll; int n; struct node { int x, y; } p[maxn]; bool check(double len) { double left = -1000000000, right = 1000000000; for (int i = 1; i <= n; i++) { if(fabs(p[i].y*1.0) > len) return false; //如果有某个点纵坐标绝对值大于len，len肯定就太短了 double tmp = sqrt(len*len*1.0 - 1.0*p[i].y*p[i].y); //勾股定理 把每个点都当成最远点 得到圆心区间 double l = p[i].x - tmp, r = p[i].x + tmp; left = max(left, l); right = min(right, r); } return left <= right; } int main() { scanf("%d", &amp;n); for (int i = 1; i <= n; i++) scanf("%d%d", &amp;p[i].x, &amp;p[i].y); double left = 0, right = 10000000000, ans = 0; while (right - left > eps) { double mid = left+(right-left)/2; if(check(mid)) ans = mid,right = mid; else left = mid; } printf("%.6f\n", ans); return 0; } 这个浮点数的二分写法也很值得借鉴，当作一个模板。'><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-02-14T12:00:00+08:00"><meta property="article:modified_time" content="2020-02-14T12:00:00+08:00"><meta property="article:tag" content="赛后分析"><meta property="article:tag" content="牛客"><meta property="article:tag" content="贪心"><meta property="article:tag" content="博弈"><meta property="og:image" content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="寒假训练赛5 三分 贪心 博弈"><meta name=twitter:description content='总结 是收获颇丰的一场，明天醒来补题，现在记下来，免得忘记了。
+圆周率的表示方法const double PI=acos(-1);，我之前记过，但是忘记了，这次还是写的 const double PI=3.14159264354;(这个也是我背下来的 【J题】https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838&amp;returnHomeType=1&amp;uid=538133338- sin函数的使用方法 2*r*sin(PI/n) 表示圆内接多边形的边长，因为sin里面是弧度制，所以要特别注意- 二进制位数 log函数 十进制位数- 取余的基本原理 加减乘不会影响到取余结果 也就是说分步取余和一起取余的结果是一样的 B题 题意 有n个点，在x轴上找一个点，让这个点到n个点中最远的点距离最短。
+也就是
+求选择的比赛地距离各训练基地最大距离的最小值
+思路 出题人：
+题目要求最大距离最小，很容易想到使用二分或者三分的方法去做。
+这题使用三分会比较简单，二分会比较麻烦。
+其实我是想过用二分来写的，但是可能是写出来就变味了。另外一边写就一边感觉不对劲：结果不是随着x轴右移增加或减少的，它不一定是线性变化的。
+中间我还提出了“拟合圆”，但不知道怎么表达。
+我看了青竹大佬的二分写法。
+不是对x的坐标二分，而是对结果的值二分；- check函数的写法很关键：对圆心的取值范围判断是否有可能。
+代码 青竹大佬 二分之王 #include <bits/stdc++.h> using namespace std; const int maxn = 1e5 + 7; const double eps = 1e-6; typedef long long ll; int n; struct node { int x, y; } p[maxn]; bool check(double len) { double left = -1000000000, right = 1000000000; for (int i = 1; i <= n; i++) { if(fabs(p[i].y*1.0) > len) return false; //如果有某个点纵坐标绝对值大于len，len肯定就太短了 double tmp = sqrt(len*len*1.0 - 1.0*p[i].y*p[i].y); //勾股定理 把每个点都当成最远点 得到圆心区间 double l = p[i].x - tmp, r = p[i].x + tmp; left = max(left, l); right = min(right, r); } return left <= right; } int main() { scanf("%d", &amp;n); for (int i = 1; i <= n; i++) scanf("%d%d", &amp;p[i].x, &amp;p[i].y); double left = 0, right = 10000000000, ans = 0; while (right - left > eps) { double mid = left+(right-left)/2; if(check(mid)) ans = mid,right = mid; else left = mid; } printf("%.6f\n", ans); return 0; } 这个浮点数的二分写法也很值得借鉴，当作一个模板。'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://bernard035.github.io/posts/"},{"@type":"ListItem","position":2,"name":"寒假训练赛5 三分 贪心 博弈","item":"https://bernard035.github.io/posts/5-game-theory-greedy-20200214/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"寒假训练赛5 三分 贪心 博弈","name":"寒假训练赛5 三分 贪心 博弈","description":"总结 是收获颇丰的一场，明天醒来补题，现在记下来，免得忘记了。\n圆周率的表示方法const double PI=acos(-1);，我之前记过，但是忘记了，这次还是写的 const double PI=3.14159264354;(这个也是我背下来的 【J题】https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838\u0026amp;returnHomeType=1\u0026amp;uid=538133338- sin函数的使用方法 2*r*sin(PI/n) 表示圆内接多边形的边长，因为sin里面是弧度制，所以要特别注意- 二进制位数 log函数 十进制位数- 取余的基本原理 加减乘不会影响到取余结果 也就是说分步取余和一起取余的结果是一样的 B题 题意 有n个点，在x轴上找一个点，让这个点到n个点中最远的点距离最短。\n也就是\n求选择的比赛地距离各训练基地最大距离的最小值\n思路 出题人：\n题目要求最大距离最小，很容易想到使用二分或者三分的方法去做。\n这题使用三分会比较简单，二分会比较麻烦。\n其实我是想过用二分来写的，但是可能是写出来就变味了。另外一边写就一边感觉不对劲：结果不是随着x轴右移增加或减少的，它不一定是线性变化的。\n中间我还提出了“拟合圆”，但不知道怎么表达。\n我看了青竹大佬的二分写法。\n不是对x的坐标二分，而是对结果的值二分；- check函数的写法很关键：对圆心的取值范围判断是否有可能。\n代码 青竹大佬 二分之王 #include \u0026lt;bits/stdc++.h\u0026gt; using namespace std; const int maxn = 1e5 + 7; const double eps = 1e-6; typedef long long ll; int n; struct node { int x, y; } p[maxn]; bool check(double len) { double left = -1000000000, right = 1000000000; for (int i = 1; i \u0026lt;= n; i++) { if(fabs(p[i].y*1.0) \u0026gt; len) return false; //如果有某个点纵坐标绝对值大于len，len肯定就太短了 double tmp = sqrt(len*len*1.0 - 1.0*p[i].y*p[i].y); //勾股定理 把每个点都当成最远点 得到圆心区间 double l = p[i].x - tmp, r = p[i].x + tmp; left = max(left, l); right = min(right, r); } return left \u0026lt;= right; } int main() { scanf(\u0026#34;%d\u0026#34;, \u0026amp;n); for (int i = 1; i \u0026lt;= n; i++) scanf(\u0026#34;%d%d\u0026#34;, \u0026amp;p[i].x, \u0026amp;p[i].y); double left = 0, right = 10000000000, ans = 0; while (right - left \u0026gt; eps) { double mid = left+(right-left)/2; if(check(mid)) ans = mid,right = mid; else left = mid; } printf(\u0026#34;%.6f\\n\u0026#34;, ans); return 0; } 这个浮点数的二分写法也很值得借鉴，当作一个模板。\n","keywords":["赛后分析","牛客","贪心","博弈"],"articleBody":"总结 是收获颇丰的一场，明天醒来补题，现在记下来，免得忘记了。\n圆周率的表示方法const double PI=acos(-1);，我之前记过，但是忘记了，这次还是写的 const double PI=3.14159264354;(这个也是我背下来的 【J题】https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838\u0026returnHomeType=1\u0026uid=538133338- sin函数的使用方法 2*r*sin(PI/n) 表示圆内接多边形的边长，因为sin里面是弧度制，所以要特别注意- 二进制位数 log函数 十进制位数- 取余的基本原理 加减乘不会影响到取余结果 也就是说分步取余和一起取余的结果是一样的 B题 题意 有n个点，在x轴上找一个点，让这个点到n个点中最远的点距离最短。\n也就是\n求选择的比赛地距离各训练基地最大距离的最小值\n思路 出题人：\n题目要求最大距离最小，很容易想到使用二分或者三分的方法去做。\n这题使用三分会比较简单，二分会比较麻烦。\n其实我是想过用二分来写的，但是可能是写出来就变味了。另外一边写就一边感觉不对劲：结果不是随着x轴右移增加或减少的，它不一定是线性变化的。\n中间我还提出了“拟合圆”，但不知道怎么表达。\n我看了青竹大佬的二分写法。\n不是对x的坐标二分，而是对结果的值二分；- check函数的写法很关键：对圆心的取值范围判断是否有可能。\n代码 青竹大佬 二分之王 #include using namespace std; const int maxn = 1e5 + 7; const double eps = 1e-6; typedef long long ll; int n; struct node { int x, y; } p[maxn]; bool check(double len) { double left = -1000000000, right = 1000000000; for (int i = 1; i \u003c= n; i++) { if(fabs(p[i].y*1.0) \u003e len) return false; //如果有某个点纵坐标绝对值大于len，len肯定就太短了 double tmp = sqrt(len*len*1.0 - 1.0*p[i].y*p[i].y); //勾股定理 把每个点都当成最远点 得到圆心区间 double l = p[i].x - tmp, r = p[i].x + tmp; left = max(left, l); right = min(right, r); } return left \u003c= right; } int main() { scanf(\"%d\", \u0026n); for (int i = 1; i \u003c= n; i++) scanf(\"%d%d\", \u0026p[i].x, \u0026p[i].y); double left = 0, right = 10000000000, ans = 0; while (right - left \u003e eps) { double mid = left+(right-left)/2; if(check(mid)) ans = mid,right = mid; else left = mid; } printf(\"%.6f\\n\", ans); return 0; } 这个浮点数的二分写法也很值得借鉴，当作一个模板。\n出题人的三分 作者：儒生雄才1\n链接：https://ac.nowcoder.com/discuss/366644?type=101\u0026order=0\u0026pos=5\u0026page=2\n#include using namespace std; struct p{ int x,y; }a[100005]; int n; double check(double x){ double max=0; for (int i=1;i\u003c=n;i++){ double tmp=sqrt(a[i].y*a[i].y+(a[i].x-x)*(a[i].x-x)); if (tmp\u003emax) max=tmp; } return max; } double tsearch(double left,double right){ int i; double mid,midmid; for(i=0;i\u003c100;i++){ mid=left+(right-left)/2; midmid=mid+(right-mid)/2; if(check(mid)\u003echeck(midmid)) //极大值求法 left=mid; else right=midmid; } return mid; } int main(){ scanf(\"%d\",\u0026n); for (int i=1;i\u003c=n;i++) scanf(\"%d%d\",\u0026a[i].x,\u0026a[i].y); double max=tsearch(-10000,10000); printf(\"%.4lf\\n\",check(max)); return 0; } 我大概理解了二分搜索，二分搜索（和它衍生的x分搜索）的本质是通过高效缩小范围，最终锁定到一个最佳值。\n三分搜索！\n当要求一个凸函数或者凹函数的极值时，可以使用三分搜索。\n我明白了。\n有一类函数被称为单峰函数，它们拥有唯一的极大值点，在极大值点左侧严格单调上升，右侧严格单调下降；或者拥有唯一的极小值点，在极小值点左侧严格单调下降，在极小值点右侧严格单调上升（单谷函数）。对于单峰函数和单谷函数，我们可以通过三分法求其极值。\n以单峰函数f为例，我们在函数定义域[l,r]上任取两个点lmid与rmid，把函数分成三段。\n若f(lmid)f(rmid)则极大值点一定在rmid左侧，可令r=rmid。 如果我们取lmid与rmid为三等分点，那么定义域范围每次缩小1/3。如果我们取lmid与rmid在二等分点两侧极其接近的地方，那么定义域范围每次近似缩小1/2.通过log级别的时间复杂度即可在指定精度下求出极值，这就是三分法。\n注意：我们在介绍单峰函数时特别强调了“严格”单调性。若三分过程中遇到f(lmid)=f(rmid)，当函数严格单调时，令l=lmid或r=rmid均可。如果函数不严格单调，即在函数种存在一段值相等的部分，那么我们无法判断定义域左右边界如何缩小，三分法就不再适用。\n感谢YLM大佬的帮助。\n三分模板题 HDU2899 acm.hdu.edu.cn/showproblem.php?pid=2899\n#include #include #include #include using namespace std; const double eps=1e-8; double y; double F(double x) { return 6*(pow(x,7.0))+8*(pow(x,6.0))+7*(pow(x,3.0))+5*(pow(x,2.0))-y*x; } int main() { int T; cin\u003e\u003eT; while(T--) { scanf(\"%lf\",\u0026y); double r,l,R=100.0,L=0.0; while(fabs(R-L)\u003eeps) { l=L+(R-L)/2; r=l+(R-l)/2; if(F(l)-F(r)","wordCount":"802","inLanguage":"en","image":"https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2020-02-14T12:00:00+08:00","dateModified":"2020-02-14T12:00:00+08:00","author":{"@type":"Person","name":"Me"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bernard035.github.io/posts/5-game-theory-greedy-20200214/"},"publisher":{"@type":"Organization","name":"Bernard's Blog","logo":{"@type":"ImageObject","url":"https://bernard035.github.io/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://bernard035.github.io/ accesskey=h title="Home (Alt + H)"><img src=https://bernard035.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://bernard035.github.io/categories/ title=categories><span>categories</span></a></li><li><a href=https://bernard035.github.io/tags/ title=tags><span>tags</span></a></li><li><a href=https://bernard035.github.io title=bernard035.github.io><span>bernard035.github.io</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>Posts</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">寒假训练赛5 三分 贪心 博弈</h1><div class=post-meta><span title='2020-02-14 12:00:00 +0800 +0800'>February 14, 2020</span>&nbsp;·&nbsp;<span>4 min</span>&nbsp;·&nbsp;<span>802 words</span>&nbsp;·&nbsp;<span>Me</span>&nbsp;|&nbsp;<span>
+<a href=https://github.com/%3cpath_to_repo%3e/content/posts/5-game-theory-greedy-20200214.md rel="noopener noreferrer edit" target=_blank>Suggest Changes</a></span></div></header><details class=toc><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#题意>题意</a></li><li><a href=#思路>思路</a></li><li><a href=#代码>代码</a><ul><li><a href=#青竹大佬-二分之王>青竹大佬 二分之王</a></li><li><a href=#出题人的三分>出题人的三分</a></li><li><a href=#三分模板题>三分模板题</a></li></ul></li></ul><ul><li><a href=#题意-1>题意</a></li><li><a href=#思路-1>思路</a></li><li><a href=#代码-1>代码</a><ul><li><a href=#我的最终代码>我的最终代码</a></li><li><a href=#神奇的代码>神奇的代码</a></li></ul></li></ul><ul><li><a href=#e题>E题</a><ul><li><a href=#我的位运算代码>我的位运算代码</a></li></ul></li><li><a href=#h题>H题</a><ul><li><a href=#我的代码>我的代码</a></li><li><a href=#python-代码>Python 代码</a></li></ul></li></ul></nav></div></details><div class="post-content md-content"><h1 id=总结>总结<a hidden class=anchor aria-hidden=true href=#总结>#</a></h1><p>是收获颇丰的一场，明天醒来补题，现在记下来，免得忘记了。</p><ol><li>圆周率的表示方法<code>const double PI=acos(-1);</code>，我之前记过，但是忘记了，这次还是写的 <code>const double PI=3.14159264354;</code>(这个也是我背下来的 【J题】<a href="https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838&amp;returnHomeType=1&amp;uid=538133338">https://ac.nowcoder.com/acm/contest/view-submission?submissionId=42948838&amp;returnHomeType=1&amp;uid=538133338</a>- sin函数的使用方法 <code>2*r*sin(PI/n)</code> 表示圆内接多边形的边长，因为sin里面是弧度制，所以要特别注意- 二进制位数 log函数 十进制位数- 取余的基本原理 加减乘不会影响到取余结果 也就是说分步取余和一起取余的结果是一样的</li></ol><h1 id=b题>B题<a hidden class=anchor aria-hidden=true href=#b题>#</a></h1><h2 id=题意>题意<a hidden class=anchor aria-hidden=true href=#题意>#</a></h2><p>有n个点，在x轴上找一个点，让这个点到n个点中最远的点距离最短。<br>也就是</p><blockquote><p>求选择的比赛地距离各训练基地最大距离的最小值</p></blockquote><h2 id=思路>思路<a hidden class=anchor aria-hidden=true href=#思路>#</a></h2><p>出题人：</p><blockquote><p>题目要求最大距离最小，很容易想到使用二分或者三分的方法去做。<br>这题使用三分会比较简单，二分会比较麻烦。</p></blockquote><hr><p>其实我是想过用二分来写的，但是可能是写出来就变味了。另外一边写就一边感觉不对劲：结果不是随着x轴右移增加或减少的，它不一定是线性变化的。<br>中间我还提出了“拟合圆”，但不知道怎么表达。</p><hr><p>我看了青竹大佬的二分写法。</p><ol><li>不是对x的坐标二分，而是对结果的值二分；- check函数的写法很关键：对圆心的取值范围判断是否有可能。<br><img alt=图片说明 loading=lazy src=/images/9ed2a2e6973deee7.png title=图片标题></li></ol><h2 id=代码>代码<a hidden class=anchor aria-hidden=true href=#代码>#</a></h2><h3 id=青竹大佬-二分之王>青竹大佬 二分之王<a hidden class=anchor aria-hidden=true href=#青竹大佬-二分之王>#</a></h3><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+const int maxn = 1e5 + 7;
+const double eps = 1e-6;
+typedef long long ll;
+int n;
+struct node {
+    int x, y;
+} p[maxn];
+bool check(double len) {
+    double left = -1000000000, right = 1000000000;
+    for (int i = 1; i &lt;= n; i++) {
+        if(fabs(p[i].y*1.0) &gt; len) return false;
+        //如果有某个点纵坐标绝对值大于len，len肯定就太短了  
+        double tmp = sqrt(len*len*1.0 - 1.0*p[i].y*p[i].y);
+        //勾股定理 把每个点都当成最远点 得到圆心区间 
+        double l = p[i].x - tmp, r = p[i].x + tmp;
+        left = max(left, l);
+        right = min(right, r);
+    }
+    return left &lt;= right;
+}
+int main() {
+    scanf(&#34;%d&#34;, &amp;n);
+    for (int i = 1; i &lt;= n; i++)
+        scanf(&#34;%d%d&#34;, &amp;p[i].x, &amp;p[i].y);
+    double left = 0, right = 10000000000, ans = 0;
+    while (right - left &gt; eps) {
+        double mid = left+(right-left)/2;
+        if(check(mid)) ans = mid,right = mid;
+        else left = mid;
+    }
+    printf(&#34;%.6f\n&#34;, ans);
+    return 0;
+}
+</code></pre><p>这个浮点数的二分写法也很值得借鉴，当作一个模板。</p><h3 id=出题人的三分>出题人的三分<a hidden class=anchor aria-hidden=true href=#出题人的三分>#</a></h3><p>作者：儒生雄才1<br>链接：<a href="https://ac.nowcoder.com/discuss/366644?type=101&amp;order=0&amp;pos=5&amp;page=2">https://ac.nowcoder.com/discuss/366644?type=101&amp;order=0&amp;pos=5&amp;page=2</a></p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+struct p{
+    int x,y;
+}a[100005];
+int n;
+double check(double x){
+    double max=0;
+    for (int i=1;i&lt;=n;i++){
+        double tmp=sqrt(a[i].y*a[i].y+(a[i].x-x)*(a[i].x-x));
+        if (tmp&gt;max) max=tmp;
+    }
+    return max;
+}
+double tsearch(double left,double right){
+    int i;
+    double mid,midmid;
+    for(i=0;i&lt;100;i++){
+        mid=left+(right-left)/2;
+        midmid=mid+(right-mid)/2;
+        if(check(mid)&gt;check(midmid)) //极大值求法
+            left=mid;
+        else
+            right=midmid;
+    }
+    return mid;
+}
+int main(){
+    scanf(&#34;%d&#34;,&amp;n);
+    for (int i=1;i&lt;=n;i++)
+        scanf(&#34;%d%d&#34;,&amp;a[i].x,&amp;a[i].y);
+    double max=tsearch(-10000,10000);
+    printf(&#34;%.4lf\n&#34;,check(max));
+    return 0;
+}
+</code></pre><p>我大概理解了二分搜索，二分搜索（和它衍生的x分搜索）的本质是通过高效缩小范围，最终锁定到一个最佳值。</p><hr><p><strong>三分搜索！</strong></p><blockquote><p>当要求一个凸函数或者凹函数的极值时，可以使用三分搜索。</p></blockquote><p>我明白了。</p><hr><p>有一类函数被称为<strong>单峰函数</strong>，它们拥有<strong>唯一</strong>的极大值点，在极大值点左侧<strong>严格</strong>单调上升，右侧<strong>严格</strong>单调下降；或者拥有<strong>唯一</strong>的极小值点，在极小值点左侧严格单调下降，在极小值点右侧严格单调上升（<strong>单谷函数</strong>）。对于单峰函数和单谷函数，我们可以通过<strong>三分法</strong>求其<strong>极值</strong>。<br>以单峰函数f为例，我们在函数定义域[l,r]上任取两个点lmid与rmid，把函数分成三段。</p><ol><li>若f(lmid)&lt;f(rmid)，则lmid与rmid要么同时处于极大值点左侧（单调上升函数段），要么处于极大值点两侧。无论哪种情况下，极大值点都在lmid右侧，可令l=lmid。- 同理，若f(lmid)>f(rmid)则极大值点一定在rmid左侧，可令r=rmid。</li></ol><p>如果我们取lmid与rmid为三等分点，那么定义域范围每次缩小1/3。如果我们取lmid与rmid在二等分点两侧极其接近的地方，那么定义域范围每次近似缩小1/2.通过log级别的时间复杂度即可在指定精度下求出极值，这就是三分法。<br>注意：我们在介绍单峰函数时特别强调了“严格”单调性。若三分过程中遇到f(lmid)=f(rmid)，当函数严格单调时，令l=lmid或r=rmid均可。如果函数不严格单调，即在函数种存在一段值相等的部分，那么我们无法判断定义域左右边界如何缩小，三分法就不再适用。</p><p>感谢YLM大佬的帮助。</p><h3 id=三分模板题>三分模板题<a hidden class=anchor aria-hidden=true href=#三分模板题>#</a></h3><p>HDU2899 acm.hdu.edu.cn/showproblem.php?pid=2899</p><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;cstdio&gt;
+using namespace std;
+const double eps=1e-8;
+double y;
+double F(double x) {
+    return 6*(pow(x,7.0))+8*(pow(x,6.0))+7*(pow(x,3.0))+5*(pow(x,2.0))-y*x;
+}
+int main() {
+    int T;
+    cin&gt;&gt;T;
+    while(T--) {
+        scanf(&#34;%lf&#34;,&amp;y);
+        double r,l,R=100.0,L=0.0;
+        while(fabs(R-L)&gt;eps) {
+            l=L+(R-L)/2;
+            r=l+(R-l)/2;
+            if(F(l)-F(r)&lt;eps) R=r;
+            else L=l;
+        }
+        printf(&#34;%.4lf\n&#34;,F(l));
+    }
+    return 0;
+}
+</code></pre><h1 id=d题>D题<a hidden class=anchor aria-hidden=true href=#d题>#</a></h1><h2 id=题意-1>题意<a hidden class=anchor aria-hidden=true href=#题意-1>#</a></h2><p>从a到b，1单位时间可以移动1单位距离，也可以闪现到$\sqrt[3]{a}$ 上，求最短时间。</p><h2 id=思路-1>思路<a hidden class=anchor aria-hidden=true href=#思路-1>#</a></h2><p>出题人说是贪心，只要闪现移动距离大于走路就闪现。我当时也是这样想的，然后疯狂吃wa。</p><h2 id=代码-1>代码<a hidden class=anchor aria-hidden=true href=#代码-1>#</a></h2><p>我的wa代码</p><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+const int N=1e5+5;
+const double eps=1e-6;
+int main() {
+    int T;
+    cin&gt;&gt;T;
+    while(T--) {
+        double a,b;
+        cin&gt;&gt;a&gt;&gt;b;
+        double cost=0,sq;
+        while(fabs(a-b)&gt;eps) {
+            if(a&lt;0) {
+                a=0-a;
+                sq=pow(a,(1.0/3));
+                sq=0-sq;
+                a=0-a;
+            } else sq=pow(a,(1.0/3));
+            if((fabs(a-sq)&gt;1)&amp;&amp;(fabs(sq-b)&lt;fabs(a-b))) a=sq,cost+=1;
+            else {
+                cost+=fabs(b-a);
+                break;
+            }
+        }
+        printf(&#34;%.9f\n&#34;,cost);
+    }
+    return 0;
+}
+</code></pre><p>出题人的代码</p><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+const double eps = 1e-8;
+int main() {
+    int T;
+    cin&gt;&gt;T;
+    while(T--) {
+        int a, b;
+        scanf(&#34;%d%d&#34;, &amp;a, &amp;b);
+        double ans = 0;
+        double ca = a, cb = b;
+        double p = 1.0/3.0;
+        while(1) {
+            double na;
+            if(ca &lt; 0) na = -pow(-ca,p);
+            else na = pow(ca, p);
+            if(abs(na-cb)+1.0 &lt; abs(ca-cb)) ans += 1.0, ca = na;
+            else {
+                ans += abs(ca-cb);
+                break;
+            }
+        }
+        printf(&#34;%.9f\n&#34;, ans);
+    }
+    return 0;
+}
+</code></pre><p>这里我仔细看了一下，我和出题人的代码只有一个地方不一样（别的地方都是他写错了或者不规范）：<br>判断是否要进行位移时，我的判断条件是$\left| a-\sqrt[3]{a} \right| >1.0$ 并且$\left| \sqrt[3]{a}-b \right| &lt;\left| a-b \right|$<br>而出题人的判断条件是$\left| \sqrt[3]{a}-b \right| +1.0 &lt;\left| a-b \right|$<br>都是满足就位移，我不明白为什么我的不行</p><hr><p>2020.10回来补题，发现它为什么行了。<br>比如$a$和$cbrt(a)$都很接近终点了，但是不值得花费1的情况，我的代码依然会花费1.</p><h3 id=我的最终代码>我的最终代码<a hidden class=anchor aria-hidden=true href=#我的最终代码>#</a></h3><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 5;
+const double eps = 1e-8;
+int main() {
+    int T;
+    cin &gt;&gt; T;
+    while (T--) {
+        double a, b;
+        cin &gt;&gt; a &gt;&gt; b;
+        double cost = 0, c;
+        while (fabs(a - b) &gt; eps) {
+            c = cbrt(a);
+            // if ((fabs(a - c) &gt; 1.0) &amp;&amp; (fabs(a - b) - fabs(c - b) &gt; eps))
+            if (fabs(b - c) + 1.0 &lt; fabs(a - b))
+                a = c, cost += 1.0;
+            else {
+                cost += fabs(b - a);
+                break;
+            }
+        }
+        printf(&#34;%.9f\n&#34;, cost);
+    }
+    return 0;
+}
+</code></pre><h3 id=神奇的代码>神奇的代码<a hidden class=anchor aria-hidden=true href=#神奇的代码>#</a></h3><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+int main(){
+    int t;
+    cin&gt;&gt;t;
+    while(t--){
+        double x,y;
+        cin&gt;&gt;x&gt;&gt;y;
+        double ans=fabs(x-y);
+        for(int i=1;i&lt;=16;i++){
+            x=cbrt(x);
+            ans=min(ans,fabs(x-y)+i);
+        }
+        printf(&#34;%.7lf\n&#34;,ans);
+    }
+    return 0;
+}
+</code></pre><pre tabindex=0><code>#include&lt;iostream&gt;
+#include&lt;cmath&gt;
+using namespace std;
+int main(){
+    int t;
+    scanf(&#34;%d&#34;,&amp;t);
+    while(t--){
+        double a,b,ans = 0;
+        scanf(&#34;%lf%lf&#34;,&amp;a,&amp;b);
+        while(fabs(cbrt(a) - b) + 1 &lt; fabs(a - b)){
+            ans += 1;
+            a = cbrt(a);//立方根
+        }
+        ans += fabs(a - b);
+        printf(&#34;%.9lf\n&#34;,ans);
+    }
+    return 0;
+}
+</code></pre><h1 id=其他题>其他题<a hidden class=anchor aria-hidden=true href=#其他题>#</a></h1><h2 id=e题>E题<a hidden class=anchor aria-hidden=true href=#e题>#</a></h2><blockquote><p>找规律可以发现，当张数是2^n的时候输出Alice，否则输出Bob。<br>如果不是2^n，先手直接拿等同于其二进制最低位的数量的张数，后手将无力还击~</p></blockquote><h3 id=我的位运算代码>我的位运算代码<a hidden class=anchor aria-hidden=true href=#我的位运算代码>#</a></h3><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+const int N=1e5+5;
+ll n;
+bool chk(){
+    ll tmp=n;
+    int w[N];
+    int i;
+    for(i=0;tmp;tmp&gt;&gt;=1)//转成二进制
+        w[i++]=tmp%2;
+    i--;//最高位不读
+    for(int j=0;j&lt;i;j++)
+        if(w[j]) return 1;
+    return 0;
+}
+int main(){
+    cin &gt;&gt;n;
+    if(chk()) cout&lt;&lt;&#34;Bob&#34;&lt;&lt;endl;
+    else cout&lt;&lt;&#34;Alice&#34;&lt;&lt;endl;
+}
+</code></pre><h2 id=h题>H题<a hidden class=anchor aria-hidden=true href=#h题>#</a></h2><blockquote><p>观察给的哈希函数可以轻松看出，这个哈希函数就仅仅是把一个只由小写字符组成的字符串当成了一个26进制的数，不取模的情况下，任意小写字符串和自然数是一一对应的。因此，只要把给的字符串转换成对应的26进制整数，加上模数后转换回字符串，一定可以得到一个最小字典序大于原串的字符串。只要这个新字符串长度为6即是满足要求的字符串。</p></blockquote><ol><li>就是逐次取模和最后取模的结果一样的，这也是取余的原理；- 我的做法是把密码换成十进制，加上mod，再换回字符串，这样做的好处是直接加，不然要写一个26进制规则运算。</li></ol><h3 id=我的代码>我的代码<a hidden class=anchor aria-hidden=true href=#我的代码>#</a></h3><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+const int N=1e5+5;
+int mod;
+ll H(char str[]) {
+    ll res = 0;
+    for (int i = 0; i &lt; 6; i++) 
+        res = (res * 26 + str[i] - &#39;a&#39;);
+    return res;
+}
+int main() {
+    char s[6];
+    while(cin&gt;&gt;s&gt;&gt;mod) {
+        ll sv=H(s);
+        sv+=mod;
+        if(sv&gt;=(26*26*26*26*26*26)) cout&lt;&lt;&#34;-1&#34;&lt;&lt;endl;
+        else {
+        char a[6];
+        for(int i=5;i&gt;=0;i--){
+            a[i]=sv%26+&#39;a&#39;;
+            sv/=26;
+        }
+        cout&lt;&lt;a&lt;&lt;endl;
+        }
+    }
+    return 0;
+}
+</code></pre><h3 id=python-代码>Python 代码<a hidden class=anchor aria-hidden=true href=#python-代码>#</a></h3><pre tabindex=0><code>try:
+    while True:
+        s,mod = map(str,input().split())
+        Sum = 0
+        for i in s:
+            Sum = (Sum*26+ord(i)-97)
+        Sum += int(mod)
+        if Sum &gt;= 308915776:
+            print(-1)
+            continue
+        ans=&#39;&#39;
+        for i in range(6):
+            ans += chr(Sum%26+97)
+            Sum //= 26
+        print(ans[::-1])
+except:
+    pass
+</code></pre><hr><blockquote><p>本文整理自作者牛客博客（https://blog.nowcoder.net/n/aa10060b4bdf45ccbb91a21501473e10），发布于 2020-02-14。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://bernard035.github.io/tags/%E8%B5%9B%E5%90%8E%E5%88%86%E6%9E%90/>赛后分析</a></li><li><a href=https://bernard035.github.io/tags/%E7%89%9B%E5%AE%A2/>牛客</a></li><li><a href=https://bernard035.github.io/tags/%E8%B4%AA%E5%BF%83/>贪心</a></li><li><a href=https://bernard035.github.io/tags/%E5%8D%9A%E5%BC%88/>博弈</a></li></ul><nav class=paginav><a class=prev href=https://bernard035.github.io/posts/6-tle-upper-bound-greedy-matching-20200216/><span class=title>« Prev</span>
+<span>寒假训练赛6 贪心匹配 循环继承TLE upper_bound</span>
+</a><a class=next href=https://bernard035.github.io/posts/4-mod-stack-20200212/><span class=title>Next »</span>
+<span>寒假训练赛4 子段异或 mod 双指针 栈</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛5 三分 贪心 博弈 on x" href="https://x.com/intent/tweet/?text=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b5%20%e4%b8%89%e5%88%86%20%e8%b4%aa%e5%bf%83%20%e5%8d%9a%e5%bc%88&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f&amp;hashtags=%e8%b5%9b%e5%90%8e%e5%88%86%e6%9e%90%2c%e7%89%9b%e5%ae%a2%2c%e8%b4%aa%e5%bf%83%2c%e5%8d%9a%e5%bc%88"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛5 三分 贪心 博弈 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f&amp;title=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b5%20%e4%b8%89%e5%88%86%20%e8%b4%aa%e5%bf%83%20%e5%8d%9a%e5%bc%88&amp;summary=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b5%20%e4%b8%89%e5%88%86%20%e8%b4%aa%e5%bf%83%20%e5%8d%9a%e5%bc%88&amp;source=https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛5 三分 贪心 博弈 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f&title=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b5%20%e4%b8%89%e5%88%86%20%e8%b4%aa%e5%bf%83%20%e5%8d%9a%e5%bc%88"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛5 三分 贪心 博弈 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛5 三分 贪心 博弈 on whatsapp" href="https://api.whatsapp.com/send?text=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b5%20%e4%b8%89%e5%88%86%20%e8%b4%aa%e5%bf%83%20%e5%8d%9a%e5%bc%88%20-%20https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛5 三分 贪心 博弈 on telegram" href="https://telegram.me/share/url?text=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b5%20%e4%b8%89%e5%88%86%20%e8%b4%aa%e5%bf%83%20%e5%8d%9a%e5%bc%88&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛5 三分 贪心 博弈 on ycombinator" href="https://news.ycombinator.com/submitlink?t=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b5%20%e4%b8%89%e5%88%86%20%e8%b4%aa%e5%bf%83%20%e5%8d%9a%e5%bc%88&u=https%3a%2f%2fbernard035.github.io%2fposts%2f5-game-theory-greedy-20200214%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://bernard035.github.io/>Bernard's Blog</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

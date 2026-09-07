@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>模拟 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E6%A8%A1%E6%8B%9F/</link>
+    <description>Recent content in 模拟 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 18 Mar 2022 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E6%A8%A1%E6%8B%9F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>网易互娱 游戏开发 0317 笔试 大模拟</title>
+      <link>https://bernard035.github.io/posts/0317-simulation-20220318/</link>
+      <pubDate>Fri, 18 Mar 2022 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/0317-simulation-20220318/</guid>
+      <description>&lt;h2 id=&#34;a&#34;&gt;A&lt;/h2&gt;
+&lt;p&gt;给定一个3*3的数独矩阵，请你判断这一数独矩阵是一解、多解、还是无解。&lt;/p&gt;
+&lt;p&gt;数独规则如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;每一行中不能有重复数字&lt;/li&gt;
+&lt;li&gt;每一列中不能有重复数字&lt;/li&gt;
+&lt;li&gt;每一块中不能有重复数字&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中，块是题目中给定的三个坐标。保证每一块中都有三个坐标，一共有三个块。&lt;/p&gt;
+&lt;p&gt;对于一个3*3的数独矩阵，其左上角坐标是[0,0][0,0][0,0]，右下角坐标是[2,2][2,2][2,2]&lt;/p&gt;
+&lt;h3 id=&#34;输入&#34;&gt;输入&lt;/h3&gt;
+&lt;p&gt;共有T(T≤10)T(T\le 10)T(T≤10)组输入，每组输入包含一个3*3的数独矩阵，和三行描述块坐标的信息。&lt;br&gt;
+*表示该位置待填充，数字表示该位置已填充对应数字。&lt;br&gt;
+每一行中有三个坐标，表示一个块内的坐标，保证坐标位置合法。&lt;/p&gt;
+&lt;h3 id=&#34;输出&#34;&gt;输出&lt;/h3&gt;
+&lt;p&gt;如果一解，输出“Unique”，并输出对应解法；&lt;br&gt;
+如果多解，输出“Multiple”；&lt;br&gt;
+如果无解，输出“No”。&lt;/p&gt;
+&lt;h3 id=&#34;solution&#34;&gt;solution&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+const int N = 5;
+char a[N][N], ans[N][N];
+vector&amp;lt;pair&amp;lt;int, int&amp;gt;&amp;gt; v[4];
+int flag;
+bool used[5];
+bool chk() {
+    // line
+    rep(i, 1, 3) {
+        rep(k, 1, 3) used[k] = 0;
+        rep(j, 1, 3) {
+            int x = a[i][j] - &amp;#39;0&amp;#39;;
+            if (used[x]) return 0;
+            used[x] = 1;
+        }
+    }
+
+    // row
+    rep(j, 1, 3) {
+        rep(k, 1, 3) used[k] = 0;
+        rep(i, 1, 3) {
+            int x = a[i][j] - &amp;#39;0&amp;#39;;
+            if (used[x]) return 0;
+            used[x] = 1;
+        }
+    }
+
+    rep(b, 1, 3) {
+        rep(k, 1, 3) used[k] = 0;
+        for (auto [u, v] : v[b]) {
+            int x = a[u][v] - &amp;#39;0&amp;#39;;
+            if (used[x]) return 0;
+            used[x] = 1;
+        }
+    }
+    return 1;
+}
+vector&amp;lt;pair&amp;lt;int, int&amp;gt;&amp;gt; em;
+int len;
+void dfs(int p) {
+    if (p == len) {
+        if (chk()) {
+            ++flag;
+            rep(i, 1, 3) rep(j, 1, 3) ans[i][j] = a[i][j];
+        }
+        return;
+    }
+    if (flag &amp;gt;= 2) return;
+    rep(i, 1, 3) {
+        int x = em[p].first, y = em[p].second;
+        a[x][y] = i + &amp;#39;0&amp;#39;;
+        dfs(p + 1);
+    }
+}
+void solve() {
+    flag = 0;
+    em.clear();
+    rep(i, 1, 3) cin &amp;gt;&amp;gt; a[i] + 1;
+    rep(i, 1, 3) v[i].clear();
+    int x, y;
+    rep(i, 1, 3) {
+        rep(j, 1, 3) {
+            cin &amp;gt;&amp;gt; x &amp;gt;&amp;gt; y;
+            ++x, ++y;
+            v[i].emplace_back(x, y);
+            if (a[i][j] == &amp;#39;*&amp;#39;) em.emplace_back(i, j);
+        }
+    }
+    len = em.size();
+    dfs(0);
+    if (flag == 1) {
+        cout &amp;lt;&amp;lt; &amp;#34;Unique\n&amp;#34;;
+        rep(i, 1, 3) cout &amp;lt;&amp;lt; ans[i] + 1 &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    } else if (flag == 0)
+        cout &amp;lt;&amp;lt; &amp;#34;No\n&amp;#34;;
+    else
+        cout &amp;lt;&amp;lt; &amp;#34;Multiple\n&amp;#34;;
+}
+int main() {
+    int T;
+    cin &amp;gt;&amp;gt; T;
+    while (T--) solve();
+    return 0;
+}
+/*
+
+4
+*2*
+1*2
+***
+0 0 0 1 1 0
+0 2 1 1 1 2
+2 0 2 1 2 2
+**3
+***
+***
+0 0 1 0 1 1
+0 1 0 2 1 2
+2 0 2 1 2 2
+**3
+1**
+**2
+0 0 1 0 1 1
+0 1 0 2 1 2
+2 0 2 1 2 2
+3*3
+1**
+**2
+0 0 1 0 1 1
+0 1 0 2 1 2
+2 0 2 1 2 2
+*/
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;b&#34;&gt;B&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+const int N = 55;
+char a[N][N];
+int dx[] = {1, -1, 0, 0, 1, 1, -1, -1};
+int dy[] = {0, 0, 1, -1, 1, -1, -1, 1};
+int n, m;
+char tar;
+map&amp;lt;pair&amp;lt;int, int&amp;gt;, int&amp;gt; mp;
+int dir;
+bool out(int x, int y) { return x &amp;lt; 1 || x &amp;gt; n || y &amp;lt; 1 || y &amp;gt; n; }
+void getfar(int x, int y, int i, int &amp;amp;d, int &amp;amp;xx, int &amp;amp;yy) {
+    int dep = 0;
+    while (!out(x + dx[i], y + dy[i])) {
+        // cerr &amp;lt;&amp;lt; &amp;#34;far &amp;#34; &amp;lt;&amp;lt; i &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; x &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; y&amp;lt;&amp;lt;&amp;#39;\n&amp;#39;;
+        x += dx[i];
+        y += dy[i];
+        ++dep;
+        if (tar == a[x][y] &amp;amp;&amp;amp; dep &amp;gt; d) {
+            d = dep;
+            // dir = i;
+            xx = x, yy = y;
+        } else if (a[x][y] != &amp;#39;b&amp;#39; &amp;amp;&amp;amp; a[x][y] != &amp;#39;w&amp;#39;)
+            return;
+    }
+}
+void trans(char &amp;amp;tar) {
+    if (tar == &amp;#39;w&amp;#39;)
+        tar = &amp;#39;b&amp;#39;;
+    else
+        tar = &amp;#39;w&amp;#39;;
+}
+int cir;
+void op() {
+    int x, y;
+    cin &amp;gt;&amp;gt; x &amp;gt;&amp;gt; y;
+    ++x, ++y;
+    a[x][y] = tar;
+    trans(tar);
+    ++cir;
+    rep(i, 0, 7) {
+        int dis = 0;
+        int xx = x, yy = y;
+        getfar(x, y, i, dis, xx, yy);
+
+        if (dis &amp;gt;= 2) {
+            int nx = x, ny = y;
+            // cout &amp;lt;&amp;lt; i &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; xx &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; yy &amp;lt;&amp;lt; &amp;#39; &amp;#39; &amp;lt;&amp;lt; dis &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+            while (x != xx || y != yy) {
+                x += dx[i];
+                y += dy[i];
+                //   cerr&amp;lt;&amp;lt;x&amp;lt;&amp;lt;&amp;#39; &amp;#39;&amp;lt;&amp;lt;y&amp;lt;&amp;lt;endl;
+                if (x == xx &amp;amp;&amp;amp; y == yy) break;
+                if (!(mp.count({x, y}) &amp;amp;&amp;amp; mp[{x, y}] == cir - 1)) {
+                    //   cerr&amp;lt;&amp;lt;&amp;#34;trans &amp;#34;&amp;lt;&amp;lt;x&amp;lt;&amp;lt;&amp;#39; &amp;#39;&amp;lt;&amp;lt;y&amp;lt;&amp;lt;endl;
+                    mp[{x, y}] = cir;
+                    trans(a[x][y]);
+                }
+            }
+            x = nx; y = ny;
+        }
+    }
+}
+void solve() {
+    memset(a, 0, sizeof a);
+    mp.clear();
+    tar = &amp;#39;w&amp;#39;;
+    cir = 0;
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m;
+    rep(i, 1, n) cin &amp;gt;&amp;gt; a[i] + 1;
+    while (m--) {
+        op();
+    }
+        rep(i, 1, n) cout &amp;lt;&amp;lt; a[i] + 1 &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    cout &amp;lt;&amp;lt; &amp;#34;END\n&amp;#34;;
+}
+int main() {
+    int T;
+    cin &amp;gt;&amp;gt; T;
+    while (T--) solve();
+    return 0;
+}
+/*
+2
+6 4
+------
+---b--
+-wwwb-
+-bbw--
+-ww---
+-ww---
+1 2
+0 2
+2 0
+2 5
+6 4
+------
+--b---
+--wbb-
+--www-
+--b-b-
+--w---
+1 4
+1 1
+5 4
+0 2
+*/
+
+/*
+--b---
+--bb--
+wbwbwb
+-www--
+-wb---
+-ww---
+END
+--b---
+-bw-w-
+--wbw-
+--bwb-
+--w-w-
+--w-w-
+END
+*/
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;c&#34;&gt;C&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+const int N = 55;
+char g[N][N];
+int a[N];
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+vector&amp;lt;pair&amp;lt;int, int&amp;gt;&amp;gt; E, F;
+int flag, n, m, A, B;
+int getDis(int x, int y, int xx, int yy) {  // bfs
+    return abs(x - xx) + abs(y - yy);
+}
+
+void solve() {
+    flag = 0;
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m &amp;gt;&amp;gt; A &amp;gt;&amp;gt; B;
+    rep(i, 0, A - 1) cin &amp;gt;&amp;gt; a[i];
+    rep(i, 1, n) cin &amp;gt;&amp;gt; g[i] + 1;
+    if (A &amp;lt; B) {
+        cout &amp;lt;&amp;lt; -1 &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+        return;
+    }
+
+    rep(i, 1, n) rep(j, 1, m) {
+        if (g[i][j] == &amp;#39;E&amp;#39;) {
+            E.emplace_back(i, j);
+        } else if (isdigit(g[i][j])) {
+            F.emplace_back(i, j);
+        }
+    }
+    vector&amp;lt;int&amp;gt; val;
+    for (int i = 0; i &amp;lt; E.size(); ++i) val.push_back(INT_MAX);
+    for (auto f : F)
+        for (int i = 0; i &amp;lt; E.size(); ++i) {
+            int x = getDis(f.first, f.second, E[i].first, E[i].second);
+            val[i] = min(val[i], x);
+        }
+    long long ans = 0;
+    for (int x : val) ans += x;
+    if (ans &amp;gt; INT_MAX)
+        cout &amp;lt;&amp;lt; -1 &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    else
+        cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+}
+int main() {
+    int T;
+    cin &amp;gt;&amp;gt; T;
+    while (T--) solve();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/cd110fe179ed445fad997666fdf18bd8），发布于 2022-03-18。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>模拟退火</title>
+      <link>https://bernard035.github.io/posts/simulation-20210818/</link>
+      <pubDate>Wed, 18 Aug 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/simulation-20210818/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+double k;
+double F(double x) {
+    return 6 * pow(x, 7) + 8 * pow(x, 6) + 7 * pow(x, 3) + 5 * x * x - k * x;
+}
+const double eps = 1e-8;
+double solve() {
+    double T = 50;        // 步长
+    double delta = 0.98;  // 降温系数
+    double x = 50;        // 初始温度
+    double now = F(x);    // 初始答案
+    while (T &amp;gt; eps) {
+        int f = rand() % 2 ? 1 : -1;
+        double xx = x + f * T;
+        if (0 &amp;lt;= xx and xx &amp;lt;= 100) {
+            double nxt = F(xx);
+            if (nxt &amp;lt; now) {
+                x = xx;
+                now = nxt;
+            }
+        }
+        T *= delta;
+    }
+    return now;
+}
+signed main() {
+    int T;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;T);
+    while (T--) {
+        scanf(&amp;#34;%lf&amp;#34;, &amp;amp;k);
+        printf(&amp;#34;%.4lf\n&amp;#34;, solve());
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+double k;
+double F(double x) {
+    return 6 * pow(x, 7) + 8 * pow(x, 6) + 7 * pow(x, 3) + 5 * x * x - k * x;
+}
+const double eps = 1e-8;
+double solve() {
+    double T = 50;        // 步长
+    double delta = 0.98;  // 降温系数
+    double x = 50;        // 初始温度
+    double y = F(x);      // 初始答案
+    while (T &amp;gt; eps) {
+        int f = rand() % 2 ? 1 : -1;
+        double xx = x + f * T;
+        if (0 &amp;lt;= xx and xx &amp;lt;= 100) {
+            double yy = F(xx);
+            if (yy &amp;lt; y) {
+                x = xx;
+                y = yy;
+            }
+        }
+        T *= delta;
+    }
+    return y;
+}
+signed main() {
+    int T;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;T);
+    while (T--) {
+        scanf(&amp;#34;%lf&amp;#34;, &amp;amp;k);
+        printf(&amp;#34;%.4lf\n&amp;#34;, solve());
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/c7094220a4ad4d51a90806b30f18dee7），发布于 2021-08-18。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>坑贪心 二进制枚举 CCPC长春A</title>
+      <link>https://bernard035.github.io/posts/ccpc-greedy-enumeration-20210519/</link>
+      <pubDate>Wed, 19 May 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/ccpc-greedy-enumeration-20210519/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/acfc592a164ec279.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits stdc++.h&amp;gt;
+using namespace std;
+int v[10] = {1, 6, 28, 88, 198, 328, 648},
+    e[10] = {8, 18, 28, 58, 128, 198, 388};
+int main() {
+    int T, n;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;amp;T);
+    while (T--) {
+        scanf(&amp;#34;%d&amp;#34;, &amp;amp;amp;n);
+        int res = 0;
+        for (int i = 0; i &amp;amp;lt; (1 &amp;amp;lt;&amp;amp;lt; 7); ++i) {
+            int t = 0, s = 0;
+            for (int j = 0; j &amp;amp;lt; 7; ++j)
+                if (i &amp;amp;gt;&amp;amp;gt; j &amp;amp;amp; 1) s += v[j], t += e[j];
+            if (s &amp;amp;lt;= n) res = max(res, t + n * 10);
+        }
+        printf(&amp;#34;%d\n&amp;#34;, res);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/e5d22b343c374153a72af2a417c2d8d0），发布于 2021-05-19。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>数字串 枚举 优化 暴力 思维</title>
+      <link>https://bernard035.github.io/posts/enumeration-20210402/</link>
+      <pubDate>Fri, 02 Apr 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/enumeration-20210402/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N = 5e5 + 7;
+inline bool cmp(char a[], char b[]) {
+    for (int i = 1; a[i] &amp;amp;&amp;amp; b[i]; ++i)
+        if (a[i] != b[i]) return a[i] &amp;gt; b[i];
+    return 1;  // equal
+}
+char L[50], R[50], s[N];
+int main() {
+    scanf(&amp;#34;%s%s%s&amp;#34;, L + 1, R + 1, s + 1);
+    int lenL = strlen(L + 1), lenR = strlen(R + 1), lenS = strlen(s + 1);
+    ll ans = 0, preZero = 0;
+    int left = 0, right = 0, now;
+    for (int i = 1, sz = lenS - lenL + 1; i &amp;lt;= sz; ++i) {
+        if (s[i] == &amp;#39;0&amp;#39;)
+            ++preZero;
+        else {  // 枚举以s[i]开头的合法区间，其实只会在目标位置附近浮动一位，那么检测一下即可
+            left = i + lenL - 1, right = i + lenR - 1;
+            if (!cmp(s + i - 1, L)) ++left;
+            if (right &amp;gt; lenS)
+                right = lenS;
+            else if (!cmp(R, s + i - 1))
+                --right;
+            now = right - left + 1;
+            ans += now;
+            ans += preZero * now;
+            preZero = 0;
+        }
+    }
+    printf(&amp;#34;%lld&amp;#34;, ans);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/67395b935d5b46a69902318370421d27），发布于 2021-04-02。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>牛牛与交换排序 deque 模拟</title>
+      <link>https://bernard035.github.io/posts/deque-sorting-simulation-20210216/</link>
+      <pubDate>Tue, 16 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/deque-sorting-simulation-20210216/</guid>
+      <description>&lt;p&gt;简单分析后可知&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一次操作必然使最小的、不在其位的数让它归位&lt;/li&gt;
+&lt;li&gt;那么长度就已经固定了&lt;/li&gt;
+&lt;li&gt;那么接下来要做的就是模拟，看能否完成排序即可&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以用deque双端队列模拟，也可以用&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/view-submission?submissionId=46674066&#34;&gt;平衡树&lt;/a&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+int n, a[N];
+deque&amp;lt;int&amp;gt; q;
+
+int main() {
+    sc(n);
+    rep(i, 1, n) sc(a[i]);
+    int x = 0;  //第一个不在正确位置上的数
+    // aka 不在正确位置上的 最小的数
+    rep(i, 1, n) if (a[i] != i) {
+        x = i;
+        break;
+    }
+    if (!x) return puts(&amp;#34;yes\n1&amp;#34;), 0;  //当前已经有序
+    int now, len;
+    rep(i, x + 1, n) if (a[i] == x) {
+        now = i;          // 这个最小的错位数 现在在now这个位置
+        len = i - x + 1;  // 需要翻转的线段长度
+        break;
+    }
+    rep(i, x, now - 1) q.emplace_front(a[i]);
+    bool tag = 0;
+    for (int i = x; i + len - 1 &amp;lt;= n; i++) {
+        if (!tag)
+            q.emplace_front(a[i + len - 1]);
+        else
+            q.emplace_back(a[i + len - 1]);
+        if (tag) {
+            if (q.front() != i) tag = 0;
+        } else {
+            if (q.back() != i) tag = 1;
+        }
+        if (tag) {
+            if (q.front() != i) return puts(&amp;#34;no&amp;#34;), 0;
+            q.pop_front();
+        } else {
+            if (q.back() != i) return puts(&amp;#34;no&amp;#34;), 0;
+            q.pop_back();
+        }
+    }
+    for (int i = n - len + 2; i &amp;lt;= n; i++) {
+        if (tag) {
+            if (q.front() != i) return puts(&amp;#34;no&amp;#34;), 0;
+            q.pop_front();
+        } else {
+            if (q.back() != i) return puts(&amp;#34;no&amp;#34;), 0;
+            q.pop_back();
+        }
+    }
+    printf(&amp;#34;yes\n%d&amp;#34;, len);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/436bd1c6ae6042efb162a78b8de74961），发布于 2021-02-16。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>区间异或 前缀和 优化枚举</title>
+      <link>https://bernard035.github.io/posts/prefix-sum-enumeration-20201206/</link>
+      <pubDate>Sun, 06 Dec 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/prefix-sum-enumeration-20201206/</guid>
+      <description>&lt;p&gt;本题数据较水。&lt;/p&gt;
+&lt;p&gt;通过前缀和降低所需的枚举操作，将答案打表后搜索即可得到答案。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+using namespace std;
+typedef long long ll;
+inline ll read() {
+    ll s = 0, f = 1;
+    char ch;
+    do {
+        ch = getchar();
+        if (ch == &amp;#39;-&amp;#39;) f = -1;
+    } while (ch &amp;lt; 48 || ch &amp;gt; 57);
+    while (ch &amp;gt;= 48 &amp;amp;&amp;amp; ch &amp;lt;= 57)
+        s = (s &amp;lt;&amp;lt; 1) + (s &amp;lt;&amp;lt; 3) + (ch ^ 48), ch = getchar();
+    return s * f;
+}
+ll n, m, a[3005], x, s[3005];
+ll res[3005];  // res[i]表示i个数能够凑到的最大值
+int main() {
+    n = read(), m = read();
+    for (int i = 1; i &amp;lt;= n; ++i) a[i] = read();
+    s[1] = a[1];  //异或前缀和
+    for (int i = 1; i &amp;lt;= n; ++i) s[i] = s[i - 1] ^ a[i];
+    for (int i = 1; i &amp;lt;= n; ++i)  //枚举每一种取值
+        for (int len = 1; i + len - 1 &amp;lt;= n; ++len)
+            res[len] = max(res[len], s[len + i - 1] ^ s[i - 1]);
+    for (int i = 2; i &amp;lt;= n; ++i) res[i] = max(res[i - 1], res[i]);
+    while (m--) {
+        x = read();
+        int t = lower_bound(res + 1, res + n + 1, x) - res;
+        pr(t &amp;gt; n ? -1LL : t);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/c8dc3886896447db99153f6606b586d4），发布于 2020-12-06。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>完全k叉树 模拟</title>
+      <link>https://bernard035.github.io/posts/simulation-20201120/</link>
+      <pubDate>Fri, 20 Nov 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/simulation-20201120/</guid>
+      <description>&lt;p&gt;完全k叉树，每层节点数量是已知的，直接推过去模拟就可以了&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Solution {
+   public:
+    long long tree2(int k, vector&amp;lt;int&amp;gt;&amp;amp; a) {
+        long long ans = 0;
+        int n = a.size();
+        int fa = 0;
+        for (int i = 1; i &amp;lt; n;) {                      //第i个节点
+            for (int j = 0; j &amp;lt; k &amp;amp;&amp;amp; i &amp;lt; n; ++j, ++i)  //每遍历k个换一次父亲
+                ans += (a[fa] ^ a[i]);
+            ++fa;
+        }
+        return ans;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/05a158d040274a87a1ed12033a40e1b8），发布于 2020-11-20。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

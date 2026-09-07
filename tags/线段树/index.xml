@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>线段树 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/</link>
+    <description>Recent content in 线段树 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 19 Feb 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2021 牛客寒假多校3 线段树 思维 暴力 博弈</title>
+      <link>https://bernard035.github.io/posts/2021-3-segment-tree-game-theory-20210219/</link>
+      <pubDate>Fri, 19 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/2021-3-segment-tree-game-theory-20210219/</guid>
+      <description>&lt;h2 id=&#34;重力坠击&#34;&gt;重力坠击&lt;/h2&gt;
+&lt;p&gt;暴搜即可&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%d\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 17;
+const int mod = 1e9 + 7;
+struct poi {
+    int x, y, r;
+} a[N];
+bool alive[N];
+int n, k, R;
+int dfs(int lv) {
+    if (lv == k) {
+        int ans = 0;
+        rep(i, 1, n) ans += alive[i];
+        return n - ans;
+    }
+    int ans = 0;
+    vector&amp;lt;int&amp;gt; nowsta;
+    rep(x, -7, 7) {
+        rep(y, -7, 7) {
+            rep(i, 1, n) if (sqrt((a[i].x - x) * (a[i].x - x) +
+                                  (a[i].y - y) * (a[i].y - y)) &amp;lt;= a[i].r + R &amp;amp;&amp;amp;
+                             alive[i]) nowsta.push_back(i),
+                alive[i] = 0;
+            int nxt = dfs(lv + 1);
+            ans = max(nxt, ans);
+            for (const int &amp;amp;v : nowsta) alive[v] = 1;
+            nowsta.clear();
+        }
+    }
+    return ans;
+}
+int main() {
+    sc(n), sc(k), sc(R);
+    rep(i, 1, n) sc(a[i].x), sc(a[i].y), sc(a[i].r);
+    rep(i, 0, 15) alive[i] = 1;
+    pr(dfs(0));
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;匹配串&#34;&gt;匹配串&lt;/h2&gt;
+&lt;p&gt;本题其实就是一道思维题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sequence 分治结构纳入线段树</title>
+      <link>https://bernard035.github.io/posts/sequence-segment-tree-20210123/</link>
+      <pubDate>Sat, 23 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/sequence-segment-tree-20210123/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;给n个数，有两种操作&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把$a[x]$改成$y$&lt;/li&gt;
+&lt;li&gt;求有多少个连续区间的最小值是$a[x]$&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;首先很容易想到：求有多少个连续区间的最小值是$a[x]$，其实就是找到$a[x]$左边第一个比$a[x]$小的数，下标$L$，找到$a[x]$右边第一个比$a[x]$小的数，下标$R$，那么就有$(x-L)*(R-x)$个满足题意的区间。&lt;/p&gt;
+&lt;p&gt;然而硬找肯定是T的，虽然题目数据太水，稍微优化一下就能过。&lt;/p&gt;
+&lt;p&gt;考虑正解做法，明确目标：我们要找到找到$a[x]$左边第一个比$a[x]$小的数和$a[x]$右边第一个比$a[x]$小的数的下标。&lt;/p&gt;
+&lt;p&gt;那么可以用线段树&lt;strong&gt;维护区间最小值&lt;/strong&gt;。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;随着区间范围的扩大，区间内的最小值只会变小不会变大，具备单调性：也就是说，可以二分。&lt;/li&gt;
+&lt;li&gt;那么我们考虑将查找的区间的右端点固定为$x$，二分左端点，就可以找到$a[x]$左边第一个比$a[x]$小的数。右边同理。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;于是本题解出，复杂度$O(n\log n \log n)$&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;solution&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const ll mod = 1e9 + 7;
+ll a[N], tree[N &amp;lt;&amp;lt; 2], n, op;
+ll m, x, y, k;
+#define ls (p &amp;lt;&amp;lt; 1)
+#define rs (p &amp;lt;&amp;lt; 1 | 1)
+#define mid (l + r &amp;gt;&amp;gt; 1)
+void bulid(ll p = 1, ll l = 1, ll r = n) {
+    if (l == r) {
+        tree[p] = a[l];
+        return;
+    }
+    bulid(ls, l, mid);
+    bulid(rs, mid + 1, r);
+    tree[p] = min(tree[ls], tree[rs]);
+}
+void upd(ll x, ll val, ll p = 1, ll l = 1, ll r = n) {//单点修改
+    if (l == r) { 
+        tree[p] = val;
+        return;
+    }
+    if (x &amp;lt;= mid)
+        upd(x, val, ls, l, mid);
+    else
+        upd(x, val, rs, mid + 1, r);
+    tree[p] = min(tree[ls], tree[rs]);
+}
+ll query(ll x, ll y, ll p = 1, ll l = 1, ll r = n) {//区间查询
+    if (x &amp;lt;= l &amp;amp;&amp;amp; r &amp;lt;= y) return tree[p];
+    ll res = LLONG_MAX;
+    if (x &amp;lt;= mid) res = min(res, query(x, y, ls, l, mid));
+    if (y &amp;gt; mid) res = min(res, query(x, y, rs, mid + 1, r));
+    return res;
+}
+int main() {
+    sc(n), sc(m);
+    for (int i = 1; i &amp;lt;= n; ++i) sc(a[i]);
+    bulid();
+    while (m--) {
+        sc(op);
+        if (op &amp;amp; 1) {
+            sc(x), sc(y);
+            a[x] = y;
+            upd(x, y);
+        } else {
+            sc(x);
+            int L = 1, R = x, midv, L_id = x, R_id = x;
+            while (L &amp;lt;= R) {
+                midv = L + R &amp;gt;&amp;gt; 1;
+                if (query(midv, x) == a[x])
+                    L_id = midv, R = midv - 1;
+                else
+                    L = midv + 1;
+            }
+            L = x, R = n;
+            while (L &amp;lt;= R) {
+                midv = L + R &amp;gt;&amp;gt; 1;
+                if (query(x, midv) == a[x])
+                    R_id = midv, L = midv + 1;
+                else
+                    R = midv - 1;
+            }
+            pr(1LL * (x - L_id + 1) * (R_id - x + 1));
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;优化&#34;&gt;优化&lt;/h2&gt;
+&lt;p&gt;由于是要找左边第一个比它小的，所以可以直接将二分的查找直接纳入线段树内：找区间内最右的小于$a[x]$的值。所以线段树的查找方式需要作出相应的调整：先搜索rson再搜索lson，如果搜到了直接返回。找右边第一个比他小的就是反过来。这样就是实现了将二分的搜索纳入了线段树里，从而实现了$O(n\log n)$的算法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>线段树 区间加 区间查 板子</title>
+      <link>https://bernard035.github.io/posts/segment-tree-20201207/</link>
+      <pubDate>Mon, 07 Dec 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/segment-tree-20201207/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const ll mod = 1e9 + 7;
+ll a[N], tree[N &amp;lt;&amp;lt; 2], lazy[N &amp;lt;&amp;lt; 2];
+ll n, m, op, x, y, k;
+#define ls (p &amp;lt;&amp;lt; 1)
+#define rs (p &amp;lt;&amp;lt; 1 | 1)
+#define mid (l + r &amp;gt;&amp;gt; 1)
+void bulid(ll p = 1, ll l = 1, ll r = n) {
+    lazy[p] = 0;
+    if (l == r) {
+        tree[p] = a[l];
+        return;
+    }
+    bulid(ls, l, mid);
+    bulid(rs, mid + 1, r);
+    tree[p] = tree[ls] + tree[rs];
+}
+inline void PushDown(ll p, ll tot) {
+    lazy[ls] += lazy[p];
+    lazy[rs] += lazy[p];
+    tree[ls] += lazy[p] * (tot - tot / 2);
+    tree[rs] += lazy[p] * (tot / 2);
+    lazy[p] = 0;
+}
+void add(ll x, ll y, ll val, ll p = 1, ll l = 1, ll r = n) {
+    if (x &amp;lt;= l &amp;amp;&amp;amp; r &amp;lt;= y) {  //当前区间可被所求区间覆盖
+        lazy[p] += val;
+        tree[p] += val * ((ll)(r - l + 1));
+        return;
+    }
+    PushDown(p, r - l + 1);
+    if (x &amp;lt;= mid) add(x, y, val, ls, l, mid);
+    if (y &amp;gt; mid) add(x, y, val, rs, mid + 1, r);
+    tree[p] = tree[ls] + tree[rs];
+}
+ll query(ll x, ll y, ll p = 1, ll l = 1, ll r = n) {
+    if (x &amp;lt;= l &amp;amp;&amp;amp; r &amp;lt;= y) return tree[p];
+    ll res = 0;
+    if (lazy[p]) PushDown(p, r - l + 1);
+    if (x &amp;lt;= mid) res += query(x, y, ls, l, mid);
+    if (y &amp;gt; mid) res += query(x, y, rs, mid + 1, r);
+    return res;
+}
+int main() {
+    sc(n), sc(m);
+    for (int i = 1; i &amp;lt;= n; ++i) sc(a[i]);
+    bulid();
+    while (m--) {
+        sc(op);
+        if (op &amp;amp; 1) {
+            sc(x), sc(y), sc(k);
+            add(x, y, k);
+        } else {
+            sc(x), sc(y);
+            pr(query(x, y));
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;改成区间查询最小值&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

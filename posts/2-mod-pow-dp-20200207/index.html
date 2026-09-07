@@ -1,0 +1,374 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>寒假训练赛2 mod pow 数三角 dp inv | Bernard's Blog</title><meta name=keywords content="赛后分析,牛客,DP"><meta name=description content='https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg
+题解传送门
+本次比赛C题DP挺经典的，值得回顾。
+G题 判正误
+判断 图片说明
+最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……
+如果不取模直接快速幂也过不了。
+这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。
+cpp代码
+多次取模快速幂
+#include <bits/stdc++.h>
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+//const int mod=1e9+7;
+ll qkpow(ll x, ll y,int mod) {
+    if(x==0) return 0;
+    else if(y==0) return 1;
+    ll ans = 1;
+    x = x % mod;
+    while (y) {
+        if(y&amp;1) ans = ans*x %mod;
+        x = x*x %mod;
+        y = y>>1;
+    }
+    return ans;
+}
+ll a,b,c,d,e,f,g;
+bool check(int mod){
+    ll ans1=qkpow(a,d,mod);
+        ll ans2=qkpow(b,e,mod);
+        ll ans3=qkpow(c,f,mod);
+        if(g-ans1-ans2==ans3) return 1;
+        else return 0;
+}
+int main() {
+    int T;
+    sscc;
+    cin>>T;
+    while(T--) {
+        cin>>a>>b>>c>>d>>e>>f>>g;
+        int flag=1;
+        int mod=1e9+7;
+        if(!check(mod)) flag=0;
+        mod=1e9+11;
+        if(!check(mod)) flag=0;
+        mod=1e9+1;
+        if(!check(mod)) flag=0;
+        if(flag)cout<<"Yes"<<endl;
+        else cout<<"No"<<endl;
+    }
+    return 0;
+}
+多次取模来确保答案准确性，时间消耗会增加约40%不过离1s还是很远。'><meta name=author content="Me"><link rel=canonical href=https://bernard035.github.io/posts/2-mod-pow-dp-20200207/><link crossorigin=anonymous href=/assets/css/stylesheet.2bbc84d5b7beae4659b88227754941ffa9fa06a4de78fdb8990d3c303fc3665f.css integrity="sha256-K7yE1be+rkZZuIIndUlB/6n6BqTeeP24mQ08MD/DZl8=" rel="preload stylesheet" as=style><link rel=icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://bernard035.github.io/posts/2-mod-pow-dp-20200207/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1})'></script><meta property="og:url" content="https://bernard035.github.io/posts/2-mod-pow-dp-20200207/"><meta property="og:site_name" content="Bernard's Blog"><meta property="og:title" content="寒假训练赛2 mod pow 数三角 dp inv"><meta property="og:description" content='https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg
+题解传送门
+本次比赛C题DP挺经典的，值得回顾。
+G题 判正误 判断 图片说明 最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……
+如果不取模直接快速幂也过不了。
+这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。
+cpp代码 多次取模快速幂 #include <bits/stdc++.h> #define sscc ios::sync_with_stdio(false) using namespace std; typedef long long ll; //const int mod=1e9+7; ll qkpow(ll x, ll y,int mod) { if(x==0) return 0; else if(y==0) return 1; ll ans = 1; x = x % mod; while (y) { if(y&amp;1) ans = ans*x %mod; x = x*x %mod; y = y>>1; } return ans; } ll a,b,c,d,e,f,g; bool check(int mod){ ll ans1=qkpow(a,d,mod); ll ans2=qkpow(b,e,mod); ll ans3=qkpow(c,f,mod); if(g-ans1-ans2==ans3) return 1; else return 0; } int main() { int T; sscc; cin>>T; while(T--) { cin>>a>>b>>c>>d>>e>>f>>g; int flag=1; int mod=1e9+7; if(!check(mod)) flag=0; mod=1e9+11; if(!check(mod)) flag=0; mod=1e9+1; if(!check(mod)) flag=0; if(flag)cout<<"Yes"<<endl; else cout<<"No"<<endl; } return 0; } 多次取模来确保答案准确性，时间消耗会增加约40%不过离1s还是很远。'><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-02-07T12:00:00+08:00"><meta property="article:modified_time" content="2020-02-07T12:00:00+08:00"><meta property="article:tag" content="赛后分析"><meta property="article:tag" content="牛客"><meta property="article:tag" content="DP"><meta property="og:image" content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="寒假训练赛2 mod pow 数三角 dp inv"><meta name=twitter:description content='https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg
+题解传送门
+本次比赛C题DP挺经典的，值得回顾。
+G题 判正误 判断 图片说明 最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……
+如果不取模直接快速幂也过不了。
+这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。
+cpp代码 多次取模快速幂 #include <bits/stdc++.h> #define sscc ios::sync_with_stdio(false) using namespace std; typedef long long ll; //const int mod=1e9+7; ll qkpow(ll x, ll y,int mod) { if(x==0) return 0; else if(y==0) return 1; ll ans = 1; x = x % mod; while (y) { if(y&amp;1) ans = ans*x %mod; x = x*x %mod; y = y>>1; } return ans; } ll a,b,c,d,e,f,g; bool check(int mod){ ll ans1=qkpow(a,d,mod); ll ans2=qkpow(b,e,mod); ll ans3=qkpow(c,f,mod); if(g-ans1-ans2==ans3) return 1; else return 0; } int main() { int T; sscc; cin>>T; while(T--) { cin>>a>>b>>c>>d>>e>>f>>g; int flag=1; int mod=1e9+7; if(!check(mod)) flag=0; mod=1e9+11; if(!check(mod)) flag=0; mod=1e9+1; if(!check(mod)) flag=0; if(flag)cout<<"Yes"<<endl; else cout<<"No"<<endl; } return 0; } 多次取模来确保答案准确性，时间消耗会增加约40%不过离1s还是很远。'><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://bernard035.github.io/posts/"},{"@type":"ListItem","position":2,"name":"寒假训练赛2 mod pow 数三角 dp inv","item":"https://bernard035.github.io/posts/2-mod-pow-dp-20200207/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"寒假训练赛2 mod pow 数三角 dp inv","name":"寒假训练赛2 mod pow 数三角 dp inv","description":"https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg\n题解传送门\n本次比赛C题DP挺经典的，值得回顾。\nG题 判正误 判断 图片说明 最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……\n如果不取模直接快速幂也过不了。\n这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。\ncpp代码 多次取模快速幂 #include \u0026lt;bits/stdc++.h\u0026gt; #define sscc ios::sync_with_stdio(false) using namespace std; typedef long long ll; //const int mod=1e9+7; ll qkpow(ll x, ll y,int mod) { if(x==0) return 0; else if(y==0) return 1; ll ans = 1; x = x % mod; while (y) { if(y\u0026amp;1) ans = ans*x %mod; x = x*x %mod; y = y\u0026gt;\u0026gt;1; } return ans; } ll a,b,c,d,e,f,g; bool check(int mod){ ll ans1=qkpow(a,d,mod); ll ans2=qkpow(b,e,mod); ll ans3=qkpow(c,f,mod); if(g-ans1-ans2==ans3) return 1; else return 0; } int main() { int T; sscc; cin\u0026gt;\u0026gt;T; while(T--) { cin\u0026gt;\u0026gt;a\u0026gt;\u0026gt;b\u0026gt;\u0026gt;c\u0026gt;\u0026gt;d\u0026gt;\u0026gt;e\u0026gt;\u0026gt;f\u0026gt;\u0026gt;g; int flag=1; int mod=1e9+7; if(!check(mod)) flag=0; mod=1e9+11; if(!check(mod)) flag=0; mod=1e9+1; if(!check(mod)) flag=0; if(flag)cout\u0026lt;\u0026lt;\u0026#34;Yes\u0026#34;\u0026lt;\u0026lt;endl; else cout\u0026lt;\u0026lt;\u0026#34;No\u0026#34;\u0026lt;\u0026lt;endl; } return 0; } 多次取模来确保答案准确性，时间消耗会增加约40%不过离1s还是很远。\n","keywords":["赛后分析","牛客","DP"],"articleBody":"https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg\n题解传送门\n本次比赛C题DP挺经典的，值得回顾。\nG题 判正误 判断 图片说明 最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……\n如果不取模直接快速幂也过不了。\n这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。\ncpp代码 多次取模快速幂 #include #define sscc ios::sync_with_stdio(false) using namespace std; typedef long long ll; //const int mod=1e9+7; ll qkpow(ll x, ll y,int mod) { if(x==0) return 0; else if(y==0) return 1; ll ans = 1; x = x % mod; while (y) { if(y\u00261) ans = ans*x %mod; x = x*x %mod; y = y\u003e\u003e1; } return ans; } ll a,b,c,d,e,f,g; bool check(int mod){ ll ans1=qkpow(a,d,mod); ll ans2=qkpow(b,e,mod); ll ans3=qkpow(c,f,mod); if(g-ans1-ans2==ans3) return 1; else return 0; } int main() { int T; sscc; cin\u003e\u003eT; while(T--) { cin\u003e\u003ea\u003e\u003eb\u003e\u003ec\u003e\u003ed\u003e\u003ee\u003e\u003ef\u003e\u003eg; int flag=1; int mod=1e9+7; if(!check(mod)) flag=0; mod=1e9+11; if(!check(mod)) flag=0; mod=1e9+1; if(!check(mod)) flag=0; if(flag)cout\u003c\u003c\"Yes\"\u003c","wordCount":"852","inLanguage":"en","image":"https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2020-02-07T12:00:00+08:00","dateModified":"2020-02-07T12:00:00+08:00","author":{"@type":"Person","name":"Me"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bernard035.github.io/posts/2-mod-pow-dp-20200207/"},"publisher":{"@type":"Organization","name":"Bernard's Blog","logo":{"@type":"ImageObject","url":"https://bernard035.github.io/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://bernard035.github.io/ accesskey=h title="Home (Alt + H)"><img src=https://bernard035.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://bernard035.github.io/categories/ title=categories><span>categories</span></a></li><li><a href=https://bernard035.github.io/tags/ title=tags><span>tags</span></a></li><li><a href=https://bernard035.github.io title=bernard035.github.io><span>bernard035.github.io</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>Posts</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">寒假训练赛2 mod pow 数三角 dp inv</h1><div class=post-meta><span title='2020-02-07 12:00:00 +0800 +0800'>February 7, 2020</span>&nbsp;·&nbsp;<span>4 min</span>&nbsp;·&nbsp;<span>852 words</span>&nbsp;·&nbsp;<span>Me</span>&nbsp;|&nbsp;<span>
+<a href=https://github.com/%3cpath_to_repo%3e/content/posts/2-mod-pow-dp-20200207.md rel="noopener noreferrer edit" target=_blank>Suggest Changes</a></span></div></header><details class=toc><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#判断-图片说明>判断 图片说明</a></li><li><a href=#cpp代码>cpp代码</a><ul><li><a href=#多次取模快速幂>多次取模快速幂</a></li><li><a href=#偷鸡的pow函数>偷鸡的pow函数</a></li></ul></li><li><a href=#python代码>Python代码</a><ul><li><a href=#爆锤弱数据代码>爆锤弱数据代码</a></li><li><a href=#正确代码>正确代码</a></li><li><a href=#不用取模的快速幂优化方案>不用取模的快速幂优化方案</a></li></ul></li></ul><ul><li><a href=#求有多少个不同的正整数三元组-ijk满足图片说明-且-图片说明->求有多少个不同的正整数三元组 (i,j,k)满足图片说明 ，且 图片说明 。</a></li><li><a href=#cpp代码-1>cpp代码</a></li><li><a href=#python代码-1>Python代码</a></li></ul><ul><li><a href=#n个不重复点有多少个钝角三角形>n个不重复点，有多少个钝角三角形。</a></li><li><a href=#cpp代码-2>cpp代码</a><ul><li><a href=#向量法>向量法</a></li><li><a href=#边长法>边长法</a></li><li><a href=#向量-算角>向量 算角</a></li><li><a href=#双重循环-明天看>双重循环 明天看</a></li></ul></li></ul><ul><li><a href=#n道题给出第1道到第n道做对的概率求做对0到n道的概率>n道题，给出第1道到第n道做对的概率，求做对0到n道的概率。</a><ul><li><a href=#青竹大佬的奇质数取模模板>青竹大佬的奇质数取模模板</a></li><li><a href=#思路>思路</a></li></ul></li><li><a href=#cpp代码-3>cpp代码</a></li><li><a href=#python代码-2>Python代码</a></li></ul></nav></div></details><div class="post-content md-content"><p><a href="https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg">https://ac.nowcoder.com/discuss/364961?tdsourcetag=s_pctim_aiomsg</a><br>题解传送门</p><p>本次比赛C题DP挺经典的，值得回顾。</p><h1 id=g题-判正误>G题 判正误<a hidden class=anchor aria-hidden=true href=#g题-判正误>#</a></h1><h2 id=判断-图片说明>判断 图片说明<a hidden class=anchor aria-hidden=true href=#判断-图片说明>#</a></h2><p>最早觉得是大数，一开始想直接用python糊过去。pythonTLE了以后还搞了很久的大数快速幂/大数加法，最后还是ZT大佬提醒我数据范围1e9……<br>如果不取模直接快速幂也过不了。<br>这次比赛一个深刻的教训就是大数取模，浮点数eps，不管题目给没给，都要考虑。</p><h2 id=cpp代码>cpp代码<a hidden class=anchor aria-hidden=true href=#cpp代码>#</a></h2><h3 id=多次取模快速幂>多次取模快速幂<a hidden class=anchor aria-hidden=true href=#多次取模快速幂>#</a></h3><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+//const int mod=1e9+7;
+ll qkpow(ll x, ll y,int mod) {
+    if(x==0) return 0;
+    else if(y==0) return 1;
+    ll ans = 1;
+    x = x % mod;
+    while (y) {
+        if(y&amp;1) ans = ans*x %mod;
+        x = x*x %mod;
+        y = y&gt;&gt;1;
+    }
+    return ans;
+}
+ll a,b,c,d,e,f,g;
+bool check(int mod){
+    ll ans1=qkpow(a,d,mod);
+        ll ans2=qkpow(b,e,mod);
+        ll ans3=qkpow(c,f,mod);
+        if(g-ans1-ans2==ans3) return 1;
+        else return 0;
+}
+int main() {
+    int T;
+    sscc;
+    cin&gt;&gt;T;
+    while(T--) {
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c&gt;&gt;d&gt;&gt;e&gt;&gt;f&gt;&gt;g;
+        int flag=1;
+        int mod=1e9+7;
+        if(!check(mod)) flag=0;
+        mod=1e9+11;
+        if(!check(mod)) flag=0;
+        mod=1e9+1;
+        if(!check(mod)) flag=0;
+        if(flag)cout&lt;&lt;&#34;Yes&#34;&lt;&lt;endl;
+        else cout&lt;&lt;&#34;No&#34;&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre><p>多次取模来确保答案准确性，时间消耗会增加约40%不过离1s还是很远。</p><h3 id=偷鸡的pow函数>偷鸡的pow函数<a hidden class=anchor aria-hidden=true href=#偷鸡的pow函数>#</a></h3><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+int main(){
+    long long n,a,b,c,d,e,f,g;
+    cin&gt;&gt;n;
+    while(n--){
+        cin&gt;&gt;a&gt;&gt;b&gt;&gt;c&gt;&gt;d&gt;&gt;e&gt;&gt;f&gt;&gt;g;
+        long long x=pow(a,d),y=pow(b,e),z=pow(c,f);
+        if(x+y+z==g)cout&lt;&lt;&#34;Yes&#34;&lt;&lt;endl;
+        else cout&lt;&lt;&#34;No&#34;&lt;&lt;endl;
+    }
+    return 0;
+}
+</code></pre><p>还有一件事情就是要储备大数模板，其实模板这种东西最好是自己写，希望我之后有时间吧。</p><h2 id=python代码>Python代码<a hidden class=anchor aria-hidden=true href=#python代码>#</a></h2><h3 id=爆锤弱数据代码>爆锤弱数据代码<a hidden class=anchor aria-hidden=true href=#爆锤弱数据代码>#</a></h3><pre tabindex=0><code>m=23456
+n=int(input())
+for _ in range(n):
+      a,b,c,d,e,f,g=map(int,input().split())
+      k=pow(a,d,m)+pow(b,e,m)+pow(c,f,m)
+      if g%m==k%m:
+            print(&#39;Yes&#39;)
+            continue
+      print(&#39;No&#39;)
+</code></pre><p>这个是直接调用系统的库函数，但是我写的时候是这样写的：</p><pre tabindex=0><code>a**d+b**e+c**f==g
+</code></pre><p>然后就理所应当地超时了。<br>顺便吐槽这题数据不太正常。</p><p>顺便鞭尸一下我的python快速幂代码</p><pre tabindex=0><code>def power(base,exponent):
+    res = 1
+    while exponent:
+        if exponent &amp; 1:
+            res *= base
+        base *= base
+        exponent = exponent &gt;&gt; 1
+    return res
+
+n=int(input())
+for i in range(n):
+    a,b,c,d,e,f,g=map(int,input().split())
+    g=g-power(c,f)
+    g=g-power(b,e)
+    if power(a,d) == g:
+        print(&#34;Yes&#34;)
+    else:
+        print(&#34;No&#34;)
+</code></pre><h3 id=正确代码>正确代码<a hidden class=anchor aria-hidden=true href=#正确代码>#</a></h3><pre tabindex=0><code>t = int(input())
+mods = (19270817, 10**9 + 7, 10**9 + 9)
+for _ in range(t):
+    a, b, c, d, e, f, g = map(int, input().split())
+    flag = True
+    for mod in mods:
+        if (pow(a, d, mod) + pow(b, e, mod) + pow(c, f, mod)) % mod != g % mod:
+            flag = False
+            break
+    print(&#34;Yes&#34; if flag else &#34;No&#34;)
+</code></pre><h3 id=不用取模的快速幂优化方案>不用取模的快速幂优化方案<a hidden class=anchor aria-hidden=true href=#不用取模的快速幂优化方案>#</a></h3><pre tabindex=0><code>def solve(x,n):
+    res=1
+    while n&gt;0:
+        if n&amp;1:
+            res=res * x
+        if res&gt;1000000000:
+            break
+        if res&lt;-1000000000:
+            break
+        x=x*x
+        n&gt;&gt;=1
+    return res
+
+t=int(input())
+for i in range(t):
+    a, b, c,d,e,f,g = map(int, input().split())
+    cur1=0
+    cur2=0
+    cur3=0
+    cur1=solve(a,d)
+    cur2=solve(b, e)
+    cur3=solve(c, f)
+    if cur1+cur2+cur3==g:
+        print(&#34;Yes&#34;)
+    else:
+        print(&#34;No&#34;)
+</code></pre><h1 id=e题-做计数>E题 做计数<a hidden class=anchor aria-hidden=true href=#e题-做计数>#</a></h1><h2 id=求有多少个不同的正整数三元组-ijk满足图片说明-且-图片说明->求有多少个不同的正整数三元组 (i,j,k)满足图片说明 ，且 图片说明 。<a hidden class=anchor aria-hidden=true href=#求有多少个不同的正整数三元组-ijk满足图片说明-且-图片说明->#</a></h2><p>两边平方后可化简得$i+j+2\sqrt{ij}=k$<br>要使得$\sqrt{ij}$ 为整数，那么$ij$ 必须是一个完全平方数。</p><pre tabindex=0><code>for(ll i = 1; i*i&lt;=n; i++)
+</code></pre><p>所以枚举轮次这样写那么可以枚举ij的值。也就是因数个数，有多少个因数就有多少个i，就有多少个对应的j，加起来就可以了。</p><h2 id=cpp代码-1>cpp代码<a hidden class=anchor aria-hidden=true href=#cpp代码-1>#</a></h2><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+const int N=2e5+5;
+ll f(ll n){
+    ll s=1;
+    for(ll i=2;i*i&lt;=n;i++){
+        if(n%i==0){
+            ll a=0;
+            while(n%i==0){
+                n/=i;
+                a++;
+            }
+            s=s*(a+1);
+        }
+    }
+    if(n&gt;1) s=s*2;
+    return s;
+}
+int main() {
+    sscc;
+    ll n,ans = 0,temp;
+    cin&gt;&gt;n;
+    for(ll i = 1; i*i&lt;=n; i++)
+        ans+=f(i*i);
+    cout&lt;&lt;ans&lt;&lt;endl;
+}
+</code></pre><h2 id=python代码-1>Python代码<a hidden class=anchor aria-hidden=true href=#python代码-1>#</a></h2><pre tabindex=0><code>n=int(input())
+x=1
+ans=0
+while x*x&lt;=n:
+    i=1
+    y=x*x
+    while i*i&lt;=y:
+        if y%i==0:
+            ans+=2
+            if y==i*i:
+                ans-=1
+        i+=1
+    x+=1
+print(ans)
+</code></pre><h1 id=d题-数三角>D题 数三角<a hidden class=anchor aria-hidden=true href=#d题-数三角>#</a></h1><h2 id=n个不重复点有多少个钝角三角形>n个不重复点，有多少个钝角三角形。<a hidden class=anchor aria-hidden=true href=#n个不重复点有多少个钝角三角形>#</a></h2><p>这题我一开始用边长算超时了。ZT大佬指导又发现本菜鸡高中数学白学了，向量也写错了，太艰难了。<br>其实我想了很久辐角排序二分blabla，等有空再实现吧。那就是比较麻烦的计算几何了。</p><h2 id=cpp代码-2>cpp代码<a hidden class=anchor aria-hidden=true href=#cpp代码-2>#</a></h2><h3 id=向量法>向量法<a hidden class=anchor aria-hidden=true href=#向量法>#</a></h3><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+const int N=2e5+5;
+int n;
+string g;
+struct po {
+    int x,y;
+} p[505];
+
+inline bool check(int x,int y,int z){
+    if((double)(p[x].x-p[z].x)*(p[x].y-p[y].y)==(double)(p[x].x-p[y].x)*(p[x].y-p[z].y)) return 0;
+    if((p[x].x-p[z].x)*(p[y].x-p[z].x)+(p[x].y-p[z].y)*(p[y].y-p[z].y)&lt;0) return 1;
+    if((p[x].x-p[y].x)*(p[z].x-p[y].x)+(p[x].y-p[y].y)*(p[z].y-p[y].y)&lt;0) return 1;
+    if((p[y].x-p[x].x)*(p[z].x-p[x].x)+(p[y].y-p[x].y)*(p[z].y-p[x].y)&lt;0) return 1;
+    return 0;
+}
+
+int main() {
+    scanf(&#34;%d&#34;,&amp;n);
+    for(int i=0; i&lt;n; i++) 
+        scanf(&#34;%d %d&#34;,&amp;p[i].x,&amp;p[i].y);
+    ll cnt=0;
+    for(int i=0; i&lt;n; i++) 
+        for(int j=i+1; j&lt;n; j++) 
+            for(int k=j+1; k&lt;n; k++) 
+                if(check(i,j,k)) cnt++;
+    printf(&#34;%lld&#34;,cnt);
+    return 0;
+}
+</code></pre><h3 id=边长法>边长法<a hidden class=anchor aria-hidden=true href=#边长法>#</a></h3><p>明天自己debug</p><h3 id=向量-算角>向量 算角<a hidden class=anchor aria-hidden=true href=#向量-算角>#</a></h3><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+const int N =1e4 + 50;
+int x[N],y[N],n,ans;
+int main(){
+    cin &gt;&gt; n;
+    for(int i =1; i&lt;=n;i++) cin&gt;&gt; x[i]&gt;&gt; y[i];
+    for(int i=1 ;i&lt;=n;i++)
+        for(int  j =1;j&lt;=n;j++)
+            for(int k=1;k&lt;=n;k++){
+                int x1 = x[j] - x[i],y1= y[j] -y[i];
+                int x2 = x[k] - x[i],y2 = y[k] - y[i];
+                if( x1*x2 + y1*y2 &lt;0 &amp;&amp; x1*y2- x2*y1!=0)
+                    ans++;
+            }
+    cout&lt;&lt;ans/2&lt;&lt;endl;
+    return 0;
+}//CWR大佬的写法
+</code></pre><h3 id=双重循环-明天看>双重循环 明天看<a hidden class=anchor aria-hidden=true href=#双重循环-明天看>#</a></h3><pre tabindex=0><code>#include&lt;bits/stdc++.h&gt;
+using namespace std;
+#define LL long long
+#define PII pair&lt;int,int&gt;
+#define test freopen(&#34;in&#34;,&#34;r&#34;,stdin);freopen(&#34;out&#34;,&#34;w&#34;,stdout);
+#define inf 0x3f3f3f3f
+const int maxn=505,mod=1e9+7;
+struct nod {
+    int x,y;
+} p[maxn];
+int n;
+bool check(int a,int b,int c) {
+    nod t1= {p[b].x-p[a].x,p[b].y-p[a].y};
+    nod t2= {p[c].x-p[a].x,p[c].y-p[a].y};
+    LL t=t1.x*t2.x+t1.y*t2.y;
+    LL mo=1ll*(t1.x*t1.x+t1.y*t1.y)*(t2.x*t2.x+t2.y*t2.y);
+    if(t&lt;0&amp;&amp;t*t!=mo) return 1;
+    return 0;
+}
+int main() {
+    scanf(&#34;%d&#34;,&amp;n);
+    for(int i=0; i&lt;n; ++i) scanf(&#34;%d%d&#34;,&amp;p[i].x,&amp;p[i].y);
+    int ans=0;
+    for(int i=0; i&lt;n; ++i) 
+        for(int j=0; j&lt;n; ++j) 
+            if(i!=j) for(int k=j+1; k&lt;n; ++k) if(check(i,j,k)) ++ans;
+    printf(&#34;%d&#34;,ans);
+    return 0;
+}
+</code></pre><h1 id=c题-算概率>C题 算概率<a hidden class=anchor aria-hidden=true href=#c题-算概率>#</a></h1><h2 id=n道题给出第1道到第n道做对的概率求做对0到n道的概率>n道题，给出第1道到第n道做对的概率，求做对0到n道的概率。<a hidden class=anchor aria-hidden=true href=#n道题给出第1道到第n道做对的概率求做对0到n道的概率>#</a></h2><h3 id=青竹大佬的奇质数取模模板>青竹大佬的奇质数取模模板<a hidden class=anchor aria-hidden=true href=#青竹大佬的奇质数取模模板>#</a></h3><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+const int mod=1e9+7;
+ll qkpow(ll a, ll b) {
+    ll ans = 1;
+    a = a % mod;
+    while (b) {
+        if(b&amp;1) ans = ans * a % mod;
+        a = a * a % mod;
+        b = b &gt;&gt;1;
+    }
+    return ans;
+}
+ll getInv(ll a) {
+    return qkpow(a,mod-2);
+}
+int main() {
+    ll x;
+    while(cin&gt;&gt;x)
+        cout&lt;&lt;getInv(x)&lt;&lt;endl;
+    return 0;
+}
+</code></pre><h3 id=思路>思路<a hidden class=anchor aria-hidden=true href=#思路>#</a></h3><p>其实是没什么思路……<br>我一开始就是打算硬模拟，一个一个枚举计算，n&lt;2000，怎么样都不可能超时。<br>比如n=3 已知p1 p2 p3，ans0=(1-p1)(1-p2)(1-p3)，这样的，然后后面就需要排列组合了。。<br>然后我遇到了一个困难：使用青竹大佬的模板可以把500000004和2互换，但是这是分子为1的情况，那万一概率是2/3，Inv(3)=333333336，输入就会是666666672，我怎么做到转换成概率分式呢？</p><hr><p>三月回来复习这题，上面的话纯属胡思乱想。<br>这题的思路是DP，状态转移方程的含义就是：<br><strong>前i题做出来j题的概率是前i-1题做出来j题的概率x第i题没做出来的概率+前i-1题做出来j-1题的概率x第i题做出来了的概率</strong><br><code>b=mod+1-a</code>意味着取模意义下的1-a，但是不能为负数故加上mod</p><h2 id=cpp代码-3>cpp代码<a hidden class=anchor aria-hidden=true href=#cpp代码-3>#</a></h2><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#define sscc ios::sync_with_stdio(false)
+using namespace std;
+typedef long long ll;
+const int mod=1e9+7;
+long long ans[2005];
+int main() {
+    int n;
+    scanf(&#34;%d&#34;,&amp;n);
+    ans[0]=1;
+    for(int i=1; i&lt;=n; i++) {
+        ll a,b;
+        scanf(&#34;%lld&#34;,&amp;a);
+        b=mod+1-a;
+        for(int j=i; j&gt;0; j--) ans[j]=(ans[j-1]*a+ans[j]*b)%mod;
+        ans[0]=(ans[0]*b)%mod;
+    }
+    for(int i=0; i&lt;=n; i++) printf(&#34;%lld &#34;,ans[i]);
+    return 0;
+}
+</code></pre><h2 id=python代码-2>Python代码<a hidden class=anchor aria-hidden=true href=#python代码-2>#</a></h2><pre tabindex=0><code>mod = 1000000007
+n = int(input())
+p = [0] + list(map(int, input().split()))
+dp = [[0] * (n + 1) for _ in range(n + 1)]
+dp[0][0] = 1
+for i in range(1, n + 1) :
+    for j in range(i + 1) :
+        dp[i][j] = (dp[i - 1][j] * (mod + 1 - p[i]) % mod + (dp[i - 1][j - 1] * p[i] % mod if j else 0)) % mod
+print(&#39; &#39;.join(map(str, dp[n])))
+</code></pre><hr><blockquote><p>本文整理自作者牛客博客（https://blog.nowcoder.net/n/c2a3a02b4fa04bfcbc4448e5bd7984fe），发布于 2020-02-07。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://bernard035.github.io/tags/%E8%B5%9B%E5%90%8E%E5%88%86%E6%9E%90/>赛后分析</a></li><li><a href=https://bernard035.github.io/tags/%E7%89%9B%E5%AE%A2/>牛客</a></li><li><a href=https://bernard035.github.io/tags/dp/>DP</a></li></ul><nav class=paginav><a class=prev href=https://bernard035.github.io/posts/3-20200209/><span class=title>« Prev</span>
+<span>寒假训练赛3 因数 埃筛 汉诺塔</span>
+</a><a class=next href=https://bernard035.github.io/posts/2019csp-dp-20200206/><span class=title>Next »</span>
+<span>股票买卖问题 纪念品 2019CSP-J普及组C题 DP学习</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛2 mod pow 数三角 dp inv on x" href="https://x.com/intent/tweet/?text=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b2%20mod%20pow%20%e6%95%b0%e4%b8%89%e8%a7%92%20dp%20inv&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f&amp;hashtags=%e8%b5%9b%e5%90%8e%e5%88%86%e6%9e%90%2c%e7%89%9b%e5%ae%a2%2cDP"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛2 mod pow 数三角 dp inv on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f&amp;title=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b2%20mod%20pow%20%e6%95%b0%e4%b8%89%e8%a7%92%20dp%20inv&amp;summary=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b2%20mod%20pow%20%e6%95%b0%e4%b8%89%e8%a7%92%20dp%20inv&amp;source=https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛2 mod pow 数三角 dp inv on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f&title=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b2%20mod%20pow%20%e6%95%b0%e4%b8%89%e8%a7%92%20dp%20inv"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛2 mod pow 数三角 dp inv on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛2 mod pow 数三角 dp inv on whatsapp" href="https://api.whatsapp.com/send?text=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b2%20mod%20pow%20%e6%95%b0%e4%b8%89%e8%a7%92%20dp%20inv%20-%20https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛2 mod pow 数三角 dp inv on telegram" href="https://telegram.me/share/url?text=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b2%20mod%20pow%20%e6%95%b0%e4%b8%89%e8%a7%92%20dp%20inv&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 寒假训练赛2 mod pow 数三角 dp inv on ycombinator" href="https://news.ycombinator.com/submitlink?t=%e5%af%92%e5%81%87%e8%ae%ad%e7%bb%83%e8%b5%9b2%20mod%20pow%20%e6%95%b0%e4%b8%89%e8%a7%92%20dp%20inv&u=https%3a%2f%2fbernard035.github.io%2fposts%2f2-mod-pow-dp-20200207%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://bernard035.github.io/>Bernard's Blog</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

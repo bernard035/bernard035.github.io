@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>SPEC CPU on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/spec-cpu/</link>
+    <description>Recent content in SPEC CPU on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2026 16:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/spec-cpu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SPEC CPU 2017 详解：套件、评分与 base/peak 调优</title>
+      <link>https://bernard035.github.io/posts/spec-cpu2017-benchmark-guide/</link>
+      <pubDate>Thu, 03 Sep 2026 16:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/spec-cpu2017-benchmark-guide/</guid>
+      <description>&lt;h1 id=&#34;spec-cpu-2017-详解套件评分与-basepeak-调优&#34;&gt;SPEC CPU 2017 详解：套件、评分与 base/peak 调优&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;SPEC CPU 2017 是业界公认的 CPU 子系统性能基准测试套件。本文系统梳理其核心概念——四大测试套件、比率与几何平均评分、base/peak 双调优级别——并结合 runcpu 配置文件的关键参数给出实战解析，最后介绍如何把 SPECrate 用作 CPU 压力测试。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;一spec-cpu-2017-是什么&#34;&gt;一、SPEC CPU 2017 是什么&lt;/h2&gt;
+&lt;p&gt;SPEC CPU 2017 由标准性能评价委员会（Standard Performance Evaluation Corporation, SPEC）发布，包含 &lt;strong&gt;43 个基准测试程序&lt;/strong&gt;，提供了一套公正、客观、可重复的 CPU 子系统性能度量方法，结果被广泛用于硬件研发、系统选型与学术研究。&lt;/p&gt;
+&lt;p&gt;三个关键特征：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;源代码分发&lt;/strong&gt;：基准以源代码形式提供，测试者使用指定编译器与选项自行编译，因此结果反映的是&amp;quot;处理器 + 编译器 + 系统&amp;quot;的综合能力；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;真实应用负载&lt;/strong&gt;：基准来源于真实世界应用——编译器（&lt;code&gt;gcc&lt;/code&gt;）、视频编码（&lt;code&gt;x264&lt;/code&gt;）、渲染（&lt;code&gt;blender&lt;/code&gt;）、气候建模（&lt;code&gt;cam4&lt;/code&gt;）、深度学习推理（&lt;code&gt;deepsjeng&lt;/code&gt;）等，与实际应用性能相关性高；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;严格的公平性规则&lt;/strong&gt;：不允许对基准源码做功能性修改（极少数情况下允许非功能性移植修改），结果必须按 SPEC 规则报告，保证跨厂商、跨系统的可比性。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二四大测试套件&#34;&gt;二、四大测试套件&lt;/h2&gt;
+&lt;p&gt;43 个基准被组织成四个套件，覆盖两个正交维度：&lt;strong&gt;整数/浮点&lt;/strong&gt; 与 &lt;strong&gt;速度/速率&lt;/strong&gt;。&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;套件&lt;/th&gt;
+					&lt;th&gt;基准数&lt;/th&gt;
+					&lt;th&gt;并行模型&lt;/th&gt;
+					&lt;th&gt;衡量目标&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;SPECrate 2017 Integer（intrate）&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;N 个副本（copies）&lt;/td&gt;
+					&lt;td&gt;整数吞吐率&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;SPECspeed 2017 Integer（intspeed）&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;单副本 + OpenMP 线程&lt;/td&gt;
+					&lt;td&gt;整数单任务延迟&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;SPECrate 2017 Floating Point（fprate）&lt;/td&gt;
+					&lt;td&gt;13&lt;/td&gt;
+					&lt;td&gt;N 个副本&lt;/td&gt;
+					&lt;td&gt;浮点吞吐率&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;SPECspeed 2017 Floating Point（fpspeed）&lt;/td&gt;
+					&lt;td&gt;10&lt;/td&gt;
+					&lt;td&gt;单副本 + OpenMP 线程&lt;/td&gt;
+					&lt;td&gt;浮点单任务延迟&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;简化记忆：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

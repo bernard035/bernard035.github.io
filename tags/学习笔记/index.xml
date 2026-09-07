@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>学习笔记 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 学习笔记 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 01 May 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>线性基 Linear Base</title>
+      <link>https://bernard035.github.io/posts/linear-base-20210501/</link>
+      <pubDate>Sat, 01 May 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/linear-base-20210501/</guid>
+      <description>&lt;h2 id=&#34;性质&#34;&gt;性质&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;线性基的元素能通过&lt;strong&gt;相互异或&lt;/strong&gt;，&lt;strong&gt;得到原序列的元素的所有相互异或得到的值&lt;/strong&gt;。也可以得到原序列的任意一个数。- 线性基是满足性质1的最小集合。- 线性基没有异或和为 0 的子集。- 线性基中每个元素的异或方案唯一，也就是说，线性基中不同的异或组合异或出的数都是不一样的。- 线性基中每个元素的二进制最高位互不相同。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll d[64];
+void add(ll x) {
+    for (int i = 60; ~i; --i) {
+        if (x &amp;amp; (1ll &amp;lt;&amp;lt; i)) {  // 如果x此位有
+            if (d[i])          // 如果本位此前已存值
+                x ^= d[i];     // 已有的消除
+            else {
+                d[i] = x;  // 直接存储
+                break;
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;求最大值&#34;&gt;求最大值&lt;/h2&gt;
+&lt;p&gt;求序列中的数所能异或出来的最大值&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll solve() {
+    ll ans = 0;
+    for (int i = 60; ~i; --i) {
+        if (ans ^ d[i] &amp;gt; ans) ans ^= d[i];
+    }
+    return ans;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;求最小值&#34;&gt;求最小值&lt;/h2&gt;
+&lt;p&gt;判断有没有add失败，如果有，就是0，否则是d[0]&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>线性基 Linear Base</title>
+      <link>https://bernard035.github.io/posts/linear-base-linear-basis-20210501/</link>
+      <pubDate>Sat, 01 May 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/linear-base-linear-basis-20210501/</guid>
+      <description>&lt;h2 id=&#34;性质&#34;&gt;性质&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;线性基的元素能通过&lt;strong&gt;相互异或&lt;/strong&gt;，&lt;strong&gt;得到原序列的元素的所有相互异或得到的值&lt;/strong&gt;。也可以得到原序列的任意一个数。- 线性基是满足性质1的最小集合。- 线性基没有异或和为 0 的子集。- 线性基中每个元素的异或方案唯一，也就是说，线性基中不同的异或组合异或出的数都是不一样的。- 线性基中每个元素的二进制最高位互不相同。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll d[64];
+void add(ll x) {
+    for (int i = 60; ~i; --i) {
+        if (x &amp;amp; (1ll &amp;lt;&amp;lt; i)) {  // 如果x此位有
+            if (d[i])          // 如果本位此前已存值
+                x ^= d[i];     // 已有的消除
+            else {
+                d[i] = x;  // 直接存储
+                break;
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;求最大值&#34;&gt;求最大值&lt;/h2&gt;
+&lt;p&gt;求序列中的数所能异或出来的最大值&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll solve() {
+    ll ans = 0;
+    for (int i = 60; ~i; --i) {
+        if (ans ^ d[i] &amp;gt; ans) ans ^= d[i];
+    }
+    return ans;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;求最小值&#34;&gt;求最小值&lt;/h2&gt;
+&lt;p&gt;判断有没有add失败，如果有，就是0，否则是d[0]&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>几种最短路的简单表述</title>
+      <link>https://bernard035.github.io/posts/shortest-path-20210423/</link>
+      <pubDate>Fri, 23 Apr 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/shortest-path-20210423/</guid>
+      <description>&lt;h1 id=&#34;spfa&#34;&gt;SPFA&lt;/h1&gt;
+&lt;p&gt;思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;初始化dis[]为最大值，dis[x]表示起点到x点的最短路长度&lt;/li&gt;
+&lt;li&gt;建立一个queue，一开始只有起点&lt;/li&gt;
+&lt;li&gt;弹出队头，对于队头节点的每个相邻点，如果能优化当前的路径，就入队，并且优化&lt;/li&gt;
+&lt;li&gt;重复3直到队空&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 3e3 + 7;
+const int mod = 1e9 + 7;
+int a[N][N];
+const int n = 2021;
+void build() {
+    rep(i, 1, n) rep(j, 1, n) {
+        if (abs(i - j) &amp;lt;= 21) a[i][j] = a[j][i] = i / __gcd(i, j) * j;
+    }
+}
+ll dis[N];
+bool vis[N];
+void spfa(int ori) {
+    fill(dis, dis + n + 1, LLONG_MAX);
+    dis[ori] = 0;
+    queue&amp;lt;int&amp;gt; q;
+    vis[ori] = 1;
+    q.push(1);
+    while (!q.empty()) {
+        int x = q.front();
+        q.pop();
+        vis[x] = 0;
+        rep(i, 1, n) if (x != i &amp;amp;&amp;amp; abs(x - i) &amp;lt;= 21) {
+            if (dis[x] + a[x][i] &amp;lt; dis[i]) {
+                dis[i] = dis[x] + a[x][i];
+                if (!vis[i]) {
+                    vis[i] = 1;
+                    q.push(i);
+                }
+            }
+        }
+    }
+}
+int main() {
+    build();
+    spfa(1);
+    pr(dis[n]);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;dij&#34;&gt;dij&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 2005;
+const int mod = 1e9 + 7;
+int a[N][N];
+ll dis[N][N];
+bool vis[N];
+vector&amp;lt;int&amp;gt; G[N];
+int n, m, c;
+struct node {
+    ll val;
+    int id;
+    bool operator&amp;lt;(const node&amp;amp; o) const { return val &amp;gt; o.val; }
+};
+void dij(int ori) {
+    ll* d = dis[ori];
+    fill(d + 1, d + n + 1, INT_MAX);
+    memset(vis, 0, sizeof vis);
+    d[ori] = 0;
+    priority_queue&amp;lt;node&amp;gt; pq;
+    pq.push({0, ori});
+    while (!pq.empty()) {
+        int x = pq.top().id;
+        pq.pop();
+        if (!vis[x]) {
+            vis[x] = 1;
+            for (int i : G[x]) {
+                if (d[x] + a[x][i] &amp;lt; d[i]) {
+                    d[i] = d[x] + a[x][i];
+                    pq.push({d[i], i});
+                }
+            }
+        }
+    }
+}
+int main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    cin &amp;gt;&amp;gt; n &amp;gt;&amp;gt; m &amp;gt;&amp;gt; c;
+    int u, v, w, minw = INT_MAX;
+    rep(i, 1, m) {
+        cin &amp;gt;&amp;gt; u &amp;gt;&amp;gt; v &amp;gt;&amp;gt; w;
+        minw = min(minw, w);
+        if (!a[u][v]) {
+            a[u][v] = w;
+            G[u].push_back(v);
+        } else {
+            a[u][v] = min(a[u][v], w);
+        }
+    }
+    rep(i, 1, n) dij(i);
+    ll minc = LLONG_MAX;
+    rep(i, 1, n) rep(j, i + 1, n) minc = min(minc, dis[i][j] + dis[j][i]);
+    if (minc &amp;lt;= c)
+        cout &amp;lt;&amp;lt; 2;
+    else if (minw &amp;lt;= c)
+        cout &amp;lt;&amp;lt; 1;
+    else
+        cout &amp;lt;&amp;lt; 0;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef long long ll;
+const int N = 3e3 + 7;
+const int mod = 1e9 + 7;
+int a[N][N];
+const int n = 2021;
+void build() {
+    rep(i, 1, n) rep(j, 1, n) {
+        if (abs(i - j) &amp;lt;= 21) a[i][j] = a[j][i] = i / __gcd(i, j) * j;
+    }
+}
+ll dis[N];
+bool vis[N];
+void dij(int ori) {
+    fill(dis, dis + n + 1, LLONG_MAX);
+    dis[ori] = 0;
+    map&amp;lt;ll, int&amp;gt; mp;
+    vis[ori] = 1;
+    mp[0] = 1;
+    while (!mp.empty()) {
+        int x = (*mp.begin()).second;
+        mp.erase(mp.begin());
+        vis[x] = 0;
+        rep(i, 1, n) if (x != i &amp;amp;&amp;amp; abs(x - i) &amp;lt;= 21) {
+            if (dis[x] + a[x][i] &amp;lt; dis[i]) {
+                dis[i] = dis[x] + a[x][i];
+                if (!vis[i]) {
+                    vis[i] = 1;
+                    mp[dis[i]] = i;
+                }
+            }
+        }
+    }
+}
+int main() {
+    build();
+    dij(1);
+    pr(dis[n]);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;floyd&#34;&gt;floyd&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;void floyd(int **g) {
+    int s = 1;
+    rep(i, 1, n) rep(j, 1, n) {
+        if (g[i][j]) {
+            g[i][j] = INT_MAX;
+        }
+    }
+    rep(k, 1, n) rep(i, 1, n) {
+        if (a[i][k] != INT_MAX) {
+            rep(j, 1, n) g[i][j] = min(g[i][j], g[i][k] + g[k][j]);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/4deaccc07bc3467d8218d85d2a225460），发布于 2021-04-23。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>再谈bitset</title>
+      <link>https://bernard035.github.io/posts/bitset-20210202-2/</link>
+      <pubDate>Tue, 02 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/bitset-20210202-2/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;bitset是一种优秀的位域实现，时空效率均有优化，可以取代大部分bool数组。- 如果要用到bitset某一位的值，应当调用&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;st.test(3)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而非直接调用&lt;code&gt;[]&lt;/code&gt;运算符进行下标访问- 全局变量里的bitset可以直接访问读写，和bool数组一样初始化为了0。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+typedef pair&amp;lt;int, int&amp;gt; pii;
+pii a[N];
+unordered_map&amp;lt;int, int&amp;gt; pos;
+vector&amp;lt;int&amp;gt; ori;
+int vis[N &amp;gt;&amp;gt; 1];
+int main() {
+    int n, m;
+    sc(n), sc(m);
+    rep(i, 1, m) sc(a[i].first), sc(a[i].second);
+    // 离散化
+    rep(i, 1, m) {
+        ori.emplace_back(a[i].first);
+        // ori.emplace_back(a[i].second);
+        ori.emplace_back(a[i].second + 1);
+    }
+    sort(ori.begin(), ori.end());
+    ori.erase(unique(ori.begin(), ori.end()), ori.end());
+    int sz = ori.size();
+    for (int i = 0; i &amp;lt; sz; ++i) pos[ori[i]] = i;
+    // 差分 前缀和
+    rep(i, 1, m) {
+        vis[pos[a[i].first]]++;
+        vis[pos[a[i].second + 1]]--;
+    }
+    int tot = N &amp;gt;&amp;gt; 1;
+    rep(i, 1, tot) vis[i] += vis[i - 1];
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/9e7f692cb51e4bcd813a3f30a74059f3），发布于 2021-02-02。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>再谈bitset</title>
+      <link>https://bernard035.github.io/posts/bitset-20210202/</link>
+      <pubDate>Tue, 02 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/bitset-20210202/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;bitset是一种优秀的位域实现，时空效率均有优化，可以取代大部分bool数组。- 如果要用到bitset某一位的值，应当调用&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;st.test(3)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;而非直接调用&lt;code&gt;[]&lt;/code&gt;运算符进行下标访问- 全局变量里的bitset可以直接访问读写，和bool数组一样初始化为了0。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const int mod = 1e9 + 7;
+typedef pair&amp;lt;int, int&amp;gt; pii;
+pii a[N];
+unordered_map&amp;lt;int, int&amp;gt; pos;
+vector&amp;lt;int&amp;gt; ori;
+int vis[N &amp;gt;&amp;gt; 1];
+int main() {
+    int n, m;
+    sc(n), sc(m);
+    rep(i, 1, m) sc(a[i].first), sc(a[i].second);
+    // 离散化
+    rep(i, 1, m) {
+        ori.emplace_back(a[i].first);
+        // ori.emplace_back(a[i].second);
+        ori.emplace_back(a[i].second + 1);
+    }
+    sort(ori.begin(), ori.end());
+    ori.erase(unique(ori.begin(), ori.end()), ori.end());
+    int sz = ori.size();
+    for (int i = 0; i &amp;lt; sz; ++i) pos[ori[i]] = i;
+    // 差分 前缀和
+    rep(i, 1, m) {
+        vis[pos[a[i].first]]++;
+        vis[pos[a[i].second + 1]]--;
+    }
+    int tot = N &amp;gt;&amp;gt; 1;
+    rep(i, 1, tot) vis[i] += vis[i - 1];
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/9e7f692cb51e4bcd813a3f30a74059f3），发布于 2021-02-02。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>cpp 优先队列 大顶堆 小顶堆 自定义排序规则 匿名函数 仿函数</title>
+      <link>https://bernard035.github.io/posts/cpp-sorting-queue-heap-priority-queue-20210125/</link>
+      <pubDate>Mon, 25 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cpp-sorting-queue-heap-priority-queue-20210125/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;int main() {
+    //大顶堆
+    std::priority_queue&amp;lt;int &amp;gt;q;  // 等同于 std::priority_queue&amp;lt;int,std::vector&amp;lt;int&amp;gt; , std::less&amp;lt;int&amp;gt; &amp;gt;q;
+    for(int n : {1,8,5,6,3,4,0,9,7,2})
+        q.push(n);
+    print_queue(q);
+
+    //小顶堆
+    std::priority_queue&amp;lt;int,std::vector&amp;lt;int&amp;gt; , std::greater&amp;lt;int&amp;gt; &amp;gt;q2;
+    for(int n : {1,8,5,6,3,4,0,9,7,2})
+        q2.push(n);
+
+    print_queue(q2);
+
+    //------------------------自定义lambar比较------------------------------
+// Using lambda to compare elements.
+    auto cmp = [](int left, int right) { return (left ^ 1) &amp;lt; (right ^ 1); };
+    std::priority_queue&amp;lt;int, std::vector&amp;lt;int&amp;gt;, decltype(cmp)&amp;gt; q3(cmp);
+
+    for(int n : {1,8,5,6,3,4,0,9,7,2})
+        q3.push(n);
+
+    print_queue(q3);
+
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;set&#34;&gt;set&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+struct cmp {
+    bool operator()(int x, int y) { return x &amp;gt; y; }
+};
+struct cmp1 {
+    bool operator()(const int &amp;amp;x, const int &amp;amp;y) const { return x &amp;gt; y; }
+};
+int main() {
+    set&amp;lt;int, cmp&amp;gt; st;
+    st.insert(5);
+    st.insert(3);
+    cout &amp;lt;&amp;lt; *st.begin() &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/a42c2f70dd6649a792cce47b9c4d6c59），发布于 2021-01-25。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>二分图匹配</title>
+      <link>https://bernard035.github.io/posts/bipartite-graph-binary-search-matching-20201130/</link>
+      <pubDate>Mon, 30 Nov 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/bipartite-graph-binary-search-matching-20201130/</guid>
+      <description>&lt;h2 id=&#34;二分图&#34;&gt;二分图&lt;/h2&gt;
+&lt;p&gt;如果能将一个图的点集分为两部分，每一部分内部无边相连，就构成了二分图。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34; &#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/9b5530576db41e02.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所有二分图的题都能用网络流来写。&lt;/p&gt;
+&lt;h2 id=&#34;增广路&#34;&gt;增广路&lt;/h2&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/9e41f33dd478421b.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;匈牙利算法&#34;&gt;匈牙利算法&lt;/h2&gt;
+&lt;p&gt;匈牙利算法是&lt;a href=&#34;http://acm.hdu.edu.cn/showproblem.php?pid=2063&#34;&gt;我们很早就接触过的&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;给定男生人数和女生人数，以及他们的互相follow的关系，求最大配对数量。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+const int N = 510;
+//匈牙利算法O(n^3)
+int n, m;     //男生 女生
+int g[N][N];  // graph 描述图关系
+int vis[N], boy[N];
+
+bool dfs(int x) {
+    for (int i = 1; i &amp;lt;= n; i++) {  //遍历每个男生
+        if (!vis[i] &amp;amp;&amp;amp; g[x][i]) {   //如果存在关系且没有被访问过
+            vis[i] = 1;             //访问记录
+            if (!boy[i] || dfs(boy[i])) {  //如果男生名花无主或者可以挪动
+                boy[i] = x;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int main() {
+    int k;
+    while (cin &amp;gt;&amp;gt; k &amp;amp;&amp;amp; k) {
+        cin &amp;gt;&amp;gt; m &amp;gt;&amp;gt; n;
+        memset(g, 0, sizeof(g));
+        memset(boy, 0, sizeof(boy));
+        for (int i = 0; i &amp;lt; k; i++) {
+            int a, b;
+            cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b;
+            g[a][b] = 1;
+        }
+        int sum = 0;
+        for (int i = 1; i &amp;lt;= m; i++) {    //遍历每一个女生
+            memset(vis, 0, sizeof(vis));  //每一个女生都清空访问记录
+            if (dfs(i)) sum++;
+        }
+        cout &amp;lt;&amp;lt; sum &amp;lt;&amp;lt; endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;konig定理&#34;&gt;konig定理&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/b17a21fe884de476.png&#34;&gt;&lt;br&gt;
+&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/b4e4aaad70f42d1b.png&#34;&gt;&lt;br&gt;
+&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/a39bce48eb3eee41.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>树状数组</title>
+      <link>https://bernard035.github.io/posts/fenwick-tree-20200812/</link>
+      <pubDate>Wed, 12 Aug 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/fenwick-tree-20200812/</guid>
+      <description>&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/b79321e282db5671.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#define lowbit(x) ((x) &amp;amp; (-x))
+ll tree[N];
+inline void update(int i, ll x) {
+    for (int pos = i; pos &amp;lt; N; pos += lowbit(pos)) tree[pos] += x;
+}
+inline ll query(int n) {
+    ll ans = 0;
+    for (int pos = n; pos; pos -= lowbit(pos)) ans += tree[pos];
+    return ans;
+}
+inline ll query(int a, int b) { return query(b) - query(a - 1); }
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;what&#34;&gt;What&lt;/h2&gt;
+&lt;p&gt;树状数组支持：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WhiteAlgorithm 代码</title>
+      <link>https://bernard035.github.io/posts/whitealgorithm-20200808-2/</link>
+      <pubDate>Sat, 08 Aug 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/whitealgorithm-20200808-2/</guid>
+      <description>&lt;h2 id=&#34;prim&#34;&gt;Prim&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;const int maxn = 5e2 + 7;
+
+int n;              //点的个数
+int dis[maxn];      //标记当前到某点的最短距离
+bool vis[maxn];     //标记某点是否已经在树里
+int e[maxn][maxn];  //邻接矩阵存图
+
+//因为prim算法时间复杂度O(n*n)，广泛用于稠密图，所以用邻接矩阵是一个合适的选择
+
+int Prim() {
+    int ans = 0;
+    for (int i = 0; i &amp;lt;= n; ++i) dis[i] = 2e9, vis[i] = 0;  //初始化
+    dis[1] = 0;  // prim算法任选起点，于是可以选择1为起点
+    for (int i = 1; i &amp;lt;= n; ++i) {
+        int u = 0;  //注意dis[0]已经初始化为无穷大了，不用管了
+        for (int j = 1; j &amp;lt;= n; ++j)
+            if (!vis[j] &amp;amp;&amp;amp; dis[j] &amp;lt; dis[u]) u = j;
+        vis[u] = 1;
+        ans += dis[u];  //更新答案
+        for (int j = 1; j &amp;lt;= n; ++j)
+            if (!vis[j] &amp;amp;&amp;amp; dis[j] &amp;gt; e[u][j])  //拿u点来更新新拓展的边
+                dis[j] = e[u][j];
+    }
+    return ans;  //生成树总长度
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;kruskal&#34;&gt;Kruskal&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt;
+const int maxn = 500 + 7;
+const int maxm = 500 * 500 + 7;
+int n;         //点的数量
+int m;         //边的数量
+struct edge {  //边
+    int u;     //起点
+    int v;     //终点
+    int w;     //权重
+} edges[maxm];
+// Kruskal算法的前置知识是并查集，来判断已选边是否成环
+//设点数量为n，边数量为m，Kruskal算法的时间复杂度为O(n)+O(m*logm)
+int bin[maxn];  //每个节点对应的根节点的信息
+void unit() {   //初始化
+    for (int i = 0; i &amp;lt;= m; i++) bin[i] = i;
+}
+void merge(int x, int y) {  //并
+    int fx = Find(x);
+    int fy = Find(y);
+    if (fx != fy) bin[fx] = fy;
+}
+int Find(int x) {  //查
+    int px = x;
+    while (px != bin[px]) px = bin[px];
+    return px;
+}
+bool cmp(edge a, edge b) {  //将边按照权重从小到大排序
+    return a.w &amp;lt; b.w;
+}
+int Kruskal() {
+    int sumweight = 0;  //生成树的权值
+    int num = 0;        //已选用的边的数目
+    int u, v;           //选用边的两个顶点
+    unit();             //初始化 parent[]数组
+    std::sort(edges, edges + m);
+    for (int i = 0; i &amp;lt; m; i++) {
+        u = edges[i].u;
+        v = edges[i].v;
+        if (Find(u) != Find(v)) {
+            //如果满足不成环，就加入生成树
+            sumweight += edges[i].w;
+            num++;
+            merge(u, v);
+        }
+        if (num == n - 1) break;  //边的数量达到n-1条时，生成树构建完成
+    }
+    return sumweight;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/a040bf3569e4437e9e6e83e3301b0c4c），发布于 2020-08-08。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>WhiteAlgorithm 代码</title>
+      <link>https://bernard035.github.io/posts/whitealgorithm-20200808/</link>
+      <pubDate>Sat, 08 Aug 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/whitealgorithm-20200808/</guid>
+      <description>&lt;h2 id=&#34;prim&#34;&gt;Prim&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;const int maxn = 5e2 + 7;
+
+int n;              //点的个数
+int dis[maxn];      //标记当前到某点的最短距离
+bool vis[maxn];     //标记某点是否已经在树里
+int e[maxn][maxn];  //邻接矩阵存图
+
+//因为prim算法时间复杂度O(n*n)，广泛用于稠密图，所以用邻接矩阵是一个合适的选择
+
+int Prim() {
+    int ans = 0;
+    for (int i = 0; i &amp;lt;= n; ++i) dis[i] = 2e9, vis[i] = 0;  //初始化
+    dis[1] = 0;  // prim算法任选起点，于是可以选择1为起点
+    for (int i = 1; i &amp;lt;= n; ++i) {
+        int u = 0;  //注意dis[0]已经初始化为无穷大了，不用管了
+        for (int j = 1; j &amp;lt;= n; ++j)
+            if (!vis[j] &amp;amp;&amp;amp; dis[j] &amp;lt; dis[u]) u = j;
+        vis[u] = 1;
+        ans += dis[u];  //更新答案
+        for (int j = 1; j &amp;lt;= n; ++j)
+            if (!vis[j] &amp;amp;&amp;amp; dis[j] &amp;gt; e[u][j])  //拿u点来更新新拓展的边
+                dis[j] = e[u][j];
+    }
+    return ans;  //生成树总长度
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;kruskal&#34;&gt;Kruskal&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt;
+const int maxn = 500 + 7;
+const int maxm = 500 * 500 + 7;
+int n;         //点的数量
+int m;         //边的数量
+struct edge {  //边
+    int u;     //起点
+    int v;     //终点
+    int w;     //权重
+} edges[maxm];
+// Kruskal算法的前置知识是并查集，来判断已选边是否成环
+//设点数量为n，边数量为m，Kruskal算法的时间复杂度为O(n)+O(m*logm)
+int bin[maxn];  //每个节点对应的根节点的信息
+void unit() {   //初始化
+    for (int i = 0; i &amp;lt;= m; i++) bin[i] = i;
+}
+void merge(int x, int y) {  //并
+    int fx = Find(x);
+    int fy = Find(y);
+    if (fx != fy) bin[fx] = fy;
+}
+int Find(int x) {  //查
+    int px = x;
+    while (px != bin[px]) px = bin[px];
+    return px;
+}
+bool cmp(edge a, edge b) {  //将边按照权重从小到大排序
+    return a.w &amp;lt; b.w;
+}
+int Kruskal() {
+    int sumweight = 0;  //生成树的权值
+    int num = 0;        //已选用的边的数目
+    int u, v;           //选用边的两个顶点
+    unit();             //初始化 parent[]数组
+    std::sort(edges, edges + m);
+    for (int i = 0; i &amp;lt; m; i++) {
+        u = edges[i].u;
+        v = edges[i].v;
+        if (Find(u) != Find(v)) {
+            //如果满足不成环，就加入生成树
+            sumweight += edges[i].w;
+            num++;
+            merge(u, v);
+        }
+        if (num == n - 1) break;  //边的数量达到n-1条时，生成树构建完成
+    }
+    return sumweight;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/a040bf3569e4437e9e6e83e3301b0c4c），发布于 2020-08-08。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>哈夫曼树的带权路径权值和</title>
+      <link>https://bernard035.github.io/posts/huffman-20200610/</link>
+      <pubDate>Wed, 10 Jun 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/huffman-20200610/</guid>
+      <description>&lt;p&gt;如何创建一个哈夫曼树？这个问题很简单，哈夫曼树的带权路径长度是最小的，为了满足这一条件，我们总是要把权值小的节点放在树的底端，而权值越大，就应该越靠近根。&lt;/p&gt;
+&lt;p&gt;那么，一个创建哈夫曼树的方法已经呼之欲出了：创建一个以节点权值排序的小根堆，每次取出第一小和第二小的树（节点也是树）合并成一个新的二叉树，直到最后只剩下一棵树，这棵树就是哈夫曼树。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/31e88ed0f7030bb8.png&#34; title=&#34;图片标题&#34;&gt;&lt;/p&gt;
+&lt;p&gt;下面给出一个基于STL的C++创建哈夫曼树的代码：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;queue&amp;gt;
+#include &amp;lt;string&amp;gt;
+#include &amp;lt;vector&amp;gt;
+class HuffmanTree {
+    struct node {
+        int weight;
+        struct node *Lchild, *Rchild;
+        bool operator&amp;lt;(const node &amp;amp;x) const { return weight &amp;lt; x.weight; }
+        bool operator&amp;gt;(const node &amp;amp;x) const { return weight &amp;gt; x.weight; }
+    };
+
+    typedef std::priority_queue&amp;lt;node, std::vector&amp;lt;node&amp;gt;, std::greater&amp;lt;node&amp;gt; &amp;gt;
+        HuffQueue;
+
+    HuffQueue GetWeight() {
+        std::cout &amp;lt;&amp;lt; &amp;#34;Input nodes&amp;amp;#39; power, end with -1&amp;#34; &amp;lt;&amp;lt; std::endl;
+        HuffQueue q;
+        int temp;
+        while (std::cin &amp;gt;&amp;gt; temp, temp != -1) q.push({temp, NULL, NULL});
+        return q;
+    }
+
+    node *CreatHuffmanTree(HuffQueue q) {
+        node *root = new node;
+        while (q.size() &amp;gt; 1) {
+            node *Lch = new node, *Rch = new node, *P = new node;
+            *Lch = q.top(), q.pop();
+            *Rch = q.top(), q.pop();
+            P-&amp;gt;Lchild = Lch, P-&amp;gt;Rchild = Rch,
+            P-&amp;gt;weight = Lch-&amp;gt;weight + Rch-&amp;gt;weight;
+            q.push(*P);
+        }
+        *root = q.top();
+        return root;
+    }
+
+    void PreOrderVisit(node *root) {
+        if (root == NULL) return;
+        if (root-&amp;gt;Lchild == NULL &amp;amp;&amp;amp; root-&amp;gt;Rchild == NULL)
+            std::cout &amp;lt;&amp;lt; &amp;#34;LeafNode&amp;#34;;
+        std::cout &amp;lt;&amp;lt; root-&amp;gt;weight &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39;;
+        PreOrderVisit(root-&amp;gt;Lchild);
+        PreOrderVisit(root-&amp;gt;Rchild);
+    }
+
+    void DestoryHuffmanTree(node *root) {
+        if (root == NULL) return;
+        DestoryHuffmanTree(root-&amp;gt;Lchild);
+        DestoryHuffmanTree(root-&amp;gt;Rchild);
+        delete root;
+    }
+
+    void HuffmanCoding(node *root, int len) {
+        static bool Hcode[1024];
+        if (root == NULL) return;
+        if (root-&amp;gt;Lchild == NULL &amp;amp;&amp;amp; root-&amp;gt;Rchild == NULL) {
+            std::cout &amp;lt;&amp;lt; &amp;#34;the node weigh &amp;#34; &amp;lt;&amp;lt; root-&amp;gt;weight &amp;lt;&amp;lt; &amp;#34;&amp;amp;#39;s code is:&amp;#34;;
+            for (int i = 0; i &amp;lt; len; ++i) std::cout &amp;lt;&amp;lt; Hcode[i];
+            std::cout &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39;;
+        } else {
+            Hcode[len] = 0;
+            HuffmanCoding(root-&amp;gt;Lchild, len + 1);
+            Hcode[len] = 1;
+            HuffmanCoding(root-&amp;gt;Rchild, len + 1);
+        }
+    }
+
+    void PrintAsBracket(node *root) {
+        if (root == NULL) return;
+        std::cout &amp;lt;&amp;lt; root-&amp;gt;weight;
+        if (root-&amp;gt;Lchild || root-&amp;gt;Rchild) {
+            std::cout &amp;lt;&amp;lt; &amp;amp;#39;(&amp;amp;#39;;
+            PrintAsBracket(root-&amp;gt;Lchild);
+            if (root-&amp;gt;Rchild) std::cout &amp;lt;&amp;lt; &amp;amp;#39;,&amp;amp;#39;;
+            PrintAsBracket(root-&amp;gt;Rchild);
+            std::cout &amp;lt;&amp;lt; &amp;amp;#39;)&amp;amp;#39;;
+        }
+    }
+
+    int GetSumPathLength(node *root, int len) {
+        if (!root) return 0;
+        if (root-&amp;gt;Lchild == NULL &amp;amp;&amp;amp; root-&amp;gt;Rchild == NULL)
+            return root-&amp;gt;weight * len;
+        else
+            return GetSumPathLength(root-&amp;gt;Lchild, len + 1) +
+                   GetSumPathLength(root-&amp;gt;Rchild, len + 1);
+    }
+
+   public:
+    int show() {
+        try {
+            node *root = CreatHuffmanTree(GetWeight());
+            std::cout &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39; &amp;lt;&amp;lt; &amp;#34;PreOrderVisit:&amp;#34; &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39;;
+            PreOrderVisit(root);
+            std::cout &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39; &amp;lt;&amp;lt; &amp;#34;Print as brackets: &amp;#34;;
+            PrintAsBracket(root);
+            std::cout &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39; &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39;;
+            HuffmanCoding(root, 0);
+            std::cout &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39;
+                      &amp;lt;&amp;lt; &amp;#34;The sum of weighted path lengths of Huffman trees: &amp;#34;
+                      &amp;lt;&amp;lt; GetSumPathLength(root, 0);
+            DestoryHuffmanTree(root);
+            return 0;
+        } catch (const std::exception &amp;amp;e) {
+            std::cerr &amp;lt;&amp;lt; e.what() &amp;lt;&amp;lt; &amp;amp;#39;\n&amp;amp;#39;;
+            return 1;
+        }
+    }
+};
+
+int main() {
+    HuffmanTree test;
+    test.show();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;然后我们可以做点别的，比较ASCII码和HUFFMAN编码的编码效率：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>算法复杂度分析中的符号使用</title>
+      <link>https://bernard035.github.io/posts/complexity-20200530/</link>
+      <pubDate>Sat, 30 May 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/complexity-20200530/</guid>
+      <description>&lt;h2 id=&#34;theta&#34;&gt;Theta&lt;/h2&gt;
+&lt;p&gt;$$\Theta$$&lt;/p&gt;
+&lt;p&gt;Theta，既是上界也是下界（确界），等于&lt;/p&gt;
+&lt;h2 id=&#34;big---o&#34;&gt;big - O&lt;/h2&gt;
+&lt;p&gt;$$O$$&lt;/p&gt;
+&lt;p&gt;big-O，上界，小于等于&lt;/p&gt;
+&lt;h2 id=&#34;small---o&#34;&gt;small - o&lt;/h2&gt;
+&lt;p&gt;$$o$$&lt;/p&gt;
+&lt;p&gt;small-O，上界，小于&lt;/p&gt;
+&lt;h2 id=&#34;omega&#34;&gt;Omega&lt;/h2&gt;
+&lt;p&gt;$$\Omega$$&lt;/p&gt;
+&lt;p&gt;Omega，下界，大于等于&lt;/p&gt;
+&lt;h2 id=&#34;omega-1&#34;&gt;omega&lt;/h2&gt;
+&lt;p&gt;$$\omega$$&lt;/p&gt;
+&lt;h2 id=&#34;omega下界大于&#34;&gt;omega，下界，大于&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/11c721ff9f8c46dea7018b13488cb52a），发布于 2020-05-30。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Huffman树的实现</title>
+      <link>https://bernard035.github.io/posts/huffman-20200529/</link>
+      <pubDate>Fri, 29 May 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/huffman-20200529/</guid>
+      <description>&lt;p&gt;POJ 给定字符串，编码效率对比&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt;
+#include &amp;lt;cstdio&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;queue&amp;gt;
+#include &amp;lt;string&amp;gt;
+#include &amp;lt;vector&amp;gt;
+using namespace std;
+int main() {
+    string s;
+    priority_queue&amp;lt;int, vector&amp;lt;int&amp;gt;, greater&amp;lt;int&amp;gt; &amp;gt; Q;
+    puts(&amp;#34;ACSII coding and Huffman coding efficiency comparison\n&amp;#34;);
+    while (printf(&amp;#34;Input string:\n&amp;#34;), getline(cin, s) &amp;amp;&amp;amp; s != &amp;#34;END&amp;#34;) {
+        sort(s.begin(), s.end());
+        int t = 1;
+        for (int i = 1; i &amp;lt; s.length(); ++i)
+            if (s[i] != s[i - 1])
+                Q.push(t), t = 1;
+            else
+                ++t;
+        Q.push(t);
+        int ans = 0, a, b;
+        if (Q.size() == 1) ans = Q.top();
+        while (Q.size() &amp;gt; 1) {
+            a = Q.top(), Q.pop();
+            b = Q.top(), Q.pop();
+            Q.push(a + b);
+            ans += a + b;
+        }
+        Q.pop();
+        printf(
+            &amp;#34;\nASCII Coding\t\t%lu byte\nHuffman Coding\t\t%d byte\nCompression ratio\t%.2f\n\n&amp;#34;,
+            s.size() * 8, ans, (s.size() * 8.0) / ans);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;哈夫曼树实现&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>斐波那契数列的若干性质</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200413/</link>
+      <pubDate>Mon, 13 Apr 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200413/</guid>
+      <description>&lt;h2 id=&#34;蓝桥杯斐波&#34;&gt;&lt;a href=&#34;http://lx.lanqiao.cn/problem.page?gpid=T121&#34;&gt;蓝桥杯斐波&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;题目&lt;/strong&gt;&lt;br&gt;
+斐波那契数列大家都非常熟悉。它的定义是：&lt;/p&gt;
+&lt;p&gt;$$f(x) = 1 &amp;hellip;. (x=1,2)\ f(x) = f(x-1) + f(x-2) &amp;hellip;. (x&amp;gt;2)$$&lt;/p&gt;
+&lt;p&gt;　　对于给定的整数 n 和 m，我们希望求出：&lt;br&gt;
+　　f(1) + f(2) + &amp;hellip; + f(n) 的值。但这个值可能非常大，所以我们把它对 f(m) 取模。 $(\sum_{i=1}^{n}{f(i)})%f(m)$&lt;br&gt;
+但这个数字依然很大，所以需要再对 p 求模。&lt;br&gt;
+&lt;strong&gt;输入格式&lt;/strong&gt;&lt;br&gt;
+　　输入为一行用空格分开的整数 n m p (0 &amp;lt; n, m, p &amp;lt; 10^18)&lt;br&gt;
+&lt;strong&gt;输出格式&lt;/strong&gt;&lt;br&gt;
+　　输出为1个整数，表示答案&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+2 3 5&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+0&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+15 11 29&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+25&lt;/p&gt;
+&lt;h3 id=&#34;mod-下快乘&#34;&gt;mod 下快乘&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll mul(ll a,ll b,ll mod){
+    a%=mod,a+=mod,a%=mod;
+    b%=mod,b+=mod,b%=mod;
+    if(a&amp;lt;b) swap(a,b);
+    ll ret=0;
+    while(b){
+        if(b&amp;amp;1)ret=(ret+a)%mod;
+        a=(a&amp;lt;&amp;lt;1)%mod;
+        b&amp;gt;&amp;gt;=1;
+    }return ret;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.csdn.net/ACdreamers/article/details/21822165&#34;&gt;题解&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>斐波那契数列的若干性质</title>
+      <link>https://bernard035.github.io/posts/fibonacci-20200413/</link>
+      <pubDate>Mon, 13 Apr 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/fibonacci-20200413/</guid>
+      <description>&lt;h2 id=&#34;蓝桥杯斐波&#34;&gt;&lt;a href=&#34;http://lx.lanqiao.cn/problem.page?gpid=T121&#34;&gt;蓝桥杯斐波&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;题目&lt;/strong&gt;&lt;br&gt;
+斐波那契数列大家都非常熟悉。它的定义是：&lt;/p&gt;
+&lt;p&gt;$$f(x) = 1 &amp;hellip;. (x=1,2)\ f(x) = f(x-1) + f(x-2) &amp;hellip;. (x&amp;gt;2)$$&lt;/p&gt;
+&lt;p&gt;　　对于给定的整数 n 和 m，我们希望求出：&lt;br&gt;
+　　f(1) + f(2) + &amp;hellip; + f(n) 的值。但这个值可能非常大，所以我们把它对 f(m) 取模。 $(\sum_{i=1}^{n}{f(i)})%f(m)$&lt;br&gt;
+但这个数字依然很大，所以需要再对 p 求模。&lt;br&gt;
+&lt;strong&gt;输入格式&lt;/strong&gt;&lt;br&gt;
+　　输入为一行用空格分开的整数 n m p (0 &amp;lt; n, m, p &amp;lt; 10^18)&lt;br&gt;
+&lt;strong&gt;输出格式&lt;/strong&gt;&lt;br&gt;
+　　输出为1个整数，表示答案&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+2 3 5&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+0&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+15 11 29&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+25&lt;/p&gt;
+&lt;h3 id=&#34;mod-下快乘&#34;&gt;mod 下快乘&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll mul(ll a,ll b,ll mod){
+    a%=mod,a+=mod,a%=mod;
+    b%=mod,b+=mod,b%=mod;
+    if(a&amp;lt;b) swap(a,b);
+    ll ret=0;
+    while(b){
+        if(b&amp;amp;1)ret=(ret+a)%mod;
+        a=(a&amp;lt;&amp;lt;1)%mod;
+        b&amp;gt;&amp;gt;=1;
+    }return ret;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.csdn.net/ACdreamers/article/details/21822165&#34;&gt;题解&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>数学 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E6%95%B0%E5%AD%A6/</link>
+    <description>Recent content in 数学 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 02 Feb 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>点一成零 并查集 组合数学</title>
+      <link>https://bernard035.github.io/posts/union-find-binomial-math-20210202/</link>
+      <pubDate>Tue, 02 Feb 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/union-find-binomial-math-20210202/</guid>
+      <description>&lt;p&gt;前置知识：简单并查集、简单逆元、简单组合数学&lt;/p&gt;
+&lt;p&gt;本题数据量很小于是可以暴力合并，我这里是用dfs的，这样并查集就不用重复路径压缩了。&lt;/p&gt;
+&lt;p&gt;用并查集维护，新加进来的数也可以实时合并或增加集合。&lt;/p&gt;
+&lt;p&gt;答案其实就是每个集合里面的点数累乘，最后乘一个集合数量的全排列即可。&lt;/p&gt;
+&lt;p&gt;详细来说就是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;把所有相邻的1合并到同一集合里&lt;/li&gt;
+&lt;li&gt;用并查集可以找到一共有多少个集合，以及这些集合里有多少个数&lt;/li&gt;
+&lt;li&gt;答案就是每个集合里面元素数量相乘，然后考虑集合之间也有顺序，所以乘一个集合数量的全排列&lt;/li&gt;
+&lt;li&gt;新加进来的1考虑它周围能否合并，以及能否合并多个集合，如果可以，就需要维护之前的累乘：除一下之前多乘的集合数量（集合数量少了），除之前分散的集合中元素数，然后再乘上新合并的集合元素数即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;编程使用了一些技巧比如宏函数.&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = (l); i &amp;lt;= (r); ++i)
+#define pos(x, y) ((x - 1) * n + (y))
+#define out(x, y) ((x) &amp;lt; 1 || (x) &amp;gt; n || (y) &amp;lt; 1 || (y) &amp;gt; n)
+using namespace std;
+typedef long long ll;
+const int N = 500 + 7;
+const int mod = 1e9 + 7;
+ll qkpow(ll a, ll b) {
+    ll ans = 1;
+    while (b) {
+        if (b &amp;amp; 1) ans = ans * a % mod;
+        a = a * a % mod;
+        b &amp;gt;&amp;gt;= 1;
+    }
+    return ans;
+}
+ll getInv(ll a) { return qkpow(a, mod - 2); }  //求一个数的逆元
+int sz[N * N];
+int fa[N * N];
+inline void init(int n) {
+    for (int i = 0; i &amp;lt;= n; ++i) fa[i] = i, sz[i] = 1;
+}
+inline int Find(int x) {
+    if (x != fa[x]) fa[x] = Find(fa[x]);  //路径压缩
+    return fa[x];
+}
+void merge(int x, int y) {
+    int fx = Find(x);
+    int fy = Find(y);
+    if (fx != fy) fa[fx] = fy, sz[fy] += sz[fx];
+}
+int n;
+char g[N][N];
+bool vis[N][N];
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+void dfs(int x, int y, int fa) {
+    if (out(x, y)) return;
+    vis[x][y] = 1;
+    if (pos(x, y) != fa) merge(pos(x, y), fa);
+    rep(i, 0, 3) {
+        if (g[x + dx[i]][y + dy[i]] == &amp;#39;1&amp;#39; &amp;amp;&amp;amp; !vis[x + dx[i]][y + dy[i]])
+            dfs(x + dx[i], y + dy[i], fa);
+    }
+}
+ll ans = 1;
+ll cnt = 0;  //集合数量
+void chk(int x, int y) {
+    if (g[x][y] == &amp;#39;1&amp;#39;) return;
+    g[x][y] = &amp;#39;1&amp;#39;;
+    ++cnt;
+    ans = ans * cnt % mod;
+    int now = pos(x, y);
+    rep(i, 0, 3) {
+        if (!out(x + dx[i], y + dy[i]) &amp;amp;&amp;amp; g[x + dx[i]][y + dy[i]] == &amp;#39;1&amp;#39;) {
+            int nxt = pos(x + dx[i], y + dy[i]);
+            int f1 = Find(now);
+            int f2 = Find(nxt);
+            if (f1 != f2) {  //维护
+                ans = ans * getInv(cnt) % mod;
+                ans = ans * getInv(sz[f1]) % mod;
+                ans = ans * getInv(sz[f2]) % mod;
+                ans = ans * (sz[f1] + sz[f2]) % mod;
+                --cnt;
+                merge(f1, f2);
+            }
+        }
+    }
+}
+int main() {
+    sc(n);
+    init(n * n);
+    rep(i, 1, n) scanf(&amp;#34; %s&amp;#34;, g[i] + 1);
+    rep(i, 1, n) rep(j, 1, n)  //合并
+        if (!vis[i][j] &amp;amp;&amp;amp; g[i][j] == &amp;#39;1&amp;#39;) dfs(i, j, pos(i, j));
+    rep(i, 1, n) rep(j, 1, n) {  //集合内元素累乘
+        int now = pos(i, j);
+        if (g[i][j] == &amp;#39;1&amp;#39; &amp;amp;&amp;amp; Find(now) == now)
+            ++cnt, ans = (ans * sz[now]) % mod;
+    }
+    rep(i, 1, cnt) ans = ans * i % mod;  //全排列
+    int t, u, v;
+    sc(t);
+    while (t--) {
+        sc(u), sc(v);
+        chk(++u, ++v);
+        pr(ans);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/36902cdea71a40569c7161373ccb998c），发布于 2021-02-02。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Walker 数学 浮点二分</title>
+      <link>https://bernard035.github.io/posts/walker-binary-search-math-20210128/</link>
+      <pubDate>Thu, 28 Jan 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/walker-binary-search-math-20210128/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;线段$[0,n]$上有两个人，位置和速度分别是$p_1,p_2,v_1,v_2$。&lt;/p&gt;
+&lt;p&gt;求他们最短把线段覆盖（走）完的时间。&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+inline double ct(double x, double pos, double v) {
+    //当前处于pos，要覆盖[0,x]，速度v的最短时间
+    return (min(pos, x - pos) + x) / v;
+}
+int main() {
+    int t;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;t);
+    while (t--) {
+        double n, p1, v1, p2, v2;
+        scanf(&amp;#34;%lf%lf%lf%lf%lf&amp;#34;, &amp;amp;n, &amp;amp;p1, &amp;amp;v1, &amp;amp;p2, &amp;amp;v2);
+        if (p1 &amp;gt; p2) {  // 按左右排序
+            swap(p1, p2);
+            swap(v1, v2);
+        }
+        // 情况1 : 一个人走完所有
+        double ans = min(ct(n, p1, v1), ct(n, p2, v2));
+        // 情况2 : 对穿
+        ans = min(ans, max((n - p1) / v1, p2 / v2));
+        // 情况3 : 在两者之间找一个点，一人负责一边
+        double left = p1, right = p2;
+        for (int i = 0; i &amp;lt; 100; i++) {
+            double mid = (left + right) / 2;
+            double time_left = ct(mid, p1, v1);
+            double time_right = ct(n - mid, p2 - mid, v2);
+            ans = min(ans, max(time_left, time_right));
+            if (time_left &amp;gt; time_right) {
+                right = mid;
+            } else {
+                left = mid;
+            }
+        }
+        printf(&amp;#34;%.10f\n&amp;#34;, ans);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;python被卡的死死的&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>切木棒 斐波那契</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20201120/</link>
+      <pubDate>Fri, 20 Nov 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20201120/</guid>
+      <description>&lt;p&gt;本题和&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/5758/F&#34;&gt;https://ac.nowcoder.com/acm/contest/5758/F&lt;/a&gt; 一模一样。&lt;/p&gt;
+&lt;p&gt;显然是斐波那契。不能构成三角形的极限情况必然是$a+b==c$。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Solution {
+   public:
+    /**
+     *
+     * @param a long长整型 木棒的长度
+     * @return int整型
+     */
+    int stick(long long a) {
+        long long b = 0, c = 1, i = 0;
+        while (c &amp;lt;= a) {
+            a -= c;
+            c += b;
+            b = c - b;
+            ++i;
+        }
+        return i;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;随便递推一下都行&#34;&gt;随便递推一下都行。&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/26e0f1451042450a9239f938741ee533），发布于 2020-11-20。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>斐波那契数列的若干性质</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200413/</link>
+      <pubDate>Mon, 13 Apr 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200413/</guid>
+      <description>&lt;h2 id=&#34;蓝桥杯斐波&#34;&gt;&lt;a href=&#34;http://lx.lanqiao.cn/problem.page?gpid=T121&#34;&gt;蓝桥杯斐波&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;题目&lt;/strong&gt;&lt;br&gt;
+斐波那契数列大家都非常熟悉。它的定义是：&lt;/p&gt;
+&lt;p&gt;$$f(x) = 1 &amp;hellip;. (x=1,2)\ f(x) = f(x-1) + f(x-2) &amp;hellip;. (x&amp;gt;2)$$&lt;/p&gt;
+&lt;p&gt;　　对于给定的整数 n 和 m，我们希望求出：&lt;br&gt;
+　　f(1) + f(2) + &amp;hellip; + f(n) 的值。但这个值可能非常大，所以我们把它对 f(m) 取模。 $(\sum_{i=1}^{n}{f(i)})%f(m)$&lt;br&gt;
+但这个数字依然很大，所以需要再对 p 求模。&lt;br&gt;
+&lt;strong&gt;输入格式&lt;/strong&gt;&lt;br&gt;
+　　输入为一行用空格分开的整数 n m p (0 &amp;lt; n, m, p &amp;lt; 10^18)&lt;br&gt;
+&lt;strong&gt;输出格式&lt;/strong&gt;&lt;br&gt;
+　　输出为1个整数，表示答案&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+2 3 5&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+0&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+15 11 29&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+25&lt;/p&gt;
+&lt;h3 id=&#34;mod-下快乘&#34;&gt;mod 下快乘&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll mul(ll a,ll b,ll mod){
+    a%=mod,a+=mod,a%=mod;
+    b%=mod,b+=mod,b%=mod;
+    if(a&amp;lt;b) swap(a,b);
+    ll ret=0;
+    while(b){
+        if(b&amp;amp;1)ret=(ret+a)%mod;
+        a=(a&amp;lt;&amp;lt;1)%mod;
+        b&amp;gt;&amp;gt;=1;
+    }return ret;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.csdn.net/ACdreamers/article/details/21822165&#34;&gt;题解&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>斐波那契数列的若干性质</title>
+      <link>https://bernard035.github.io/posts/fibonacci-20200413/</link>
+      <pubDate>Mon, 13 Apr 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/fibonacci-20200413/</guid>
+      <description>&lt;h2 id=&#34;蓝桥杯斐波&#34;&gt;&lt;a href=&#34;http://lx.lanqiao.cn/problem.page?gpid=T121&#34;&gt;蓝桥杯斐波&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;题目&lt;/strong&gt;&lt;br&gt;
+斐波那契数列大家都非常熟悉。它的定义是：&lt;/p&gt;
+&lt;p&gt;$$f(x) = 1 &amp;hellip;. (x=1,2)\ f(x) = f(x-1) + f(x-2) &amp;hellip;. (x&amp;gt;2)$$&lt;/p&gt;
+&lt;p&gt;　　对于给定的整数 n 和 m，我们希望求出：&lt;br&gt;
+　　f(1) + f(2) + &amp;hellip; + f(n) 的值。但这个值可能非常大，所以我们把它对 f(m) 取模。 $(\sum_{i=1}^{n}{f(i)})%f(m)$&lt;br&gt;
+但这个数字依然很大，所以需要再对 p 求模。&lt;br&gt;
+&lt;strong&gt;输入格式&lt;/strong&gt;&lt;br&gt;
+　　输入为一行用空格分开的整数 n m p (0 &amp;lt; n, m, p &amp;lt; 10^18)&lt;br&gt;
+&lt;strong&gt;输出格式&lt;/strong&gt;&lt;br&gt;
+　　输出为1个整数，表示答案&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+2 3 5&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+0&lt;br&gt;
+&lt;strong&gt;样例输入&lt;/strong&gt;&lt;br&gt;
+15 11 29&lt;br&gt;
+&lt;strong&gt;样例输出&lt;/strong&gt;&lt;br&gt;
+25&lt;/p&gt;
+&lt;h3 id=&#34;mod-下快乘&#34;&gt;mod 下快乘&lt;/h3&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;ll mul(ll a,ll b,ll mod){
+    a%=mod,a+=mod,a%=mod;
+    b%=mod,b+=mod,b%=mod;
+    if(a&amp;lt;b) swap(a,b);
+    ll ret=0;
+    while(b){
+        if(b&amp;amp;1)ret=(ret+a)%mod;
+        a=(a&amp;lt;&amp;lt;1)%mod;
+        b&amp;gt;&amp;gt;=1;
+    }return ret;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://blog.csdn.net/ACdreamers/article/details/21822165&#34;&gt;题解&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

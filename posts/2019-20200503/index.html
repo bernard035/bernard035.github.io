@@ -1,0 +1,223 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 | Bernard's Blog</title><meta name=keywords content="题解"><meta name=description content="更偏向编程
+值得一看
+D 字符串匹配
+#include <iostream>
+#include <string>
+using namespace std;
+int main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int T;
+    cin >> T;
+    cin.get();
+    while (T--) {
+        string word, sentence;
+        getline(cin, word);
+        getline(cin, sentence);
+        /*全部化为小写*/
+        for (string::iterator i1 = word.begin(); i1 != word.end(); i1++)
+            *i1 = tolower(*i1);
+        for (string::iterator i2 = sentence.begin(); i2 != sentence.end(); i2++)
+            *i2 = tolower(*i2);
+        /*关键：去除局部匹配*/
+        word = ' ' + word + ' ';
+        sentence = ' ' + sentence + ' ';
+        int i = sentence.find(word);
+        int position = i;  //第一次出现的位置
+        int cnt = 0;
+        while (i != string::npos) {
+            i = sentence.find(word, i + 1);  //从i+1开始匹配
+            cnt++;
+        }
+        if (cnt == 0)
+            cout << -1 << endl;
+        else
+            cout << cnt << &#34; &#34; << position << endl;
+    }
+    return 0;
+}
+H 全排列
+一个仅由0-9组成的字符串，对于它所有排列所构成的数字按升序排列后的序列，第n个数是多少呢？"><meta name=author content="Me"><link rel=canonical href=https://bernard035.github.io/posts/2019-20200503/><link crossorigin=anonymous href=/assets/css/stylesheet.2bbc84d5b7beae4659b88227754941ffa9fa06a4de78fdb8990d3c303fc3665f.css integrity="sha256-K7yE1be+rkZZuIIndUlB/6n6BqTeeP24mQ08MD/DZl8=" rel="preload stylesheet" as=style><link rel=icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://bernard035.github.io/posts/2019-20200503/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1})'></script><meta property="og:url" content="https://bernard035.github.io/posts/2019-20200503/"><meta property="og:site_name" content="Bernard's Blog"><meta property="og:title" content="2019年江西师范大学程序设计竞赛暨软院算法组选拔赛"><meta property="og:description" content="更偏向编程
+值得一看 D 字符串匹配 #include <iostream> #include <string> using namespace std; int main() { ios::sync_with_stdio(false), cin.tie(0), cout.tie(0); int T; cin >> T; cin.get(); while (T--) { string word, sentence; getline(cin, word); getline(cin, sentence); /*全部化为小写*/ for (string::iterator i1 = word.begin(); i1 != word.end(); i1++) *i1 = tolower(*i1); for (string::iterator i2 = sentence.begin(); i2 != sentence.end(); i2++) *i2 = tolower(*i2); /*关键：去除局部匹配*/ word = ' ' + word + ' '; sentence = ' ' + sentence + ' '; int i = sentence.find(word); int position = i; //第一次出现的位置 int cnt = 0; while (i != string::npos) { i = sentence.find(word, i + 1); //从i+1开始匹配 cnt++; } if (cnt == 0) cout << -1 << endl; else cout << cnt << &#34; &#34; << position << endl; } return 0; } H 全排列 一个仅由0-9组成的字符串，对于它所有排列所构成的数字按升序排列后的序列，第n个数是多少呢？"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-05-03T12:00:00+08:00"><meta property="article:modified_time" content="2020-05-03T12:00:00+08:00"><meta property="article:tag" content="题解"><meta property="og:image" content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="2019年江西师范大学程序设计竞赛暨软院算法组选拔赛"><meta name=twitter:description content="更偏向编程
+值得一看 D 字符串匹配 #include <iostream> #include <string> using namespace std; int main() { ios::sync_with_stdio(false), cin.tie(0), cout.tie(0); int T; cin >> T; cin.get(); while (T--) { string word, sentence; getline(cin, word); getline(cin, sentence); /*全部化为小写*/ for (string::iterator i1 = word.begin(); i1 != word.end(); i1++) *i1 = tolower(*i1); for (string::iterator i2 = sentence.begin(); i2 != sentence.end(); i2++) *i2 = tolower(*i2); /*关键：去除局部匹配*/ word = ' ' + word + ' '; sentence = ' ' + sentence + ' '; int i = sentence.find(word); int position = i; //第一次出现的位置 int cnt = 0; while (i != string::npos) { i = sentence.find(word, i + 1); //从i+1开始匹配 cnt++; } if (cnt == 0) cout << -1 << endl; else cout << cnt << &#34; &#34; << position << endl; } return 0; } H 全排列 一个仅由0-9组成的字符串，对于它所有排列所构成的数字按升序排列后的序列，第n个数是多少呢？"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://bernard035.github.io/posts/"},{"@type":"ListItem","position":2,"name":"2019年江西师范大学程序设计竞赛暨软院算法组选拔赛","item":"https://bernard035.github.io/posts/2019-20200503/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"2019年江西师范大学程序设计竞赛暨软院算法组选拔赛","name":"2019年江西师范大学程序设计竞赛暨软院算法组选拔赛","description":"更偏向编程\n值得一看 D 字符串匹配 #include \u0026lt;iostream\u0026gt; #include \u0026lt;string\u0026gt; using namespace std; int main() { ios::sync_with_stdio(false), cin.tie(0), cout.tie(0); int T; cin \u0026gt;\u0026gt; T; cin.get(); while (T--) { string word, sentence; getline(cin, word); getline(cin, sentence); /*全部化为小写*/ for (string::iterator i1 = word.begin(); i1 != word.end(); i1++) *i1 = tolower(*i1); for (string::iterator i2 = sentence.begin(); i2 != sentence.end(); i2++) *i2 = tolower(*i2); /*关键：去除局部匹配*/ word = \u0026#39; \u0026#39; + word + \u0026#39; \u0026#39;; sentence = \u0026#39; \u0026#39; + sentence + \u0026#39; \u0026#39;; int i = sentence.find(word); int position = i; //第一次出现的位置 int cnt = 0; while (i != string::npos) { i = sentence.find(word, i + 1); //从i+1开始匹配 cnt++; } if (cnt == 0) cout \u0026lt;\u0026lt; -1 \u0026lt;\u0026lt; endl; else cout \u0026lt;\u0026lt; cnt \u0026lt;\u0026lt; \u0026#34; \u0026#34; \u0026lt;\u0026lt; position \u0026lt;\u0026lt; endl; } return 0; } H 全排列 一个仅由0-9组成的字符串，对于它所有排列所构成的数字按升序排列后的序列，第n个数是多少呢？\n","keywords":["题解"],"articleBody":"更偏向编程\n值得一看 D 字符串匹配 #include #include using namespace std; int main() { ios::sync_with_stdio(false), cin.tie(0), cout.tie(0); int T; cin \u003e\u003e T; cin.get(); while (T--) { string word, sentence; getline(cin, word); getline(cin, sentence); /*全部化为小写*/ for (string::iterator i1 = word.begin(); i1 != word.end(); i1++) *i1 = tolower(*i1); for (string::iterator i2 = sentence.begin(); i2 != sentence.end(); i2++) *i2 = tolower(*i2); /*关键：去除局部匹配*/ word = ' ' + word + ' '; sentence = ' ' + sentence + ' '; int i = sentence.find(word); int position = i; //第一次出现的位置 int cnt = 0; while (i != string::npos) { i = sentence.find(word, i + 1); //从i+1开始匹配 cnt++; } if (cnt == 0) cout \u003c\u003c -1 \u003c\u003c endl; else cout \u003c\u003c cnt \u003c\u003c \" \" \u003c\u003c position \u003c\u003c endl; } return 0; } H 全排列 一个仅由0-9组成的字符串，对于它所有排列所构成的数字按升序排列后的序列，第n个数是多少呢？\n#include #include using namespace std; typedef long long ll; const int N = 1e5 + 7; const ll mod = 1e9 + 7; int main() { int T; cin \u003e\u003e T; for (int ca = 1; ca \u003c= T; ++ca) { string a; int n; cin \u003e\u003e a \u003e\u003e n; int len = a.length(); int cnt = 0; cout \u003c\u003c \"Case \" \u003c\u003c ca \u003c\u003c \": \"; sort(a.begin(),a.end()); do { cnt++; if (cnt == n) { int ans = 0; stringstream s; s \u003c\u003c a; s \u003e\u003eans; cout \u003c\u003c ans \u003c\u003c endl; break; } } while (next_permutation(a.begin(), a.end())); if (cnt \u003c n) cout \u003c\u003c \"no solution\" \u003c\u003c endl; } return 0; } string的一些技巧\nhttps://blog.csdn.net/xiong452980729/article/details/61677701\nG 数学题 本题可打表。\n通过倍数递增的循环完成f数组的预处理，然后推过去就可以了。\n#include using namespace std; typedef long long ll; inline ll read() { ll s = 0, f = 1; char ch; do { ch = getchar(); if (ch == '-') f = -1; } while (ch \u003c 48 || ch \u003e 57); while (ch \u003e= 48 \u0026\u0026 ch \u003c= 57) s = (s \u003c\u003c 1) + (s \u003c\u003c 3) + (ch ^ 48), ch = getchar(); return s * f; } const int MOD = 1e9 + 7; const int N = 1e6 + 5; ll sum[N]; void init() { fill(sum, sum + N, 1); for (int i = 1; i \u003c N; ++i)//此处处理为点睛之笔 for (int j = i; j \u003c N; j += i) sum[j] = sum[j] * i % MOD; } int main() { init(); int T = read(); while (T--) { int l = read(), r = read(); ll ans = 1; for (int i = l; i \u003c= r; ++i) ans = (ans * sum[i]) % MOD; printf(\"%lld\\n\", ans); } return 0; } 水题 A 模拟 t=int(input()) for _ in range(t): n=int(input()) ans=0 while n!=1: if n%2 : n-=1 ans+=1 n//=2 ans+=1 print(ans) B 字符串key-value dict={'茕': 'qiong','孑': 'jie','立': 'li','沆': 'hang','瀣': 'xie','一': 'yi','气': 'qi','踽':'ju','独':'du','行': 'xing','醍': 'ti','醐': 'hu','灌': 'guan','顶':'ding','绵':'mian','瓜': 'gua','瓞': 'die','奉': 'feng','为': 'wei','圭': 'gui','臬': 'nie'} for _ in range(int(input())): print(dict[input()]) C 坑题 给你一组数据，取出任意个数，使得他们的和相加最大且为奇数。\nfor _ in range(int(input())): n = int(input()) a = list(map(int, input().split())) sum = 0 for i in a: if i \u003e 0:sum += i if sum \u0026 1==0: a=sorted(a, key=abs) for i in a: if i\u00261: sum-=abs(i) break print(sum) I GPArank #include using namespace std; typedef long long ll; double eps = 1e-7; struct Node { string id; double score; }; vector p; int a[15]; int b[4]; bool cmp(Node a, Node b) { if (fabs(a.score - b.score) \u003e eps) return a.score \u003e b.score; return a.id \u003c b.id; } int main() { int T; cin \u003e\u003e T; while (T--) { p.clear(); int n, m; cin \u003e\u003e n \u003e\u003e m; double sum = 0.0; for (int i = 1; i \u003c= m; ++i) cin \u003e\u003e a[i], sum += a[i]; for (int i = 1; i \u003c= n; ++i) { string temp; cin \u003e\u003e temp; double sc = 0.0; for (int j = 1; j \u003c= m; ++j) { for (int k = 1; k \u003c= 3; ++k) cin \u003e\u003e b[k]; sc += (b[1] * 0.5 + b[2] * 0.3 + b[3] * 0.2) * a[j]; } p.push_back(Node{temp, sc / sum}); } stable_sort(p.begin(), p.end(), cmp); for (int i = 0; i \u003c n; ++i) { cout \u003c\u003c p[i].id; printf(\" %.2f\\n\", p[i].score); } if (T) printf(\"------\\n\"); } return 0; } 本文整理自作者牛客博客（https://blog.nowcoder.net/n/836a9cfeae694e16a26a14c575fc9bf5），发布于 2020-05-03。\n","wordCount":"686","inLanguage":"en","image":"https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2020-05-03T12:00:00+08:00","dateModified":"2020-05-03T12:00:00+08:00","author":{"@type":"Person","name":"Me"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bernard035.github.io/posts/2019-20200503/"},"publisher":{"@type":"Organization","name":"Bernard's Blog","logo":{"@type":"ImageObject","url":"https://bernard035.github.io/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://bernard035.github.io/ accesskey=h title="Home (Alt + H)"><img src=https://bernard035.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://bernard035.github.io/categories/ title=categories><span>categories</span></a></li><li><a href=https://bernard035.github.io/tags/ title=tags><span>tags</span></a></li><li><a href=https://bernard035.github.io title=bernard035.github.io><span>bernard035.github.io</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>Posts</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">2019年江西师范大学程序设计竞赛暨软院算法组选拔赛</h1><div class=post-meta><span title='2020-05-03 12:00:00 +0800 +0800'>May 3, 2020</span>&nbsp;·&nbsp;<span>4 min</span>&nbsp;·&nbsp;<span>686 words</span>&nbsp;·&nbsp;<span>Me</span>&nbsp;|&nbsp;<span>
+<a href=https://github.com/%3cpath_to_repo%3e/content/posts/2019-20200503.md rel="noopener noreferrer edit" target=_blank>Suggest Changes</a></span></div></header><details class=toc><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#d-字符串匹配>D 字符串匹配</a></li><li><a href=#h-全排列>H 全排列</a></li></ul><ul><li><a href=#a-模拟>A 模拟</a></li><li><a href=#b-字符串key-value>B 字符串key-value</a></li><li><a href=#c-坑题>C 坑题</a></li><li><a href=#i-gparank>I GPArank</a></li></ul></nav></div></details><div class="post-content md-content"><p>更偏向编程</p><h1 id=值得一看>值得一看<a hidden class=anchor aria-hidden=true href=#值得一看>#</a></h1><h2 id=d-字符串匹配>D 字符串匹配<a hidden class=anchor aria-hidden=true href=#d-字符串匹配>#</a></h2><pre tabindex=0><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+int main() {
+    ios::sync_with_stdio(false), cin.tie(0), cout.tie(0);
+    int T;
+    cin &gt;&gt; T;
+    cin.get();
+    while (T--) {
+        string word, sentence;
+        getline(cin, word);
+        getline(cin, sentence);
+        /*全部化为小写*/
+        for (string::iterator i1 = word.begin(); i1 != word.end(); i1++)
+            *i1 = tolower(*i1);
+        for (string::iterator i2 = sentence.begin(); i2 != sentence.end(); i2++)
+            *i2 = tolower(*i2);
+        /*关键：去除局部匹配*/
+        word = &#39; &#39; + word + &#39; &#39;;
+        sentence = &#39; &#39; + sentence + &#39; &#39;;
+        int i = sentence.find(word);
+        int position = i;  //第一次出现的位置
+        int cnt = 0;
+        while (i != string::npos) {
+            i = sentence.find(word, i + 1);  //从i+1开始匹配
+            cnt++;
+        }
+        if (cnt == 0)
+            cout &lt;&lt; -1 &lt;&lt; endl;
+        else
+            cout &lt;&lt; cnt &lt;&lt; &#34; &#34; &lt;&lt; position &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre><h2 id=h-全排列>H 全排列<a hidden class=anchor aria-hidden=true href=#h-全排列>#</a></h2><p>一个仅由0-9组成的字符串，对于它所有排列所构成的数字按升序排列后的序列，第n个数是多少呢？</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+#include &lt;sstream&gt;
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const ll mod = 1e9 + 7;
+int main() {
+    int T;
+    cin &gt;&gt; T;
+    for (int ca = 1; ca &lt;= T; ++ca) {
+        string a;
+        int n;
+        cin &gt;&gt; a &gt;&gt; n;
+        int len = a.length();
+        int cnt = 0;
+        cout &lt;&lt; &#34;Case &#34; &lt;&lt; ca &lt;&lt; &#34;: &#34;;
+        sort(a.begin(),a.end());
+        do {
+            cnt++;
+            if (cnt == n) {
+                int ans = 0;
+                stringstream s;
+                s &lt;&lt; a;
+                s &gt;&gt;ans;
+                cout &lt;&lt; ans &lt;&lt; endl;
+                break;
+            }
+        } while (next_permutation(a.begin(), a.end()));
+        if (cnt &lt; n) cout &lt;&lt; &#34;no solution&#34; &lt;&lt; endl;
+    }
+    return 0;
+}
+</code></pre><p><strong>string的一些技巧</strong><br><a href=https://blog.csdn.net/xiong452980729/article/details/61677701>https://blog.csdn.net/xiong452980729/article/details/61677701</a></p><h1 id=g-数学题>G <a href=https://ac.nowcoder.com/acm/contest/638/G>数学题</a><a hidden class=anchor aria-hidden=true href=#g-数学题>#</a></h1><p>本题可打表。</p><p>通过<strong>倍数递增的循环</strong>完成f数组的预处理，然后推过去就可以了。</p><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+inline ll read() {
+    ll s = 0, f = 1;
+    char ch;
+    do {
+        ch = getchar();
+        if (ch == &#39;-&#39;) f = -1;
+    } while (ch &lt; 48 || ch &gt; 57);
+    while (ch &gt;= 48 &amp;&amp; ch &lt;= 57)
+        s = (s &lt;&lt; 1) + (s &lt;&lt; 3) + (ch ^ 48), ch = getchar();
+    return s * f;
+}
+const int MOD = 1e9 + 7;
+const int N = 1e6 + 5;
+ll sum[N];
+void init() {
+    fill(sum, sum + N, 1);
+    for (int i = 1; i &lt; N; ++i)//此处处理为点睛之笔
+        for (int j = i; j &lt; N; j += i) sum[j] = sum[j] * i % MOD;
+}
+int main() {
+    init();
+    int T = read();
+    while (T--) {
+        int l = read(), r = read();
+        ll ans = 1;
+        for (int i = l; i &lt;= r; ++i) ans = (ans * sum[i]) % MOD;
+        printf(&#34;%lld\n&#34;, ans);
+    }
+    return 0;
+}
+</code></pre><h1 id=水题>水题<a hidden class=anchor aria-hidden=true href=#水题>#</a></h1><h2 id=a-模拟>A 模拟<a hidden class=anchor aria-hidden=true href=#a-模拟>#</a></h2><pre tabindex=0><code>t=int(input())
+for _ in range(t):
+    n=int(input())
+    ans=0
+    while n!=1:
+        if n%2 :
+            n-=1
+            ans+=1
+        n//=2
+        ans+=1
+    print(ans)
+</code></pre><h2 id=b-字符串key-value>B 字符串key-value<a hidden class=anchor aria-hidden=true href=#b-字符串key-value>#</a></h2><pre tabindex=0><code>dict={&#39;茕&#39;: &#39;qiong&#39;,&#39;孑&#39;: &#39;jie&#39;,&#39;立&#39;: &#39;li&#39;,&#39;沆&#39;: &#39;hang&#39;,&#39;瀣&#39;: &#39;xie&#39;,&#39;一&#39;: &#39;yi&#39;,&#39;气&#39;: &#39;qi&#39;,&#39;踽&#39;:&#39;ju&#39;,&#39;独&#39;:&#39;du&#39;,&#39;行&#39;: &#39;xing&#39;,&#39;醍&#39;: &#39;ti&#39;,&#39;醐&#39;: &#39;hu&#39;,&#39;灌&#39;: &#39;guan&#39;,&#39;顶&#39;:&#39;ding&#39;,&#39;绵&#39;:&#39;mian&#39;,&#39;瓜&#39;: &#39;gua&#39;,&#39;瓞&#39;: &#39;die&#39;,&#39;奉&#39;: &#39;feng&#39;,&#39;为&#39;: &#39;wei&#39;,&#39;圭&#39;: &#39;gui&#39;,&#39;臬&#39;: &#39;nie&#39;}
+for _ in range(int(input())): print(dict[input()])
+</code></pre><h2 id=c-坑题>C 坑题<a hidden class=anchor aria-hidden=true href=#c-坑题>#</a></h2><p>给你一组数据，取出任意个数，使得他们的和相加最大且为奇数。</p><pre tabindex=0><code>for _ in range(int(input())):
+    n = int(input())
+    a = list(map(int, input().split()))
+    sum = 0
+    for i in a:
+        if i &gt; 0:sum += i
+    if sum &amp; 1==0:
+        a=sorted(a, key=abs)
+        for i in a:
+            if i&amp;1:
+                sum-=abs(i)
+                break
+    print(sum)
+</code></pre><h2 id=i-gparank>I GPArank<a hidden class=anchor aria-hidden=true href=#i-gparank>#</a></h2><pre tabindex=0><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef long long ll;
+double eps = 1e-7;
+struct Node {
+    string id;
+    double score;
+};
+vector&lt;Node&gt; p;
+int a[15];
+int b[4];
+bool cmp(Node a, Node b) {
+    if (fabs(a.score - b.score) &gt; eps) return a.score &gt; b.score;
+    return a.id &lt; b.id;
+}
+int main() {
+    int T;
+    cin &gt;&gt; T;
+    while (T--) {
+        p.clear();
+        int n, m;
+        cin &gt;&gt; n &gt;&gt; m;
+        double sum = 0.0;
+        for (int i = 1; i &lt;= m; ++i) cin &gt;&gt; a[i], sum += a[i];
+        for (int i = 1; i &lt;= n; ++i) {
+            string temp;
+            cin &gt;&gt; temp;
+            double sc = 0.0;
+            for (int j = 1; j &lt;= m; ++j) {
+                for (int k = 1; k &lt;= 3; ++k) cin &gt;&gt; b[k];
+                sc += (b[1] * 0.5 + b[2] * 0.3 + b[3] * 0.2) * a[j];
+            }
+            p.push_back(Node{temp, sc / sum});
+        }
+        stable_sort(p.begin(), p.end(), cmp);
+        for (int i = 0; i &lt; n; ++i) {
+            cout &lt;&lt; p[i].id;
+            printf(&#34; %.2f\n&#34;, p[i].score);
+        }
+        if (T) printf(&#34;------\n&#34;);
+    }
+    return 0;
+}
+</code></pre><hr><blockquote><p>本文整理自作者牛客博客（https://blog.nowcoder.net/n/836a9cfeae694e16a26a14c575fc9bf5），发布于 2020-05-03。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://bernard035.github.io/tags/%E9%A2%98%E8%A7%A3/>题解</a></li></ul><nav class=paginav><a class=prev href=https://bernard035.github.io/posts/union-find-20200504/><span class=title>« Prev</span>
+<span>并查集</span>
+</a><a class=next href=https://bernard035.github.io/posts/union-find-20200427/><span class=title>Next »</span>
+<span>并查集</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 on x" href="https://x.com/intent/tweet/?text=2019%e5%b9%b4%e6%b1%9f%e8%a5%bf%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e7%ab%9e%e8%b5%9b%e6%9a%a8%e8%bd%af%e9%99%a2%e7%ae%97%e6%b3%95%e7%bb%84%e9%80%89%e6%8b%94%e8%b5%9b&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f&amp;hashtags=%e9%a2%98%e8%a7%a3"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f&amp;title=2019%e5%b9%b4%e6%b1%9f%e8%a5%bf%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e7%ab%9e%e8%b5%9b%e6%9a%a8%e8%bd%af%e9%99%a2%e7%ae%97%e6%b3%95%e7%bb%84%e9%80%89%e6%8b%94%e8%b5%9b&amp;summary=2019%e5%b9%b4%e6%b1%9f%e8%a5%bf%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e7%ab%9e%e8%b5%9b%e6%9a%a8%e8%bd%af%e9%99%a2%e7%ae%97%e6%b3%95%e7%bb%84%e9%80%89%e6%8b%94%e8%b5%9b&amp;source=https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f&title=2019%e5%b9%b4%e6%b1%9f%e8%a5%bf%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e7%ab%9e%e8%b5%9b%e6%9a%a8%e8%bd%af%e9%99%a2%e7%ae%97%e6%b3%95%e7%bb%84%e9%80%89%e6%8b%94%e8%b5%9b"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 on whatsapp" href="https://api.whatsapp.com/send?text=2019%e5%b9%b4%e6%b1%9f%e8%a5%bf%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e7%ab%9e%e8%b5%9b%e6%9a%a8%e8%bd%af%e9%99%a2%e7%ae%97%e6%b3%95%e7%bb%84%e9%80%89%e6%8b%94%e8%b5%9b%20-%20https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 on telegram" href="https://telegram.me/share/url?text=2019%e5%b9%b4%e6%b1%9f%e8%a5%bf%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e7%ab%9e%e8%b5%9b%e6%9a%a8%e8%bd%af%e9%99%a2%e7%ae%97%e6%b3%95%e7%bb%84%e9%80%89%e6%8b%94%e8%b5%9b&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 2019年江西师范大学程序设计竞赛暨软院算法组选拔赛 on ycombinator" href="https://news.ycombinator.com/submitlink?t=2019%e5%b9%b4%e6%b1%9f%e8%a5%bf%e5%b8%88%e8%8c%83%e5%a4%a7%e5%ad%a6%e7%a8%8b%e5%ba%8f%e8%ae%be%e8%ae%a1%e7%ab%9e%e8%b5%9b%e6%9a%a8%e8%bd%af%e9%99%a2%e7%ae%97%e6%b3%95%e7%bb%84%e9%80%89%e6%8b%94%e8%b5%9b&u=https%3a%2f%2fbernard035.github.io%2fposts%2f2019-20200503%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://bernard035.github.io/>Bernard's Blog</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

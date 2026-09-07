@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>字符串 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+    <description>Recent content in 字符串 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 08 Dec 2020 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>字符串 子序列 双指针 二分</title>
+      <link>https://bernard035.github.io/posts/binary-search-20201208/</link>
+      <pubDate>Tue, 08 Dec 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/binary-search-20201208/</guid>
+      <description>&lt;p&gt;这手双指针堪称妙手。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Solution {
+   public:
+    int Maximumlength(string x) {
+        int n = x.length(), mx = 0;
+        int na = 0, nb = 0, nc = 0;
+        for (int i = 0; i &amp;lt; n; i++)
+            if (x[i] == &amp;#39;b&amp;#39;) nb++;
+        int L = 0, R = n - 1;
+        while (L &amp;lt;= R) {
+            while (x[L] != &amp;#39;a&amp;#39;) {
+                if (x[L] == &amp;#39;b&amp;#39;) nb--;
+                ++L;
+            }
+            while (x[R] != &amp;#39;c&amp;#39;) {
+                if (x[R] == &amp;#39;b&amp;#39;) nb--;
+                --R;
+            }
+            na++, nc++;
+            mx = max(mx, min(na, min(nb, nc)) * 3);
+            L++, R--;
+        }
+        return mx;
+    }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;另外二分写法比赛的时候没完成，非常丢人。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>怕npy的牛牛 字符串 思维</title>
+      <link>https://bernard035.github.io/posts/npy-20201201/</link>
+      <pubDate>Tue, 01 Dec 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/npy-20201201/</guid>
+      <description>&lt;p&gt;其实就是要找最长的一段不含有n或p或y的字串长度。&lt;/p&gt;
+&lt;p&gt;可以用双指针维护但其实并没有必要。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;class Solution:
+  def Maximumlength(self , x ):
+    n = x.split(&amp;#39;n&amp;#39;)
+    p = x.split(&amp;#39;p&amp;#39;)
+    y = x.split(&amp;#39;y&amp;#39;)
+    ans = 0
+    for i in n:
+      ans = max(len(i), ans)
+    for i in y:
+      ans = max(len(i), ans)
+    for i in p:
+      ans = max(len(i), ans)
+    return ans
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/cecd4852a5784b6384d89b286a8a9ce5），发布于 2020-12-01。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>1616. 分割两个字符串得到回文串</title>
+      <link>https://bernard035.github.io/posts/1616-20201011/</link>
+      <pubDate>Sun, 11 Oct 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/1616-20201011/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;给定两个长度相同的字符串，问能否切割两个字符串的相同位置，再进行组合，得到一个回文串。&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;首先从串a首、串b尾开始配对，检索是否对称&lt;/li&gt;
+&lt;li&gt;如果不对称，尾指针上浮到串a继续检索&lt;/li&gt;
+&lt;li&gt;如果不对称，两个指针同时下沉到串b继续检索&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果中间任意一个检索，让指针走到了length/2的位置，即可得到回文串。&lt;/p&gt;
+&lt;p&gt;完成上述操作后，重置指针为串a尾串b首继续搜索一遍。&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;solution&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, x)
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+const ll mod = 1e9 + 7;
+bool chk(string s) {
+    int n = s.length();
+    for (int i = 0; i &amp;lt; n / 2; ++i) {
+        if (s[i] != s[n - 1 - i]) return 0;
+    }
+    return 1;
+}
+bool checkPalindromeFormation(string a, string b) {
+    int n = a.length();
+    if (chk(a) || chk(b)) return 1;
+    if (a[0] != b[n - 1] &amp;amp;&amp;amp; a[n - 1] != b[0]) return 0;
+    int L = 0, R = n - 1;
+    while (L &amp;lt; R &amp;amp;&amp;amp; a[L] == b[R]) {
+        ++L, --R;
+        if (L == n / 2) return 1;
+    }
+    while (L &amp;lt; R &amp;amp;&amp;amp; a[L] == a[R]) {
+        ++L, --R;
+        if (L == n / 2) return 1;
+    }
+    while (L &amp;lt; R &amp;amp;&amp;amp; b[L] == b[R]) {
+        ++L, --R;
+        if (L == n / 2) return 1;
+    }
+    L = n - 1, R = 0;
+    while (L &amp;gt; R &amp;amp;&amp;amp; a[L] == b[R]) {
+        --L, ++R;
+        if (R == n / 2) return 1;
+    }
+    while (L &amp;gt; R &amp;amp;&amp;amp; a[L] == a[R]) {
+        --L, ++R;
+        if (R == n / 2) return 1;
+    }
+    while (L &amp;gt; R &amp;amp;&amp;amp; b[L] == b[R]) {
+        --L, ++R;
+        if (R == n / 2) return 1;
+    }
+    return 0;
+}
+int main() {
+    string s, t;
+    while (cin &amp;gt;&amp;gt; s &amp;gt;&amp;gt; t) cout &amp;lt;&amp;lt; checkPalindromeFormation(s, t) &amp;lt;&amp;lt; endl;
+    return 0;
+}
+// abdef fecab
+// cdeoo oooab
+// pvhmupgqeltozftlmfjjde yjgpzbezspnnpszebzmhvp
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/6144972d4c734f3abcd4393870d8904c），发布于 2020-10-11。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>无穷字符串比较</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200713/</link>
+      <pubDate>Mon, 13 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200713/</guid>
+      <description>&lt;p&gt;一开始写了硬模拟，直到比完&lt;code&gt;a.len*b.len/gcd(a.len,b.len)&lt;/code&gt;位才结束。然后果不其然被大质数T掉，然后用一种投机取巧的方法过了。&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+int main() {
+    string a, b;
+    while (cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b) {
+        ll na = a.length(), nb = b.length();
+        int i = 0, j = 0, k = 0, n = 500000;  // max(na, nb) * 5;
+        while (a[i] == b[j]) {
+            ++i, ++j, ++k;
+            if (i == na &amp;amp;&amp;amp; j == nb) break;
+            if (k &amp;gt; n) break;
+            if (i == na) i = 0;
+            if (j == nb) j = 0;
+        }
+        if (a[i] == b[j]) puts(&amp;#34;=&amp;#34;);
+        else if (a[i] &amp;gt; b[j]) puts(&amp;#34;&amp;gt;&amp;#34;);
+        else if (a[i] &amp;lt; b[j]) puts(&amp;#34;&amp;lt;&amp;#34;);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;正确做法是：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>直接比字符串不就好了</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200518/</link>
+      <pubDate>Mon, 18 May 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200518/</guid>
+      <description>&lt;p&gt;一道水题，一开始还想写一个从最高位逐位比对的cmp……&lt;/p&gt;
+&lt;p&gt;真是被秀到&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+string a[N];
+bool cmp(string a, string b) { return a + b &amp;gt; b + a; }
+int main() {
+    int n;cin &amp;gt;&amp;gt; n;
+    for (int i = 0; i &amp;lt; n; ++i) cin &amp;gt;&amp;gt; a[i];
+    sort(a, a + n, cmp);
+    for (int i = 0; i &amp;lt; n; ++i) cout &amp;lt;&amp;lt; a[i];
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/7986aea2ea6f44f4b5338324ddb0855b），发布于 2020-05-18。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>伤害计算 字符串分割 py</title>
+      <link>https://bernard035.github.io/posts/py-20200513/</link>
+      <pubDate>Wed, 13 May 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/py-20200513/</guid>
+      <description>&lt;p&gt;这题是完完全全的水题。&lt;br&gt;
+cpp的解法移步&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/profile/123464579&#34;&gt;свобода&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;我当时就是嫌弃手写字符串处理太麻烦了，其实呢，c语言也有strtok好像也没人用。&lt;/p&gt;
+&lt;p&gt;py自带字符串分割函数，就分开来加一下就好了&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;s=list(input().split(&amp;#39;+&amp;#39;))
+ans=0.0
+for i in s:
+    if &amp;#39;d&amp;#39; in i:
+        a,b=map(int,i.split(&amp;#39;d&amp;#39;))
+        ans+=(1+b)*a*0.5
+    else: ans+=int(i)
+if ans-int(ans)&amp;lt;0.1: ans=int(ans) # 本题唯一坑点 cout可以直接过
+print(ans)
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/749237eadfe44d31a67e60758a36f237），发布于 2020-05-13。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

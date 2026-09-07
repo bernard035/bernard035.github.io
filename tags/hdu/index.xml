@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>HDU on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/hdu/</link>
+    <description>Recent content in HDU on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 06 Aug 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/hdu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HDU7001 毒瘤数据结构题 思维 卡常</title>
+      <link>https://bernard035.github.io/posts/hdu-7001-20210806/</link>
+      <pubDate>Fri, 06 Aug 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/hdu-7001-20210806/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;我们考虑维护最左边两个 $0$ 的位置，设其依次为 $a,b$。&lt;br&gt;
+若查询时，将 a 设为了 1，则答案为 b，否则答案为 a。&lt;br&gt;
+修改时，若修改了 $a$，则令 $a=b$，之后 $b$ 一直递增，直到找到下一个 $0$。&lt;br&gt;
+若修改了 $b$，则 $b$ 之后一直递增，直到找到下一个 $0$。&lt;br&gt;
+这样整个序列最多被扫过 $2$ 次，总复杂度为 $O(n)$。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#pragma GCC optimize(2)
+#pragma GCC optimize(3)
+#pragma GCC optimize(&amp;#34;Ofast&amp;#34;)
+#pragma GCC optimize(&amp;#34;inline&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fgcse&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fgcse-lm&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fipa-sra&amp;#34;)
+#pragma GCC optimize(&amp;#34;-ftree-pre&amp;#34;)
+#pragma GCC optimize(&amp;#34;-ftree-vrp&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fpeephole2&amp;#34;)
+#pragma GCC optimize(&amp;#34;-ffast-math&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fsched-spec&amp;#34;)
+#pragma GCC optimize(&amp;#34;unroll-loops&amp;#34;)
+#pragma GCC optimize(&amp;#34;-falign-jumps&amp;#34;)
+#pragma GCC optimize(&amp;#34;-falign-loops&amp;#34;)
+#pragma GCC optimize(&amp;#34;-falign-labels&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fdevirtualize&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fcaller-saves&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fcrossjumping&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fthread-jumps&amp;#34;)
+#pragma GCC optimize(&amp;#34;-funroll-loops&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fwhole-program&amp;#34;)
+#pragma GCC optimize(&amp;#34;-freorder-blocks&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fschedule-insns&amp;#34;)
+#pragma GCC optimize(&amp;#34;inline-functions&amp;#34;)
+#pragma GCC optimize(&amp;#34;-ftree-tail-merge&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fschedule-insns2&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fstrict-aliasing&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fstrict-overflow&amp;#34;)
+#pragma GCC optimize(&amp;#34;-falign-functions&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fcse-skip-blocks&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fcse-follow-jumps&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fsched-interblock&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fpartial-inlining&amp;#34;)
+#pragma GCC optimize(&amp;#34;no-stack-protector&amp;#34;)
+#pragma GCC optimize(&amp;#34;-freorder-functions&amp;#34;)
+#pragma GCC optimize(&amp;#34;-findirect-inlining&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fhoist-adjacent-loads&amp;#34;)
+#pragma GCC optimize(&amp;#34;-frerun-cse-after-loop&amp;#34;)
+#pragma GCC optimize(&amp;#34;inline-small-functions&amp;#34;)
+#pragma GCC optimize(&amp;#34;-finline-small-functions&amp;#34;)
+#pragma GCC optimize(&amp;#34;-ftree-switch-conversion&amp;#34;)
+#pragma GCC optimize(&amp;#34;-foptimize-sibling-calls&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fexpensive-optimizations&amp;#34;)
+#pragma GCC optimize(&amp;#34;-funsafe-loop-optimizations&amp;#34;)
+#pragma GCC optimize(&amp;#34;inline-functions-called-once&amp;#34;)
+#pragma GCC optimize(&amp;#34;-fdelete-null-pointer-checks&amp;#34;)
+#include &amp;lt;bits/stdc++.h&amp;gt;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define pr(x) printf(&amp;#34;%lld\n&amp;#34;, (x))
+#define rep(i, l, r) for (int i = l; i &amp;lt;= r; ++i)
+using namespace std;
+typedef int ll;
+const int N = 5e6 + 7;
+const int mod = 1e9 + 7;
+static char buf[100000], *pa = buf, *pb = buf;
+#define gc pa==pb&amp;amp;&amp;amp;(pb=(pa=buf)+fread(buf,1,100000,stdin),pa==pb)?EOF:*pa++
+inline int read() {
+    int x(0);
+    char c(gc);
+    while (c &amp;lt; &amp;#39;0&amp;#39; || c &amp;gt; &amp;#39;9&amp;#39;) c = gc;
+    while (c &amp;gt;= &amp;#39;0&amp;#39; &amp;amp;&amp;amp; c &amp;lt;= &amp;#39;9&amp;#39;) x = (x &amp;lt;&amp;lt; 1) + (x &amp;lt;&amp;lt; 3) + (c ^ 48), c = gc;
+    return x;
+}
+bool vis[N];
+signed main() {
+    int n = read(), op, x, a = 1, b = 2;
+    rep(_, 1, n) {
+        if (read() &amp;amp; 1) {
+            x = read();
+            vis[x] = 1;
+            if (x == a) {
+                a = b;
+                while (vis[++b]) ;
+            }
+            if (x == b) while (vis[++b]) ;
+        } else {
+            if (read() == a)
+                printf(&amp;#34;%d\n&amp;#34;, b);
+            else
+                printf(&amp;#34;%d\n&amp;#34;, a);
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/d5058f81f1a542c69548c62f38745678），发布于 2021-08-06。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HDU 1506 单调栈</title>
+      <link>https://bernard035.github.io/posts/hdu-1506-20201124/</link>
+      <pubDate>Tue, 24 Nov 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/hdu-1506-20201124/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;&lt;img alt=&#34;img&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/d7056f62693fd502.gif&#34;&gt;&lt;/p&gt;
+&lt;p&gt;找到一个面积最大的矩形区域。&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;对于每一个$a_i$，找左边第一个比它矮的，再找右边第一个比它矮的。此处可用单调栈实现。&lt;/p&gt;
+&lt;p&gt;就得到了一个以$a_i$为最大高度可行区间。就可以算出来这个区域。&lt;/p&gt;
+&lt;p&gt;单调栈的弹栈操作：清除无用的数据。已经有了更小的，如果要找左边第一个比它小的值，前面的次小数据就没有任何意义了。所以如果要做左边第一个比它小的值，就应该维护栈内的递减。&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+#define sc(x) scanf(&amp;#34;%lld&amp;#34;, &amp;amp;(x))
+#define me(L) memset(L, 0, sizeof(L))
+ll L[N], R[N], st[N], a[N];
+int main() {
+    ll n, t;
+    while (sc(n), n) {
+        for (int i = 1; i &amp;lt;= n; ++i) sc(a[i]);
+        st[t = 0] = 0;
+        for (int i = 1; i &amp;lt;= n; ++i) {
+            while (t &amp;amp;&amp;amp; a[st[t]] &amp;gt;= a[i]) --t;
+            L[i] = st[t];
+            st[++t] = i;
+        }
+        st[t = 0] = n + 1;
+        for (int i = n; i; --i) {
+            while (t &amp;amp;&amp;amp; a[st[t]] &amp;gt;= a[i]) --t;
+            R[i] = st[t];
+            st[++t] = i;
+        }
+        ll ans = 0;
+        for (int i = 1; i &amp;lt;= n; ++i) {
+            ll now = (R[i] - L[i] - 1) * a[i];
+            if (now &amp;gt; ans) ans = now;
+        }
+        printf(&amp;#34;%lld\n&amp;#34;, ans);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/1e89d6bc36414817b30d1b179d9b7d4a），发布于 2020-11-24。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HDU3410 两边找最大 单调栈</title>
+      <link>https://bernard035.github.io/posts/hdu-3410-20201124/</link>
+      <pubDate>Tue, 24 Nov 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/hdu-3410-20201124/</guid>
+      <description>&lt;h2 id=&#34;题意&#34;&gt;题意&lt;/h2&gt;
+&lt;p&gt;给定一个数列$a$。&lt;/p&gt;
+&lt;p&gt;对于每一个$a_i$，找两边的第一个比它大的值$a_L,a_R$，然后在区间$(L,i)$里找最大值，再在$(i,R)$里找最大值。&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;单调栈，再加一个判断。&lt;/p&gt;
+&lt;h2 id=&#34;solution&#34;&gt;Solution&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+const int N = 1e5 + 7;
+#define sc(x) scanf(&amp;#34;%d&amp;#34;, &amp;amp;(x))
+#define me(L) memset(L, 0, sizeof(L))
+int L[N], R[N], st[N], a[N];
+int main() {
+    int n, t, T;
+    sc(T);
+    for (int ca = 1; ca &amp;lt;= T; ++ca) {
+        sc(n);
+        for (int i = 1; i &amp;lt;= n; ++i) sc(a[i]);
+        st[t = 0] = 0;
+        for (int i = 1; i &amp;lt;= n; ++i) {
+            int maxx = -1, k = 0;
+            while (t &amp;amp;&amp;amp; a[st[t]] &amp;lt; a[i]) {
+                if (maxx &amp;lt; a[st[t]]) maxx = a[st[t]], k = st[t];
+                --t;
+            }
+            L[i] = k;
+            st[++t] = i;
+        }
+        st[t = 0] = n + 1;
+        for (int i = n; i; --i) {
+            int maxx = -1, k = 0;
+            while (t &amp;amp;&amp;amp; a[st[t]] &amp;lt; a[i]) {
+                if (maxx &amp;lt; a[st[t]]) maxx = a[st[t]], k = st[t];
+                --t;
+            }
+            R[i] = k;
+            st[++t] = i;
+        }
+        printf(&amp;#34;Case %d:\n&amp;#34;, ca);
+        for (int i = 1; i &amp;lt;= n; ++i) printf(&amp;#34;%d %d\n&amp;#34;, L[i], R[i]);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/26e5eea5da2649328a53d5e4283a54bd），发布于 2020-11-24。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HDU 1002 大数加法 怀旧</title>
+      <link>https://bernard035.github.io/posts/hdu-1002-20201120/</link>
+      <pubDate>Fri, 20 Nov 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/hdu-1002-20201120/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+void pre(string &amp;amp;s) {
+    int n = s.length();
+    int i = 0;
+    while (s[i] == &amp;#39;0&amp;#39;) ++i;
+    s = s.substr(i, n);           //清除前导零
+    reverse(s.begin(), s.end());  //竖式右对齐
+}
+string slove(string a, string b) {
+    pre(a), pre(b);
+    int lena = a.length(), lenb = b.length();
+    if (lena &amp;lt; lenb) swap(a, b), swap(lena, lenb);  //竖式加法，位数更高的放上面
+    string ans;
+    bool f = 0;  //标记进位
+    int i = 0;
+    while (i &amp;lt; lenb) {
+        int now = a[i] - &amp;#39;0&amp;#39; + b[i++] - &amp;#39;0&amp;#39; + f;  //当前值
+        ans.push_back(now % 10 + &amp;#39;0&amp;#39;);            //个位
+        f = now / 10;                             //进位
+    }
+    while (i &amp;lt; lena) {
+        int now = a[i++] - &amp;#39;0&amp;#39; + f;
+        ans.push_back(now % 10 + &amp;#39;0&amp;#39;);
+        f = now / 10;
+    }
+    if (f) ans.push_back(&amp;#39;1&amp;#39;);        //最后的进位
+    reverse(ans.begin(), ans.end());  //换回来
+    return ans;
+}
+int main() {
+    int T;
+    cin &amp;gt;&amp;gt; T;
+    string a, b;
+    for (int i = 1; i &amp;lt;= T; ++i) {
+        cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b;
+        if (i - 1) putchar(&amp;#39;\n&amp;#39;);
+        cout &amp;lt;&amp;lt; &amp;#34;Case &amp;#34; &amp;lt;&amp;lt; i &amp;lt;&amp;lt; &amp;#34;:\n&amp;#34; &amp;lt;&amp;lt; a &amp;lt;&amp;lt; &amp;#34; + &amp;#34; &amp;lt;&amp;lt; b &amp;lt;&amp;lt; &amp;#34; = &amp;#34;;
+        cout &amp;lt;&amp;lt; slove(a, b) &amp;lt;&amp;lt; &amp;#39;\n&amp;#39;;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/84b33372cc12420eba950592a50ed3ef），发布于 2020-11-20。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HDU 2069 Coin Change</title>
+      <link>https://bernard035.github.io/posts/hdu-2069-20200323/</link>
+      <pubDate>Mon, 23 Mar 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/hdu-2069-20200323/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;bits/stdc++.h&amp;gt;
+using namespace std;
+typedef long long ll;
+//dp[i],最多100枚硬币
+const int a[5] = {1, 5, 10, 25, 50};
+int main() {
+    int n;
+    while (cin &amp;gt;&amp;gt; n) {
+        ll dp[255][101];  // dp[j][k]:用k个硬币组成j值的个数
+        dp[0][0] = 1;
+        for (int i = 0; i &amp;lt; 5; i++)
+            for (int k = 1; k &amp;lt;= 100; k++)  // k个硬币
+                for (int j = a[i]; j &amp;lt;= n; j++) dp[j][k] += dp[j - a[i]][k - 1];
+        ll ans = 0;
+        for (int i = 0; i &amp;lt;= 100; i++) ans += dp[n][i];
+        cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;母函数完全背包-待了解&#34;&gt;母函数/完全背包 待了解&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/12e8596e8d714337adf899ccc355e289），发布于 2020-03-23。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HDU 2086 A1 = ?</title>
+      <link>https://bernard035.github.io/posts/hdu-2086-20200322/</link>
+      <pubDate>Sun, 22 Mar 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/hdu-2086-20200322/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/*
+因为：Ai=(Ai-1+Ai+1)/2 - Ci,
+      A1=(A0  +A2  )/2 - C1;
+      A2=(A1  +  A3)/2 - C2 , ...
+
+=&amp;gt;    A1+A2 = (A0+A2+A1+A3)/2 - (C1+C2)
+      2[(A1+A2)+(C1+C2)] = A0+A2+A1+A3;
+      A1+A2 = A0+A3 - 2(C1+C2);
+
+=&amp;gt;    A1+A2 =  A0+A3 - 2(C1+C2)
+
+同理可得：
+      A1+A1 =  A0+A2 - 2(C1)
+      A1+A2 =  A0+A3 - 2(C1+C2)
+      A1+A3 =  A0+A4 - 2(C1+C2+C3)
+      A1+A4 =  A0+A5 - 2(C1+C2+C3+C4)
+      ...
+      A1+An = A0+An+1 - 2(C1+C2+...+Cn)
+----------------------------------------------------- 左右求和
+     (n+1)A1+(A2+A3+...+An) = nA0 +(A2+A3+...+An) + An+1 -
+2(nC1+(n-1)C2+...+2Cn-1+Cn)
+
+=&amp;gt;   (n+1)A1 = nA0 + An+1 - 2(nC1+(n-1)C2+...+2Cn-1+Cn)
+
+=&amp;gt;   A1 = [nA0 + An+1 - 2(nC1+(n-1)C2+...+2Cn-1+Cn)]/(n+1)
+*/
+#include &amp;lt;cstdio&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+using namespace std;
+const int maxn = 3003;
+double a[maxn], c[maxn];
+int main() {
+    int n, i, j;
+    while (scanf(&amp;#34;%d&amp;#34;, &amp;amp;n) == 1) {
+        scanf(&amp;#34;%lf%lf&amp;#34;, &amp;amp;a[0], &amp;amp;a[n + 1]);
+        for (i = 1; i &amp;lt;= n; i++) 
+            scanf(&amp;#34;%lf&amp;#34;, &amp;amp;c[i]);
+        a[1] = n * a[0] + a[n + 1];
+        double sum = 0;
+        for (i = n, j = 1; i &amp;gt;= 1 &amp;amp;&amp;amp; j &amp;lt;= n; j++, i--) 
+            sum += i * c[j];
+        a[1] = (a[1] - 2 * sum) / (n + 1);
+        printf(&amp;#34;%.2lf\n&amp;#34;, a[1]);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;//递推题：        
+//a[1]=1/(n+1)*(a[n+1]+n*a[0]-2*c[n]-4*c[n-1]-8*c[n-2]...-pow(2,n)*c[1]);
+
+#include&amp;lt;stdio.h&amp;gt;
+
+int main()
+{
+    int n,i,k;
+    float a[3005],c[3005];
+    float sum;
+    while(~scanf(&amp;#34;%d&amp;#34;,&amp;amp;n))
+    {
+        scanf(&amp;#34;%f%f&amp;#34;,&amp;amp;a[0],&amp;amp;a[n+1]);
+        for(i=1;i&amp;lt;=n;++i)
+            scanf(&amp;#34;%f&amp;#34;,&amp;amp;c[i]);
+        k=2;
+        sum=0;
+        for(i=n;i&amp;gt;0;--i)
+        {
+            c[i]*=k;
+            k+=2;
+            sum+=c[i];
+        }
+        printf(&amp;#34;%.2f\n&amp;#34;,1.0/(n+1)*(a[n+1]+n*a[0]-sum));
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;//n = 1时，有 a1 = a0/2 + a2/2 - c1
+//n = 2时，有 3/2*a1 = a0 + a3/2 - 2*c2 -  c1
+//n = 3时，有 2*a1 = 3*a0/2 + a4/2 - 3*c3 - 2*c2 -  c1
+//所以得出
+//n = k 时，有 (n+1)/2 * a1 = (n/2)*a0 + a(n+1)/2 - n*cn - …-2*c2 - c1
+#include &amp;lt;stdio.h&amp;gt;
+int main(){
+    int n,i;
+    double a0,an,c[3005];
+    while(~scanf(&amp;#34;%d&amp;#34;,&amp;amp;n)){
+        scanf(&amp;#34;%lf%lf&amp;#34;,&amp;amp;a0,&amp;amp;an);
+        for(i = 1;i&amp;lt;=n;i++)
+        scanf(&amp;#34;%lf&amp;#34;,&amp;amp;c[i]);
+        double ans,t = 0;
+        for(i = 1;i&amp;lt;=n;i++)
+            t = t+(n-i+1)*c[i];
+        ans = a0*(0.5*n)+an/2.0-t;
+        ans/=(0.5*(n+1));
+        printf(&amp;#34;%.2lf\n&amp;#34;,ans);
+    }
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/1dbb3278a499454fa5305c0be0c45f6e），发布于 2020-03-22。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HDU 2063 过山车 匈牙利算法</title>
+      <link>https://bernard035.github.io/posts/hdu-2063-20200128/</link>
+      <pubDate>Tue, 28 Jan 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/hdu-2063-20200128/</guid>
+      <description>&lt;p&gt;本菜鸡终于自己走了一遍，感觉很妙，但是总觉得自己想的话想不到这个递归结构。&lt;br&gt;
+还是太菜了。要多练练递归（感觉还是会想不到&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include&amp;lt;iostream&amp;gt;
+#include&amp;lt;cstring&amp;gt;
+using namespace std;
+const int N = 510;
+//腾 
+int n, m;//男生 女生 
+int g[N][N];//graph 描述图关系 
+int vis[N], boy[N];
+
+bool dfs(int x) { 
+    for(int i = 1; i &amp;lt;= n; i++) {//遍历每个男生 
+        if(!vis[i] &amp;amp;&amp;amp; g[x][i]) {//如果存在关系且没有被访问过 
+            vis[i] = 1;//访问记录 
+            if(!boy[i] || dfs(boy[i])) {//如果男生名花无主或者可以挪动 
+                boy[i] = x;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+int main() {
+    int k;
+    while(cin &amp;gt;&amp;gt; k &amp;amp;&amp;amp; k) {
+        cin &amp;gt;&amp;gt; m &amp;gt;&amp;gt; n;
+        memset(g, 0, sizeof(g));
+        memset(boy, 0, sizeof(boy));
+        for(int i = 0; i &amp;lt; k; i++) {
+            int a, b;
+            cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b;
+            g[a][b] = 1;
+        }
+        int sum = 0;
+        for(int i = 1; i &amp;lt;= m; i++) {//遍历每一个女生 
+            memset(vis, 0, sizeof(vis));//每一个女生都清空访问记录 
+            if(dfs(i)) sum++;
+        }
+        cout &amp;lt;&amp;lt; sum &amp;lt;&amp;lt; endl;
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;补充WuTao大佬的话，以后来看：&lt;br&gt;
+二分图最大匹配。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

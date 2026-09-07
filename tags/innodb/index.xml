@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>InnoDB on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/innodb/</link>
+    <description>Recent content in InnoDB on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2026 10:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/innodb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>TDSQL 小表热点问题分析与优化</title>
+      <link>https://bernard035.github.io/posts/tdsql-small-table-hotspot/</link>
+      <pubDate>Thu, 03 Sep 2026 10:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/tdsql-small-table-hotspot/</guid>
+      <description>&lt;h1 id=&#34;tdsql-小表热点问题分析与优化&#34;&gt;TDSQL 小表热点问题分析与优化&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;账号表高并发查询，业务性能不及预期。本文记录一次从 &lt;strong&gt;perf 火焰图 → threadpool 参数调优 → uprobe 内核级 tracing → B+ 树原理分析&lt;/strong&gt; 的完整性能问题定位过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;问题描述&#34;&gt;问题描述&lt;/h2&gt;
+&lt;p&gt;在 TDSQL 中，账号表存在高并发查询的场景，但业务性能始终不及预期。通过分析发现，系统存在严重的&lt;strong&gt;调度开销&lt;/strong&gt;与&lt;strong&gt;锁竞争&lt;/strong&gt;问题，QPS 远低于预期。&lt;/p&gt;
+&lt;p&gt;这张表的特点非常典型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;数据量极小&lt;/strong&gt;（两百多行，索引页总大小不足 10KB）；&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;并发查询量极大&lt;/strong&gt;（高 QPS 的点查场景）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;数据页几乎全部常驻 Buffer Pool，本应是&amp;quot;内存操作级别&amp;quot;的负载，却出现了性能瓶颈——多个线程反复竞争同一个 page（高频读写某几行或相近的数据），形成典型的**小表热点（hot small table）**问题。&lt;/p&gt;
+&lt;h2 id=&#34;问题分析&#34;&gt;问题分析&lt;/h2&gt;
+&lt;h3 id=&#34;1-perf-热点锁竞争--调度开销&#34;&gt;1. perf 热点：锁竞争 + 调度开销&lt;/h3&gt;
+&lt;p&gt;Top 3 热点函数分别为：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;热点函数&lt;/th&gt;
+					&lt;th&gt;含义&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;native_queued_spin_lock_slowpath&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;Linux 内核自旋锁（qspinlock，MCS 队列锁）的慢路径，说明内核锁竞争激烈&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;finish_task_switch&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;上下文切换完成后的收尾工作&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;&lt;code&gt;__schedule&lt;/code&gt;&lt;/td&gt;
+					&lt;td&gt;内核调度器主逻辑，线程被换出/换入&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;这三个函数同时霸榜，指向同一个结论：&lt;strong&gt;大量线程在内核态自旋等待 + 频繁睡眠/唤醒&lt;/strong&gt;。线程在用户态拿不到锁后陷入内核等待（futex 路径会踩到运行队列锁、futex 队列锁等内核自旋锁），唤醒风暴又放大了调度开销——这是&amp;quot;锁排队（lock convoy）&amp;ldquo;的典型特征。&lt;/p&gt;
+&lt;h3 id=&#34;2-火焰图热点收敛到-buf_page_optimistic_get&#34;&gt;2. 火焰图：热点收敛到 &lt;code&gt;buf_page_optimistic_get&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;进一步用火焰图下钻，调度/锁竞争主要由 TDSQL 内核函数 &lt;code&gt;buf_page_optimistic_get&lt;/code&gt; 触发，&lt;strong&gt;采样占比高达 72.94%&lt;/strong&gt;，说明高并发请求都在访问同一个 page，形成小表热点，导致性能不及预期。热点占比如此显著，可以判断系统已经越过性能拐点。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;buf_page_optimistic_get&lt;/code&gt; 是 InnoDB 缓冲池中用于&lt;strong&gt;乐观读取页面&lt;/strong&gt;的核心逻辑：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

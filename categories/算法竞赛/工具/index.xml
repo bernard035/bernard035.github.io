@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>算法竞赛/工具 on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E5%B7%A5%E5%85%B7/</link>
+    <description>Recent content in 算法竞赛/工具 on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 10 May 2021 12:00:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux 对拍脚本</title>
+      <link>https://bernard035.github.io/posts/linux-20210510-2/</link>
+      <pubDate>Mon, 10 May 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/linux-20210510-2/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#!/bin/bash
+g++ std.cpp -o std -Wall
+g++ my.cpp -o my -Wall
+while true; do
+    clear
+    python3 creat.py
+    ./std                                 #&amp;lt;in.txt&amp;gt; std.out
+    ./my                                  #&amp;lt;data.in&amp;gt; my.out
+    if diff -b -B -q std.txt my.txt; then # diff -b -B -q后解俩文件是比较这俩文件的意思，-b -B -q是忽略制表符行末空格以及空行的影响。如果没差别则会返回逻辑真
+        echo &amp;#34;AC!&amp;#34;
+    else
+        echo &amp;#34;Fake! Wrong Answer!&amp;#34;
+        diff std.txt my.txt
+        break 
+    fi        # //if的终止标志
+done          # //while的终止标志
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/347560a61814465faad7d55f290a476e），发布于 2021-05-10。&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>bits/stdc&#43;&#43;.h</title>
+      <link>https://bernard035.github.io/posts/bits-stdcplusplus.h-20201030/</link>
+      <pubDate>Fri, 30 Oct 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/bits-stdcplusplus.h-20201030/</guid>
+      <description>&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;// C++ includes used for precompiling -*- C++ -*-
+
+// Copyright (C) 2003-2014 Free Software Foundation, Inc.
+//
+// This file is part of the GNU ISO C++ Library.  This library is free
+// software; you can redistribute it and/or modify it under the
+// terms of the GNU General Public License as published by the
+// Free Software Foundation; either version 3, or (at your option)
+// any later version.
+
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// Under Section 7 of GPL version 3, you are granted additional
+// permissions described in the GCC Runtime Library Exception, version
+// 3.1, as published by the Free Software Foundation.
+
+// You should have received a copy of the GNU General Public License and
+// a copy of the GCC Runtime Library Exception along with this program;
+// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+// &amp;lt;http://www.gnu.org/licenses/&amp;gt;.
+
+/** @file stdc++.h
+ *  This is an implementation file for a precompiled header.
+ */
+
+// 17.4.1.2 Headers
+
+// C
+#ifndef _GLIBCXX_NO_ASSERT
+#include &amp;lt;cassert&amp;gt;
+#endif
+#include &amp;lt;cctype&amp;gt;
+#include &amp;lt;cerrno&amp;gt;
+#include &amp;lt;cfloat&amp;gt;
+#include &amp;lt;ciso646&amp;gt;
+#include &amp;lt;climits&amp;gt;
+#include &amp;lt;clocale&amp;gt;
+#include &amp;lt;cmath&amp;gt;
+#include &amp;lt;csetjmp&amp;gt;
+#include &amp;lt;csignal&amp;gt;
+#include &amp;lt;cstdarg&amp;gt;
+#include &amp;lt;cstddef&amp;gt;
+#include &amp;lt;cstdio&amp;gt;
+#include &amp;lt;cstdlib&amp;gt;
+#include &amp;lt;cstring&amp;gt;
+#include &amp;lt;ctime&amp;gt;
+
+#if __cplusplus &amp;gt;= 201103L
+#include &amp;lt;ccomplex&amp;gt;
+#include &amp;lt;cfenv&amp;gt;
+#include &amp;lt;cinttypes&amp;gt;
+#include &amp;lt;cstdalign&amp;gt;
+#include &amp;lt;cstdbool&amp;gt;
+#include &amp;lt;cstdint&amp;gt;
+#include &amp;lt;ctgmath&amp;gt;
+#include &amp;lt;cwchar&amp;gt;
+#include &amp;lt;cwctype&amp;gt;
+#endif
+
+// C++
+#include &amp;lt;algorithm&amp;gt;
+#include &amp;lt;bitset&amp;gt;
+#include &amp;lt;complex&amp;gt;
+#include &amp;lt;deque&amp;gt;
+#include &amp;lt;exception&amp;gt;
+#include &amp;lt;fstream&amp;gt;
+#include &amp;lt;functional&amp;gt;
+#include &amp;lt;iomanip&amp;gt;
+#include &amp;lt;ios&amp;gt;
+#include &amp;lt;iosfwd&amp;gt;
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;istream&amp;gt;
+#include &amp;lt;iterator&amp;gt;
+#include &amp;lt;limits&amp;gt;
+#include &amp;lt;list&amp;gt;
+#include &amp;lt;locale&amp;gt;
+#include &amp;lt;map&amp;gt;
+#include &amp;lt;memory&amp;gt;
+#include &amp;lt;new&amp;gt;
+#include &amp;lt;numeric&amp;gt;
+#include &amp;lt;ostream&amp;gt;
+#include &amp;lt;queue&amp;gt;
+#include &amp;lt;set&amp;gt;
+#include &amp;lt;sstream&amp;gt;
+#include &amp;lt;stack&amp;gt;
+#include &amp;lt;stdexcept&amp;gt;
+#include &amp;lt;streambuf&amp;gt;
+#include &amp;lt;string&amp;gt;
+#include &amp;lt;typeinfo&amp;gt;
+#include &amp;lt;utility&amp;gt;
+#include &amp;lt;valarray&amp;gt;
+#include &amp;lt;vector&amp;gt;
+
+#if __cplusplus &amp;gt;= 201103L
+#include &amp;lt;array&amp;gt;
+#include &amp;lt;atomic&amp;gt;
+#include &amp;lt;chrono&amp;gt;
+#include &amp;lt;condition_variable&amp;gt;
+#include &amp;lt;forward_list&amp;gt;
+#include &amp;lt;future&amp;gt;
+#include &amp;lt;initializer_list&amp;gt;
+#include &amp;lt;mutex&amp;gt;
+#include &amp;lt;random&amp;gt;
+#include &amp;lt;ratio&amp;gt;
+#include &amp;lt;regex&amp;gt;
+#include &amp;lt;scoped_allocator&amp;gt;
+#include &amp;lt;system_error&amp;gt;
+#include &amp;lt;thread&amp;gt;
+#include &amp;lt;tuple&amp;gt;
+#include &amp;lt;typeindex&amp;gt;
+#include &amp;lt;type_traits&amp;gt;
+#include &amp;lt;unordered_map&amp;gt;
+#include &amp;lt;unordered_set&amp;gt;
+#endif
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/usr/include/c++/9/bits
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文整理自作者牛客博客（https://blog.nowcoder.net/n/4af7e18abbe542e89d9434afcb4dcf7d），发布于 2020-10-30。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>多组输入与T组输入</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20201022/</link>
+      <pubDate>Thu, 22 Oct 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20201022/</guid>
+      <description>&lt;h2 id=&#34;多组输入&#34;&gt;多组输入&lt;/h2&gt;
+&lt;p&gt;多组输入要求你处理到文件的结尾(EOF，end of file)。&lt;/p&gt;
+&lt;p&gt;也就是说，输入完一组数据以后，你的程序不能结束，而应该等待下一组输入。&lt;/p&gt;
+&lt;p&gt;对于每一组输入，应当在循环体内完成对这一组数据的处理，并按照格式要求输出答案。&lt;/p&gt;
+&lt;p&gt;比如&lt;a href=&#34;http://acm.hdu.edu.cn/showproblem.php?pid=1000&#34;&gt;HDU1000&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/e16e926ef4937665.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;它要求你处理到文件的结尾，并且对于每一组输入，在一行中输出答案，所以程序应该这样写：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int a, b;
+    while (scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;a, &amp;amp;b) != EOF) {
+    //在这两个大括号之间，处理数据并输出答案
+        printf(&amp;#34;%d\n&amp;#34;, a + b);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;这样的题目也是用多组输入的：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/c448321f02a63609.png&#34; title=&#34;HDU2000&#34;&gt;&lt;/p&gt;
+&lt;p&gt;只要题目中说了多组输入，或者说了要求处理到文件的结尾，都应该使用这样的格式。&lt;/p&gt;
+&lt;p&gt;如果暂时不明白也没关系，先用上再说。&lt;/p&gt;
+&lt;h2 id=&#34;t组输入&#34;&gt;T组输入&lt;/h2&gt;
+&lt;p&gt;T组输入是指，输入数据会指定输入的组数，你的程序应当读入T后，执行T次对数据的读入，处理和输出。&lt;/p&gt;
+&lt;p&gt;比如&lt;a href=&#34;http://acm.hdu.edu.cn/showproblem.php?pid=1090&#34;&gt;HDU1090&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;图片说明&#34; loading=&#34;lazy&#34; src=&#34;https://bernard035.github.io/images/933b56876f473c3b.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所以下面的代码可以满足要求：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int a, b, T;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;T);
+    while (T--) {
+        scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;a, &amp;amp;b);
+        printf(&amp;#34;%d\n&amp;#34;, a + b);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果这样写你看不懂的话，这个循环也可以这样表示：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+int main() {
+    int a, b, T;
+    scanf(&amp;#34;%d&amp;#34;, &amp;amp;T);
+    for (int i = 0; i &amp;lt; T; i++) {
+        scanf(&amp;#34;%d%d&amp;#34;, &amp;amp;a, &amp;amp;b);
+        printf(&amp;#34;%d\n&amp;#34;, a + b);
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;比如这题，就是比较典型的T组输入&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>造数据</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200727-2/</link>
+      <pubDate>Mon, 27 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200727-2/</guid>
+      <description>&lt;h2 id=&#34;随机字符串&#34;&gt;随机字符串&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import random, string
+random_str = &amp;#39;&amp;#39;.join(random.choice(string.ascii_lowercase) for _ in range(800000))
+print(random_str, file= open(&amp;#34;5.in&amp;#34;, &amp;#34;w&amp;#34;))
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;string库&lt;code&gt;/usr/lib/python3.8/string.py&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;#34;&amp;#34;&amp;#34;
+whitespace -- a string containing all ASCII whitespace
+ascii_lowercase -- a string containing all ASCII lowercase letters
+ascii_uppercase -- a string containing all ASCII uppercase letters
+ascii_letters -- a string containing all ASCII letters
+digits -- a string containing all ASCII decimal digits
+hexdigits -- a string containing all ASCII hexadecimal digits
+octdigits -- a string containing all ASCII octal digits
+punctuation -- a string containing all ASCII punctuation characters
+printable -- a string containing all ASCII characters considered printable
+&amp;#34;&amp;#34;&amp;#34;
+
+whitespace = &amp;#39; \t\n\r\v\f&amp;#39;
+ascii_lowercase = &amp;#39;abcdefghijklmnopqrstuvwxyz&amp;#39;
+ascii_uppercase = &amp;#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#39;
+ascii_letters = ascii_lowercase + ascii_uppercase
+digits = &amp;#39;0123456789&amp;#39;
+hexdigits = digits + &amp;#39;abcdef&amp;#39; + &amp;#39;ABCDEF&amp;#39;
+octdigits = &amp;#39;01234567&amp;#39;
+punctuation = r&amp;#34;&amp;#34;&amp;#34;!&amp;#34;#$%&amp;amp;&amp;#39;()*+,-./:;&amp;lt;=&amp;gt;?@[\]^_`{|}~&amp;#34;&amp;#34;&amp;#34;
+printable = digits + ascii_letters + punctuation + whitespace
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;测试时间-重新导向控制台&#34;&gt;测试时间 重新导向控制台&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;time.h&amp;gt;
+#define N 1000005
+char s[N], t[N];
+int main() {
+    freopen(&amp;#34;5.in&amp;#34;, &amp;#34;r&amp;#34;, stdin);
+    freopen(&amp;#34;5.out&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t begin_t = clock();
+    while (~scanf(&amp;#34;%s&amp;#34;, s)) {
+        int n = strlen(s), cnt = 0, j = 0;
+        for (int i = 0; i &amp;lt; n; ++i)
+            if (s[i] == &amp;#39;x&amp;#39;) ++cnt;
+            else t[j++] = s[i];
+        for (int i = 0; i &amp;lt; cnt; ++i) t[j++] = &amp;#39;x&amp;#39;;
+        t[j] = 0;
+        puts(t);
+    }
+    freopen(&amp;#34;CON&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t finish_t = clock();
+    printf(&amp;#34;it cost %lf s\n&amp;#34;, (double)(finish_t - begin_t) / CLOCKS_PER_SEC);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;需要注意，这里其实没有真正关闭，只是再次重定向，回到控制台。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>造数据</title>
+      <link>https://bernard035.github.io/posts/cp-notes-20200727/</link>
+      <pubDate>Mon, 27 Jul 2020 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/cp-notes-20200727/</guid>
+      <description>&lt;h2 id=&#34;随机字符串&#34;&gt;随机字符串&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;import random, string
+random_str = &amp;#39;&amp;#39;.join(random.choice(string.ascii_lowercase) for _ in range(800000))
+print(random_str, file= open(&amp;#34;5.in&amp;#34;, &amp;#34;w&amp;#34;))
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;string库&lt;code&gt;/usr/lib/python3.8/string.py&lt;/code&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;#34;&amp;#34;&amp;#34;
+whitespace -- a string containing all ASCII whitespace
+ascii_lowercase -- a string containing all ASCII lowercase letters
+ascii_uppercase -- a string containing all ASCII uppercase letters
+ascii_letters -- a string containing all ASCII letters
+digits -- a string containing all ASCII decimal digits
+hexdigits -- a string containing all ASCII hexadecimal digits
+octdigits -- a string containing all ASCII octal digits
+punctuation -- a string containing all ASCII punctuation characters
+printable -- a string containing all ASCII characters considered printable
+&amp;#34;&amp;#34;&amp;#34;
+
+whitespace = &amp;#39; \t\n\r\v\f&amp;#39;
+ascii_lowercase = &amp;#39;abcdefghijklmnopqrstuvwxyz&amp;#39;
+ascii_uppercase = &amp;#39;ABCDEFGHIJKLMNOPQRSTUVWXYZ&amp;#39;
+ascii_letters = ascii_lowercase + ascii_uppercase
+digits = &amp;#39;0123456789&amp;#39;
+hexdigits = digits + &amp;#39;abcdef&amp;#39; + &amp;#39;ABCDEF&amp;#39;
+octdigits = &amp;#39;01234567&amp;#39;
+punctuation = r&amp;#34;&amp;#34;&amp;#34;!&amp;#34;#$%&amp;amp;&amp;#39;()*+,-./:;&amp;lt;=&amp;gt;?@[\]^_`{|}~&amp;#34;&amp;#34;&amp;#34;
+printable = digits + ascii_letters + punctuation + whitespace
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;测试时间-重新导向控制台&#34;&gt;测试时间 重新导向控制台&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;#include &amp;lt;stdio.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+#include &amp;lt;time.h&amp;gt;
+#define N 1000005
+char s[N], t[N];
+int main() {
+    freopen(&amp;#34;5.in&amp;#34;, &amp;#34;r&amp;#34;, stdin);
+    freopen(&amp;#34;5.out&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t begin_t = clock();
+    while (~scanf(&amp;#34;%s&amp;#34;, s)) {
+        int n = strlen(s), cnt = 0, j = 0;
+        for (int i = 0; i &amp;lt; n; ++i)
+            if (s[i] == &amp;#39;x&amp;#39;) ++cnt;
+            else t[j++] = s[i];
+        for (int i = 0; i &amp;lt; cnt; ++i) t[j++] = &amp;#39;x&amp;#39;;
+        t[j] = 0;
+        puts(t);
+    }
+    freopen(&amp;#34;CON&amp;#34;, &amp;#34;w&amp;#34;, stdout);
+    time_t finish_t = clock();
+    printf(&amp;#34;it cost %lf s\n&amp;#34;, (double)(finish_t - begin_t) / CLOCKS_PER_SEC);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;需要注意，这里其实没有真正关闭，只是再次重定向，回到控制台。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

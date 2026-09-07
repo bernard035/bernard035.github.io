@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Categories on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/categories/</link>
+    <description>Recent content in Categories on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2026 18:30:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>技术分享</title>
+      <link>https://bernard035.github.io/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/</link>
+      <pubDate>Thu, 03 Sep 2026 18:30:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>算法竞赛</title>
+      <link>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/</link>
+      <pubDate>Sat, 23 Apr 2022 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>算法竞赛/题解</title>
+      <link>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E9%A2%98%E8%A7%A3/</link>
+      <pubDate>Sat, 23 Apr 2022 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E9%A2%98%E8%A7%A3/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>算法竞赛/赛后分析</title>
+      <link>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E8%B5%9B%E5%90%8E%E5%88%86%E6%9E%90/</link>
+      <pubDate>Fri, 18 Mar 2022 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E8%B5%9B%E5%90%8E%E5%88%86%E6%9E%90/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>算法竞赛/算法笔记</title>
+      <link>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 05 Dec 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>算法竞赛/题集</title>
+      <link>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E9%A2%98%E9%9B%86/</link>
+      <pubDate>Sat, 05 Jun 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E9%A2%98%E9%9B%86/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>算法竞赛/工具</title>
+      <link>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Mon, 10 May 2021 12:00:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/%E5%B7%A5%E5%85%B7/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

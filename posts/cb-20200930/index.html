@@ -1,0 +1,415 @@
+<!doctype html><html lang=en dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>第九届蓝桥杯 CB 个人题解 | Bernard's Blog</title><meta name=keywords content="题集,蓝桥杯"><meta name=description content="第几天
+
+2000年的1月1日，是那一年的第1天。
+那么，2000年的5月4日，是那一年的第几天？
+注意：需要提交的是一个整数，不要填写任何多余内容。
+
+百年不闰四百年闰所以2000年是闰年，所以 ${31+29+31+30+4=31*4=125}$天
+蓝桥杯要是对日期情有独钟我就应该搞一下excel
+以及Windows自带计算器是只算gap的
+
+明码
+
+汉字的字形存在于字库中，即便在今天，16点阵的字库也仍然使用广泛。
+16点阵的字库把每个汉字看成是16x16个像素信息。并把这些信息记录在字节中。
+一个字节可以存储8位信息，用32个字节就可以存一个汉字的字形了。
+把每个字节转为2进制表示，1表示墨迹，0表示底色。每行2个字节，
+一共16行，布局是：
+第1字节，第2字节
+第3字节，第4字节
+&mldr;.
+第31字节, 第32字节
+这道题目是给你一段多个汉字组成的信息，每个汉字用32个字节表示，这里给出了字节作为有符号整数的值。
+题目的要求隐藏在这些信息中。你的任务是复原这些汉字的字形，从中看出题目的要求，并根据要求填写答案。
+这段信息是（一共10个汉字）：
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0
+16 64 16 64 34 68 127 126 66 -124 67 4 66 4 66 -124 126 100 66 36 66 4 66 4 66 4 126 4 66 40 0 16
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0
+0 -128 64 -128 48 -128 17 8 1 -4 2 8 8 80 16 64 32 64 -32 64 32 -96 32 -96 33 16 34 8 36 14 40 4
+4 0 3 0 1 0 0 4 -1 -2 4 0 4 16 7 -8 4 16 4 16 4 16 8 16 8 16 16 16 32 -96 64 64
+16 64 20 72 62 -4 73 32 5 16 1 0 63 -8 1 0 -1 -2 0 64 0 80 63 -8 8 64 4 64 1 64 0 -128
+0 16 63 -8 1 0 1 0 1 0 1 4 -1 -2 1 0 1 0 1 0 1 0 1 0 1 0 1 0 5 0 2 0
+2 0 2 0 7 -16 8 32 24 64 37 -128 2 -128 12 -128 113 -4 2 8 12 16 18 32 33 -64 1 0 14 0 112 0
+1 0 1 0 1 0 9 32 9 16 17 12 17 4 33 16 65 16 1 32 1 64 0 -128 1 0 2 0 12 0 112 0
+0 0 0 0 7 -16 24 24 48 12 56 12 0 56 0 -32 0 -64 0 -128 0 0 0 0 1 -128 3 -64 1 -128 0 0
+注意：需要提交的是一个整数，不要填写任何多余内容。"><meta name=author content="Me"><link rel=canonical href=https://bernard035.github.io/posts/cb-20200930/><link crossorigin=anonymous href=/assets/css/stylesheet.2bbc84d5b7beae4659b88227754941ffa9fa06a4de78fdb8990d3c303fc3665f.css integrity="sha256-K7yE1be+rkZZuIIndUlB/6n6BqTeeP24mQ08MD/DZl8=" rel="preload stylesheet" as=style><link rel=icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://bernard035.github.io/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><link rel=alternate hreflang=en href=https://bernard035.github.io/posts/cb-20200930/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.css><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/katex.min.js></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16/dist/contrib/auto-render.min.js onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}],throwOnError:!1})'></script><meta property="og:url" content="https://bernard035.github.io/posts/cb-20200930/"><meta property="og:site_name" content="Bernard's Blog"><meta property="og:title" content="第九届蓝桥杯 CB 个人题解"><meta property="og:description" content="第几天 2000年的1月1日，是那一年的第1天。
+那么，2000年的5月4日，是那一年的第几天？
+注意：需要提交的是一个整数，不要填写任何多余内容。
+百年不闰四百年闰所以2000年是闰年，所以 ${31+29+31+30+4=31*4=125}$天
+蓝桥杯要是对日期情有独钟我就应该搞一下excel
+以及Windows自带计算器是只算gap的
+明码 汉字的字形存在于字库中，即便在今天，16点阵的字库也仍然使用广泛。
+16点阵的字库把每个汉字看成是16x16个像素信息。并把这些信息记录在字节中。
+一个字节可以存储8位信息，用32个字节就可以存一个汉字的字形了。
+把每个字节转为2进制表示，1表示墨迹，0表示底色。每行2个字节，
+一共16行，布局是：
+第1字节，第2字节
+第3字节，第4字节
+….
+第31字节, 第32字节
+这道题目是给你一段多个汉字组成的信息，每个汉字用32个字节表示，这里给出了字节作为有符号整数的值。
+题目的要求隐藏在这些信息中。你的任务是复原这些汉字的字形，从中看出题目的要求，并根据要求填写答案。
+这段信息是（一共10个汉字）：
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0
+16 64 16 64 34 68 127 126 66 -124 67 4 66 4 66 -124 126 100 66 36 66 4 66 4 66 4 126 4 66 40 0 16
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0
+0 -128 64 -128 48 -128 17 8 1 -4 2 8 8 80 16 64 32 64 -32 64 32 -96 32 -96 33 16 34 8 36 14 40 4
+4 0 3 0 1 0 0 4 -1 -2 4 0 4 16 7 -8 4 16 4 16 4 16 8 16 8 16 16 16 32 -96 64 64
+16 64 20 72 62 -4 73 32 5 16 1 0 63 -8 1 0 -1 -2 0 64 0 80 63 -8 8 64 4 64 1 64 0 -128
+0 16 63 -8 1 0 1 0 1 0 1 4 -1 -2 1 0 1 0 1 0 1 0 1 0 1 0 1 0 5 0 2 0
+2 0 2 0 7 -16 8 32 24 64 37 -128 2 -128 12 -128 113 -4 2 8 12 16 18 32 33 -64 1 0 14 0 112 0
+1 0 1 0 1 0 9 32 9 16 17 12 17 4 33 16 65 16 1 32 1 64 0 -128 1 0 2 0 12 0 112 0
+0 0 0 0 7 -16 24 24 48 12 56 12 0 56 0 -32 0 -64 0 -128 0 0 0 0 1 -128 3 -64 1 -128 0 0
+注意：需要提交的是一个整数，不要填写任何多余内容。"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-09-30T12:00:00+08:00"><meta property="article:modified_time" content="2020-09-30T12:00:00+08:00"><meta property="article:tag" content="题集"><meta property="article:tag" content="蓝桥杯"><meta property="og:image" content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta name=twitter:title content="第九届蓝桥杯 CB 个人题解"><meta name=twitter:description content="第几天 2000年的1月1日，是那一年的第1天。
+那么，2000年的5月4日，是那一年的第几天？
+注意：需要提交的是一个整数，不要填写任何多余内容。
+百年不闰四百年闰所以2000年是闰年，所以 ${31+29+31+30+4=31*4=125}$天
+蓝桥杯要是对日期情有独钟我就应该搞一下excel
+以及Windows自带计算器是只算gap的
+明码 汉字的字形存在于字库中，即便在今天，16点阵的字库也仍然使用广泛。
+16点阵的字库把每个汉字看成是16x16个像素信息。并把这些信息记录在字节中。
+一个字节可以存储8位信息，用32个字节就可以存一个汉字的字形了。
+把每个字节转为2进制表示，1表示墨迹，0表示底色。每行2个字节，
+一共16行，布局是：
+第1字节，第2字节
+第3字节，第4字节
+….
+第31字节, 第32字节
+这道题目是给你一段多个汉字组成的信息，每个汉字用32个字节表示，这里给出了字节作为有符号整数的值。
+题目的要求隐藏在这些信息中。你的任务是复原这些汉字的字形，从中看出题目的要求，并根据要求填写答案。
+这段信息是（一共10个汉字）：
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0
+16 64 16 64 34 68 127 126 66 -124 67 4 66 4 66 -124 126 100 66 36 66 4 66 4 66 4 126 4 66 40 0 16
+4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0
+0 -128 64 -128 48 -128 17 8 1 -4 2 8 8 80 16 64 32 64 -32 64 32 -96 32 -96 33 16 34 8 36 14 40 4
+4 0 3 0 1 0 0 4 -1 -2 4 0 4 16 7 -8 4 16 4 16 4 16 8 16 8 16 16 16 32 -96 64 64
+16 64 20 72 62 -4 73 32 5 16 1 0 63 -8 1 0 -1 -2 0 64 0 80 63 -8 8 64 4 64 1 64 0 -128
+0 16 63 -8 1 0 1 0 1 0 1 4 -1 -2 1 0 1 0 1 0 1 0 1 0 1 0 1 0 5 0 2 0
+2 0 2 0 7 -16 8 32 24 64 37 -128 2 -128 12 -128 113 -4 2 8 12 16 18 32 33 -64 1 0 14 0 112 0
+1 0 1 0 1 0 9 32 9 16 17 12 17 4 33 16 65 16 1 32 1 64 0 -128 1 0 2 0 12 0 112 0
+0 0 0 0 7 -16 24 24 48 12 56 12 0 56 0 -32 0 -64 0 -128 0 0 0 0 1 -128 3 -64 1 -128 0 0
+注意：需要提交的是一个整数，不要填写任何多余内容。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://bernard035.github.io/posts/"},{"@type":"ListItem","position":2,"name":"第九届蓝桥杯 CB 个人题解","item":"https://bernard035.github.io/posts/cb-20200930/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"第九届蓝桥杯 CB 个人题解","name":"第九届蓝桥杯 CB 个人题解","description":"第几天 2000年的1月1日，是那一年的第1天。\n那么，2000年的5月4日，是那一年的第几天？\n注意：需要提交的是一个整数，不要填写任何多余内容。\n百年不闰四百年闰所以2000年是闰年，所以 ${31+29+31+30+4=31*4=125}$天\n蓝桥杯要是对日期情有独钟我就应该搞一下excel\n以及Windows自带计算器是只算gap的\n明码 汉字的字形存在于字库中，即便在今天，16点阵的字库也仍然使用广泛。\n16点阵的字库把每个汉字看成是16x16个像素信息。并把这些信息记录在字节中。\n一个字节可以存储8位信息，用32个字节就可以存一个汉字的字形了。\n把每个字节转为2进制表示，1表示墨迹，0表示底色。每行2个字节，\n一共16行，布局是：\n第1字节，第2字节\n第3字节，第4字节\n\u0026hellip;.\n第31字节, 第32字节\n这道题目是给你一段多个汉字组成的信息，每个汉字用32个字节表示，这里给出了字节作为有符号整数的值。\n题目的要求隐藏在这些信息中。你的任务是复原这些汉字的字形，从中看出题目的要求，并根据要求填写答案。\n这段信息是（一共10个汉字）：\n4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0\n16 64 16 64 34 68 127 126 66 -124 67 4 66 4 66 -124 126 100 66 36 66 4 66 4 66 4 126 4 66 40 0 16\n4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0\n0 -128 64 -128 48 -128 17 8 1 -4 2 8 8 80 16 64 32 64 -32 64 32 -96 32 -96 33 16 34 8 36 14 40 4\n4 0 3 0 1 0 0 4 -1 -2 4 0 4 16 7 -8 4 16 4 16 4 16 8 16 8 16 16 16 32 -96 64 64\n16 64 20 72 62 -4 73 32 5 16 1 0 63 -8 1 0 -1 -2 0 64 0 80 63 -8 8 64 4 64 1 64 0 -128\n0 16 63 -8 1 0 1 0 1 0 1 4 -1 -2 1 0 1 0 1 0 1 0 1 0 1 0 1 0 5 0 2 0\n2 0 2 0 7 -16 8 32 24 64 37 -128 2 -128 12 -128 113 -4 2 8 12 16 18 32 33 -64 1 0 14 0 112 0\n1 0 1 0 1 0 9 32 9 16 17 12 17 4 33 16 65 16 1 32 1 64 0 -128 1 0 2 0 12 0 112 0\n0 0 0 0 7 -16 24 24 48 12 56 12 0 56 0 -32 0 -64 0 -128 0 0 0 0 1 -128 3 -64 1 -128 0 0\n注意：需要提交的是一个整数，不要填写任何多余内容。\n","keywords":["题集","蓝桥杯"],"articleBody":"第几天 2000年的1月1日，是那一年的第1天。\n那么，2000年的5月4日，是那一年的第几天？\n注意：需要提交的是一个整数，不要填写任何多余内容。\n百年不闰四百年闰所以2000年是闰年，所以 ${31+29+31+30+4=31*4=125}$天\n蓝桥杯要是对日期情有独钟我就应该搞一下excel\n以及Windows自带计算器是只算gap的\n明码 汉字的字形存在于字库中，即便在今天，16点阵的字库也仍然使用广泛。\n16点阵的字库把每个汉字看成是16x16个像素信息。并把这些信息记录在字节中。\n一个字节可以存储8位信息，用32个字节就可以存一个汉字的字形了。\n把每个字节转为2进制表示，1表示墨迹，0表示底色。每行2个字节，\n一共16行，布局是：\n第1字节，第2字节\n第3字节，第4字节\n….\n第31字节, 第32字节\n这道题目是给你一段多个汉字组成的信息，每个汉字用32个字节表示，这里给出了字节作为有符号整数的值。\n题目的要求隐藏在这些信息中。你的任务是复原这些汉字的字形，从中看出题目的要求，并根据要求填写答案。\n这段信息是（一共10个汉字）：\n4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0\n16 64 16 64 34 68 127 126 66 -124 67 4 66 4 66 -124 126 100 66 36 66 4 66 4 66 4 126 4 66 40 0 16\n4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0\n0 -128 64 -128 48 -128 17 8 1 -4 2 8 8 80 16 64 32 64 -32 64 32 -96 32 -96 33 16 34 8 36 14 40 4\n4 0 3 0 1 0 0 4 -1 -2 4 0 4 16 7 -8 4 16 4 16 4 16 8 16 8 16 16 16 32 -96 64 64\n16 64 20 72 62 -4 73 32 5 16 1 0 63 -8 1 0 -1 -2 0 64 0 80 63 -8 8 64 4 64 1 64 0 -128\n0 16 63 -8 1 0 1 0 1 0 1 4 -1 -2 1 0 1 0 1 0 1 0 1 0 1 0 1 0 5 0 2 0\n2 0 2 0 7 -16 8 32 24 64 37 -128 2 -128 12 -128 113 -4 2 8 12 16 18 32 33 -64 1 0 14 0 112 0\n1 0 1 0 1 0 9 32 9 16 17 12 17 4 33 16 65 16 1 32 1 64 0 -128 1 0 2 0 12 0 112 0\n0 0 0 0 7 -16 24 24 48 12 56 12 0 56 0 -32 0 -64 0 -128 0 0 0 0 1 -128 3 -64 1 -128 0 0\n注意：需要提交的是一个整数，不要填写任何多余内容。\n解密代码：\n#include #include #include #include using namespace std; void PrintLine(int x) { for(int i=0; i\u003c8; ++i) { if((x\u003e\u003e(8-i))\u00261)putchar('.'); else putchar(' '); } } void PrintChar(int a[]) { for(int i=0; i\u003c32; ++i) { PrintLine(a[i]); if(i\u00261)putchar(10); } putchar(10),putchar(10); } int main(void) { freopen(\"data.txt\",\"r\",stdin); int a[32],t=10; while(t--) { for(int i=0; i\u003c32; ++i)cin\u003e\u003ea[i]; PrintChar(a); } return 0; } 输出结果：九的九次方等于多少\n\u003e\u003e\u003e 9**9 387420489 乘积尾零 如下的10行数据，每行有10个整数，请你求出它们的乘积的末尾有多少个零？\n5650 4542 3554 473 946 4114 3871 9073 90 4329\n2758 7949 6113 5659 5245 7432 3051 4434 6704 3594\n9937 1173 6866 3397 4759 7557 3070 2287 1453 9899\n1486 5722 3135 1170 4014 5510 5120 729 2880 9019\n2049 698 4582 4346 4427 646 9742 7340 1230 7683\n5693 7015 6887 7381 4172 4341 2909 2027 7355 5649\n6701 6645 1671 5978 2704 9926 295 3125 3878 6785\n2066 4247 4800 1578 6652 4616 1113 6205 3264 2915\n3966 5291 2904 1285 2193 1428 2265 8730 9436 7074\n689 5510 8243 6114 337 4096 8199 7313 3685 211\n注意：需要提交的是一个整数，表示末尾零的个数。不要填写任何多余内容。\n#include #include #include #include using namespace std; typedef long long ll; int main(void) { freopen(\"data.txt\", \"r\", stdin); ll t = 100, x, cnt2 = 0, cnt5 = 0; while (t--) { scanf(\"%lld\", \u0026x); while (x % 2 == 0) ++cnt2, x /= 2; while (x % 5 == 0) ++cnt5, x /= 5; } printf(\"%lld\\n\", min(cnt2, cnt5)); return 0; } //31 f = open('data.txt', 'r') lis = f.readlines() ans = 1 for j in lis: a = list(map(int, j.split())) for i in a: ans *= i print(ans) # 112142221918653666702449201125076321480831896827506427440731023870278025729017605653056978504625081950967446934475613782859722081655293509714201067451491601144000940085173776751705443818861349991600968912829674368417898694508188364854988187881792613763161458365648071883922054736261940944120399031297726871056069331318210560000000000000000000000000000000 cnt = 0 while ans % 10 == 0: cnt += 1 ans //= 10 print(cnt) # 31 测试次数 x星球的居民脾气不太好，但好在他们生气的时候唯一的异常举动是：摔手机。\n各大厂商也就纷纷推出各种耐摔型手机。x星球的质监局规定了手机必须经过耐摔测试，并且评定出一个耐摔指数来，之后才允许上市流通。\nx星球有很多高耸入云的高塔，刚好可以用来做耐摔测试。塔的每一层高度都是一样的，与地球上稍有不同的是，他们的第一层不是地面，而是相当于我们的2楼。\n如果手机从第7层扔下去没摔坏，但第8层摔坏了，则手机耐摔指数=7。\n特别地，如果手机从第1层扔下去就坏了，则耐摔指数=0。\n如果到了塔的最高层第n层扔没摔坏，则耐摔指数=n\n为了减少测试次数，从每个厂家抽样3部手机参加测试。\n某次测试的塔高为1000层，如果我们总是采用最佳策略，在最坏的运气下最多需要测试多少次才能确定手机的耐摔指数呢？\n请填写这个最多测试次数。\n注意：需要填写的是一个整数，不要填写任何多余内容。\n整数分块\n\u003e\u003e\u003e import math \u003e\u003e\u003e int(math.sqrt(1000))+1 32 上面的做法是错的\n#include #include using namespace std; int dp[5][1007]; int main() { int n = 3, m = 1000; for (int i = 1; i \u003c= n; ++i) for (int j = 1; j \u003c= m; ++j) dp[i][j] = j; for (int i = 2; i \u003c= n; ++i) for (int j = 1; j \u003c= m; ++j) for (int k = 1; k \u003c j; ++k) { // 第i部手机可能摔坏也可能不摔坏 // 摔坏的话就是 i-1 部手机 测 k-1 层楼 // 没摔坏就是 i部手机 测剩下 最高楼层 - 当前第k层 dp[i][j] = min(dp[i][j], max(dp[i - 1][k - 1], dp[i][j - k]) + 1); } printf(\"%d\\n\", dp[3][1000]);//19 return 0; } 快速排序 以下代码可以从数组a[]中找出第k小的元素。\n它使用了类似快速排序中的分治算法，期望时间复杂度是O(N)的。\n请仔细阅读分析源码，填写划线部分缺失的内容。\n#include int quick_select(int a[], int l, int r, int k) { int p = rand() % (r - l + 1) + l; int x = a[p]; {int t = a[p]; a[p] = a[r]; a[r] = t;} int i = l, j = r; while(i \u003c j) { while(i \u003c j \u0026\u0026 a[i] \u003c x) i++; if(i \u003c j) { a[j] = a[i]; j--; } while(i \u003c j \u0026\u0026 a[j] \u003e x) j--; if(i \u003c j) { a[i] = a[j]; i++; } } a[i] = x; p = i; if(i - l + 1 == k) return a[i]; if(i - l + 1 \u003c k) return quick_select( _____________________________ ); //填空 else return quick_select(a, l, i - 1, k); } int main() { int a[] = {1, 4, 2, 8, 5, 7, 23, 58, 16, 27, 55, 13, 26, 24, 12}; printf(\"%d\\n\", quick_select(a, 0, 14, 5)); return 0; } 注意：只填写划线部分缺少的代码，不要抄写已经存在的代码或符号。\na, i + 1, r, k\n递增三元组 给定三个整数数组\nA = [A1, A2, … AN],\nB = [B1, B2, … BN],\nC = [C1, C2, … CN]，\n请你统计有多少个三元组(i, j, k) 满足：\n1 \u003c= i, j, k \u003c= N- Ai \u003c Bj \u003c Ck 【输入格式】\n第一行包含一个整数N。\n第二行包含N个整数A1, A2, … AN。\n第三行包含N个整数B1, B2, … BN。\n第四行包含N个整数C1, C2, … CN。\n对于30%的数据，1 \u003c= N \u003c= 100\n对于60%的数据，1 \u003c= N \u003c= 1000\n对于100%的数据，1 \u003c= N \u003c= 100000 0 \u003c= Ai, Bi, Ci \u003c= 100000\n【输出格式】\n一个整数表示答案\n【样例输入】\n3\n1 1 1\n2 2 2\n3 3 3\n【样例输出】\n27\n#include #include #include #include using namespace std; typedef long long ll; const ll N = 3e5 + 7; pair a[N]; inline bool cmp(pair a, pair b) { if (a.first == b.first) return a.second \u003e b.second;//key return a.first \u003c b.first; } int main(void) { ll n; while (~scanf(\"%lld\", \u0026n)) { for (int i = 0; i \u003c n; ++i) scanf(\"%lld\", \u0026a[i].first), a[i].second = 1; for (int i = n; i \u003c n * 2; ++i) scanf(\"%lld\", \u0026a[i].first), a[i].second = 2; for (int i = n * 2; i \u003c n * 3; ++i) scanf(\"%lld\", \u0026a[i].first), a[i].second = 3; sort(a, a + n * 3, cmp); ll cnt1 = 0, cnt2 = 0, cnt3 = 0; for (int i = 0; i \u003c n * 3; ++i) { if (a[i].second == 1) ++cnt1; else if (a[i].second == 2) cnt2 += cnt1; else if (a[i].second == 3) cnt3 += cnt2; } printf(\"%lld\\n\", cnt3); } return 0; } 螺旋折线 如图p1.png所示的螺旋折线经过平面上所有整点恰好一次。\n对于整点(X, Y)，我们定义它到原点的距离dis(X, Y)是从原点到(X, Y)的螺旋折线段的长度。\n例如dis(0, 1)=3, dis(-2, -1)=9\n给出整点坐标(X, Y)，你能计算出dis(X, Y)吗？\n【输入格式】\nX和Y\n对于40%的数据，-1000 \u003c= X, Y \u003c= 1000\n对于70%的数据，-100000 \u003c= X， Y \u003c= 100000\n对于100%的数据, -1000000000 \u003c= X, Y \u003c= 1000000000\n【输出格式】\n输出dis(X, Y)\n【样例输入】\n0 1\n【样例输出】\n3\n找坐标轴左边的点到原点的距离\n#include #include #include #include using namespace std; typedef long long ll; inline ll len(ll x) { return (1 + x) * x / 2 + (2 + x - 1) * (x / 2); } inline ll dis(ll x, ll y) { ll maxl = max(abs(x), abs(y)); ll ans = len(maxl * 2 - 1); //(-x, 0) if (x == 0 \u0026\u0026 y == 0) return 0; if (x == -maxl \u0026\u0026 y \u003e -maxl) return ans + y; else ans += maxl; if (y == maxl) return ans + (x - (-maxl)); else ans += maxl * 2; if (x == maxl) return ans + (maxl - y); else ans += maxl * 2; if (y == -maxl) return ans + (maxl - x); } int main() { ll x, y; while (~scanf(\"%lld %lld\", \u0026x, \u0026y)) { printf(\"%lld\\n\", dis(x, y)); } return 0; } 日志统计 小明维护着一个程序员论坛。现在他收集了一份\"点赞\"日志，日志共有N行。其中每一行的格式是：\nts id\n表示在ts时刻编号id的帖子收到一个\"赞\"。\n现在小明想统计有哪些帖子曾经是\"热帖\"。如果一个帖子曾在任意一个长度为D的时间段内收到不少于K个赞，小明就认为这个帖子曾是\"热帖\"。\n具体来说，如果存在某个时刻T满足该帖在[T, T+D)这段时间内(注意是左闭右开区间)收到不少于K个赞，该帖就曾是\"热帖\"。\n给定日志，请你帮助小明统计出所有曾是\"热帖\"的帖子编号。\n【输入格式】\n第一行包含三个整数N、D和K。\n以下N行每行一条日志，包含两个整数ts和id。\n对于50%的数据，1 \u003c= K \u003c= N \u003c= 1000\n对于100%的数据，1 \u003c= K \u003c= N \u003c= 100000 0 \u003c= ts \u003c= 100000 0 \u003c= id \u003c= 100000\n【输出格式】\n按从小到大的顺序输出热帖id。每个id一行。\n【输入样例】\n7 10 2\n0 1\n0 10\n10 10\n10 1\n9 1\n100 3\n100 3\n【输出样例】\n1\n3\n#include #include #include #include #include using namespace std; typedef long long ll; const ll mod = 1000000009; const int N = 1e5 + 7; int main() { ll n, d, k, t, id; while (~scanf(\"%lld%lld%lld\", \u0026n, \u0026d, \u0026k)) { vector p[N]; for (int i = 0; i \u003c n; ++i) scanf(\"%lld%lld\", \u0026t, \u0026id), p[id].push_back(t); for (int i = 0; i \u003c N; ++i) sort(p[i].begin(), p[i].end()); for (int c = 0; c \u003c N; ++c) { int m = p[c].size(), cnt = 1; if (!m) continue; if (k == 1) { printf(\"%d \", c); continue; } for (int L = 0, R = 1; R \u003c m; ++R) { if (p[c][R] - p[c][L] \u003c d) { ++cnt; if (cnt == k) { printf(\"%d\\n\", c); break; } } else { ++L; while (p[c][R] - p[c][L] \u003e= d \u0026\u0026 L \u003c R) ++L, --cnt; } } } } return 0; } 全球变暖 你有一张某海域NxN像素的照片，\".“表示海洋、”#“表示陆地，如下所示：\n…….\n.##….\n.##….\n….##.\n..####.\n…###.\n…….\n其中\"上下左右\"四个方向上连在一起的一片陆地组成一座岛屿。例如上图就有2座岛屿。\n由于全球变暖导致了海面上升，科学家预测未来几十年，岛屿边缘一个像素的范围会被海水淹没。具体来说如果一块陆地像素与海洋相邻(上下左右四个相邻像素中有海洋)，它就会被淹没。\n例如上图中的海域未来会变成如下样子：\n…….\n…….\n…….\n…….\n….#..\n…….\n…….\n请你计算：依照科学家的预测，照片中有多少岛屿会被完全淹没。\n【输入格式】\n第一行包含一个整数N。 (1 \u003c= N \u003c= 1000)\n以下N行N列代表一张海域照片。\n照片保证第1行、第1列、第N行、第N列的像素都是海洋。\n【输出格式】\n一个整数表示答案。\n【输入样例】\n7\n…….\n.##….\n.##….\n….##.\n..####.\n…###.\n…….\n【输出样例】\n1\n#include #include #include #include #include #include #define sc(x) scanf(\"%d\", \u0026(x)) const int ax[4] = {1, 0, 0, -1}; const int ay[4] = {0, -1, 1, 0}; const int N = 1005; char ma[N][N]; int n, cnt; int num[N][N]; using namespace std; bool judge(int x, int y) { if (x \u003e 0 \u0026\u0026 x \u003c= N \u0026\u0026 y \u003e 0 \u0026\u0026 y \u003c= N \u0026\u0026 ma[x][y] == '#') return 1; return 0; } void color(int x, int y, int c) { num[x][y] = c; for (int i = 0; i \u003c 4; ++i) if (judge(x + ax[i], y + ay[i]) \u0026\u0026 !num[x + ax[i]][y + ay[i]])//如果把这个条件删掉就会MLE，因为就会一直往回走 color(x + ax[i], y + ay[i], c); } int main() { while (~sc(n)) { cnt = 0; memset(num, 0, sizeof(num)); for (int i = 1; i \u003c= n; ++i) scanf(\"%s\", ma[i] + 1); for (int i = 1; i \u003c= n; ++i) for (int j = 1; j \u003c= n; ++j) if (ma[i][j] == '#' \u0026\u0026 !num[i][j]) color(i, j, ++cnt); for (int i = 1; i \u003c= n; ++i) for (int j = 1; j \u003c= n; ++j) if (ma[i][j] == '#') for (int k = 0; k \u003c 4; ++k) if (ma[i + ax[k]][j + ay[k]] == '.') { num[i][j] = 0; break; } set ans; for (int i = 1; i \u003c= n; ++i) for (int j = 1; j \u003c= n; ++j) if (num[i][j]) ans.insert(num[i][j]); printf(\"%d\\n\", cnt - ans.size()); } return 0; } 乘积最大 给定N个整数A1, A2, … AN。请你从中选出K个数，使其乘积最大。\n请你求出最大的乘积，由于乘积可能超出整型范围，你只需输出乘积除以1000000009的余数。\n注意，如果X\u003c0， 我们定义X除以1000000009的余数是负(-X)除以1000000009的余数。\n即：0-((0-x) % 1000000009)\n【输入格式】\n第一行包含两个整数N和K。\n以下N行每行一个整数Ai。\n对于40%的数据，1 \u003c= K \u003c= N \u003c= 100\n对于60%的数据，1 \u003c= K \u003c= 1000\n对于100%的数据，1 \u003c= K \u003c= N \u003c= 100000 -100000 \u003c= Ai \u003c= 100000\n【输出格式】\n一个整数，表示答案。\n【输入样例】\n5 3\n-100000\n-10000\n2\n100000\n10000\n【输出样例】\n999100009\n再例如：\n【输入样例】\n5 3\n-100000\n-100000\n-2\n-100000\n-100000\n【输出样例】\n-999999829\n#include #include #include #include using namespace std; typedef long long ll; const ll mod = 1000000009; const int N = 1e5 + 7; ll a[N], n, k; int main() { while (~scanf(\"%lld%lld\", \u0026n, \u0026k)) { for (int i = 0; i \u003c n; ++i) scanf(\"%lld\", \u0026a[i]); sort(a, a + n); ll ans = 1, kk = k; int L = 0, R = n - 1; while (k \u003e= 2) { if (a[L] * a[L + 1] \u003e a[R] * a[R - 1]) ans = (ans * ((a[L] * a[L + 1]) % mod) % mod) % mod, L += 2; else ans = (ans * ((a[R] * a[R - 1]) % mod) % mod) % mod, R -= 2; k -= 2; } // n=1+m if (a[n - 1] \u003c 0) { ll res = 1; for (int i = 0; i \u003c kk; ++i) res = (res * a[n - 1 - i]) % mod; printf(\"%lld\\n\", res); } else { if (k) ans %= mod, ans *= max(a[L], a[R]), ans %= mod; printf(\"%lld\\n\", ans); } } return 0; } /*92% -15 -5 -3 -2 0 */ 本文整理自作者牛客博客（https://blog.nowcoder.net/n/c63ea7d21f874a6f90f8de9ff287083f），发布于 2020-09-30。\n","wordCount":"2097","inLanguage":"en","image":"https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E","datePublished":"2020-09-30T12:00:00+08:00","dateModified":"2020-09-30T12:00:00+08:00","author":{"@type":"Person","name":"Me"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://bernard035.github.io/posts/cb-20200930/"},"publisher":{"@type":"Organization","name":"Bernard's Blog","logo":{"@type":"ImageObject","url":"https://bernard035.github.io/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://bernard035.github.io/ accesskey=h title="Home (Alt + H)"><img src=https://bernard035.github.io/apple-touch-icon.png alt aria-label=logo height=35>Home</a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://bernard035.github.io/categories/ title=categories><span>categories</span></a></li><li><a href=https://bernard035.github.io/tags/ title=tags><span>tags</span></a></li><li><a href=https://bernard035.github.io title=bernard035.github.io><span>bernard035.github.io</span>&nbsp;
+<svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><nav class=breadcrumbs role=navigation aria-label=Breadcrumb><a href=/>Home</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg>
+<a href=/posts/>Posts</a>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"/></svg></nav><h1 class="post-title entry-hint-parent">第九届蓝桥杯 CB 个人题解</h1><div class=post-meta><span title='2020-09-30 12:00:00 +0800 +0800'>September 30, 2020</span>&nbsp;·&nbsp;<span>10 min</span>&nbsp;·&nbsp;<span>2097 words</span>&nbsp;·&nbsp;<span>Me</span>&nbsp;|&nbsp;<span>
+<a href=https://github.com/%3cpath_to_repo%3e/content/posts/cb-20200930.md rel="noopener noreferrer edit" target=_blank>Suggest Changes</a></span></div></header><details class=toc><summary accesskey=c title="(Alt + C)"><span class=title>Table of Contents</span></summary><div class=inner><nav id=TableOfContents><ul><li><a href=#第几天>第几天</a></li><li><a href=#明码>明码</a></li><li><a href=#乘积尾零>乘积尾零</a></li><li><a href=#测试次数>测试次数</a></li><li><a href=#快速排序>快速排序</a></li><li><a href=#递增三元组>递增三元组</a></li><li><a href=#螺旋折线>螺旋折线</a></li><li><a href=#日志统计>日志统计</a></li><li><a href=#全球变暖>全球变暖</a></li><li><a href=#乘积最大>乘积最大</a></li></ul></nav></div></details><div class="post-content md-content"><h2 id=第几天>第几天<a hidden class=anchor aria-hidden=true href=#第几天>#</a></h2><blockquote><p>2000年的1月1日，是那一年的第1天。<br>那么，2000年的5月4日，是那一年的第几天？<br>注意：需要提交的是一个整数，不要填写任何多余内容。</p></blockquote><p>百年不闰四百年闰所以2000年是闰年，所以 ${31+29+31+30+4=31*4=125}$天</p><p>蓝桥杯要是对日期情有独钟我就应该搞一下excel</p><p>以及Windows自带计算器是只算gap的</p><p><img alt=图片说明 loading=lazy src=/images/9fa1be450f77bf1d.png></p><h2 id=明码>明码<a hidden class=anchor aria-hidden=true href=#明码>#</a></h2><blockquote><p>汉字的字形存在于字库中，即便在今天，16点阵的字库也仍然使用广泛。<br>16点阵的字库把每个汉字看成是16x16个像素信息。并把这些信息记录在字节中。<br>一个字节可以存储8位信息，用32个字节就可以存一个汉字的字形了。<br>把每个字节转为2进制表示，1表示墨迹，0表示底色。每行2个字节，<br>一共16行，布局是：<br>第1字节，第2字节<br>第3字节，第4字节<br>&mldr;.<br>第31字节, 第32字节<br>这道题目是给你一段多个汉字组成的信息，每个汉字用32个字节表示，这里给出了字节作为有符号整数的值。<br>题目的要求隐藏在这些信息中。你的任务是复原这些汉字的字形，从中看出题目的要求，并根据要求填写答案。<br>这段信息是（一共10个汉字）：<br>4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0<br>16 64 16 64 34 68 127 126 66 -124 67 4 66 4 66 -124 126 100 66 36 66 4 66 4 66 4 126 4 66 40 0 16<br>4 0 4 0 4 0 4 32 -1 -16 4 32 4 32 4 32 4 32 4 32 8 32 8 32 16 34 16 34 32 30 -64 0<br>0 -128 64 -128 48 -128 17 8 1 -4 2 8 8 80 16 64 32 64 -32 64 32 -96 32 -96 33 16 34 8 36 14 40 4<br>4 0 3 0 1 0 0 4 -1 -2 4 0 4 16 7 -8 4 16 4 16 4 16 8 16 8 16 16 16 32 -96 64 64<br>16 64 20 72 62 -4 73 32 5 16 1 0 63 -8 1 0 -1 -2 0 64 0 80 63 -8 8 64 4 64 1 64 0 -128<br>0 16 63 -8 1 0 1 0 1 0 1 4 -1 -2 1 0 1 0 1 0 1 0 1 0 1 0 1 0 5 0 2 0<br>2 0 2 0 7 -16 8 32 24 64 37 -128 2 -128 12 -128 113 -4 2 8 12 16 18 32 33 -64 1 0 14 0 112 0<br>1 0 1 0 1 0 9 32 9 16 17 12 17 4 33 16 65 16 1 32 1 64 0 -128 1 0 2 0 12 0 112 0<br>0 0 0 0 7 -16 24 24 48 12 56 12 0 56 0 -32 0 -64 0 -128 0 0 0 0 1 -128 3 -64 1 -128 0 0<br>注意：需要提交的是一个整数，不要填写任何多余内容。</p></blockquote><p>解密代码：</p><pre tabindex=0><code>#include &lt;cstdio&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstring&gt;
+using namespace std;
+void PrintLine(int x) {
+    for(int i=0; i&lt;8; ++i) {
+        if((x&gt;&gt;(8-i))&amp;1)putchar(&#39;.&#39;);
+        else putchar(&#39; &#39;);
+    }
+}
+void PrintChar(int a[]) {
+    for(int i=0; i&lt;32; ++i) {
+        PrintLine(a[i]);
+        if(i&amp;1)putchar(10);
+    }
+    putchar(10),putchar(10);
+}
+int main(void) {
+    freopen(&#34;data.txt&#34;,&#34;r&#34;,stdin);
+    int a[32],t=10;
+    while(t--) {
+        for(int i=0; i&lt;32; ++i)cin&gt;&gt;a[i];
+        PrintChar(a);
+    }
+    return 0;
+}
+</code></pre><p>输出结果：九的九次方等于多少</p><pre tabindex=0><code>&gt;&gt;&gt; 9**9
+387420489
+</code></pre><h2 id=乘积尾零>乘积尾零<a hidden class=anchor aria-hidden=true href=#乘积尾零>#</a></h2><blockquote><p>如下的10行数据，每行有10个整数，请你求出它们的乘积的末尾有多少个零？</p><p>5650 4542 3554 473 946 4114 3871 9073 90 4329<br>2758 7949 6113 5659 5245 7432 3051 4434 6704 3594<br>9937 1173 6866 3397 4759 7557 3070 2287 1453 9899<br>1486 5722 3135 1170 4014 5510 5120 729 2880 9019<br>2049 698 4582 4346 4427 646 9742 7340 1230 7683<br>5693 7015 6887 7381 4172 4341 2909 2027 7355 5649<br>6701 6645 1671 5978 2704 9926 295 3125 3878 6785<br>2066 4247 4800 1578 6652 4616 1113 6205 3264 2915<br>3966 5291 2904 1285 2193 1428 2265 8730 9436 7074<br>689 5510 8243 6114 337 4096 8199 7313 3685 211</p><p>注意：需要提交的是一个整数，表示末尾零的个数。不要填写任何多余内容。</p></blockquote><pre tabindex=0><code>#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+using namespace std;
+typedef long long ll;
+int main(void) {
+    freopen(&#34;data.txt&#34;, &#34;r&#34;, stdin);
+    ll t = 100, x, cnt2 = 0, cnt5 = 0;
+    while (t--) {
+        scanf(&#34;%lld&#34;, &amp;x);
+        while (x % 2 == 0) ++cnt2, x /= 2;
+        while (x % 5 == 0) ++cnt5, x /= 5;
+    }
+    printf(&#34;%lld\n&#34;, min(cnt2, cnt5));
+    return 0;
+}
+//31
+</code></pre><pre tabindex=0><code>f = open(&#39;data.txt&#39;, &#39;r&#39;)
+lis = f.readlines()
+ans = 1
+for j in lis:
+    a = list(map(int, j.split()))
+    for i in a:
+        ans *= i
+
+print(ans)
+# 112142221918653666702449201125076321480831896827506427440731023870278025729017605653056978504625081950967446934475613782859722081655293509714201067451491601144000940085173776751705443818861349991600968912829674368417898694508188364854988187881792613763161458365648071883922054736261940944120399031297726871056069331318210560000000000000000000000000000000
+
+cnt = 0
+while ans % 10 == 0:
+    cnt += 1
+    ans //= 10
+print(cnt)
+# 31
+</code></pre><h2 id=测试次数>测试次数<a hidden class=anchor aria-hidden=true href=#测试次数>#</a></h2><blockquote><p>x星球的居民脾气不太好，但好在他们生气的时候唯一的异常举动是：摔手机。<br>各大厂商也就纷纷推出各种耐摔型手机。x星球的质监局规定了手机必须经过耐摔测试，并且评定出一个耐摔指数来，之后才允许上市流通。</p><p>x星球有很多高耸入云的高塔，刚好可以用来做耐摔测试。塔的每一层高度都是一样的，与地球上稍有不同的是，他们的第一层不是地面，而是相当于我们的2楼。</p><p>如果手机从第7层扔下去没摔坏，但第8层摔坏了，则手机耐摔指数=7。<br>特别地，如果手机从第1层扔下去就坏了，则耐摔指数=0。<br>如果到了塔的最高层第n层扔没摔坏，则耐摔指数=n</p><p>为了减少测试次数，从每个厂家抽样3部手机参加测试。</p><p>某次测试的塔高为1000层，如果我们总是采用最佳策略，在最坏的运气下最多需要测试多少次才能确定手机的耐摔指数呢？</p><p>请填写这个最多测试次数。</p><p>注意：需要填写的是一个整数，不要填写任何多余内容。</p></blockquote><p>整数分块</p><pre tabindex=0><code>&gt;&gt;&gt; import math
+&gt;&gt;&gt; int(math.sqrt(1000))+1
+32
+</code></pre><p>上面的做法是错的</p><pre tabindex=0><code>#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+int dp[5][1007];
+
+int main() {
+    int n = 3, m = 1000;
+    for (int i = 1; i &lt;= n; ++i)
+        for (int j = 1; j &lt;= m; ++j)
+            dp[i][j] = j;
+    for (int i = 2; i &lt;= n; ++i)
+        for (int j = 1; j &lt;= m; ++j)
+            for (int k = 1; k &lt; j; ++k) {
+                // 第i部手机可能摔坏也可能不摔坏
+                // 摔坏的话就是 i-1 部手机 测 k-1 层楼
+                // 没摔坏就是 i部手机 测剩下 最高楼层 - 当前第k层
+                dp[i][j] = min(dp[i][j], max(dp[i - 1][k - 1], dp[i][j - k]) + 1);
+            }
+    printf(&#34;%d\n&#34;, dp[3][1000]);//19
+    return 0;
+}
+</code></pre><h2 id=快速排序>快速排序<a hidden class=anchor aria-hidden=true href=#快速排序>#</a></h2><blockquote><p>以下代码可以从数组a[]中找出第k小的元素。<br>它使用了类似快速排序中的分治算法，期望时间复杂度是O(N)的。<br>请仔细阅读分析源码，填写划线部分缺失的内容。</p></blockquote><pre tabindex=0><code>#include &lt;stdio.h&gt;
+int quick_select(int a[], int l, int r, int k) {
+    int p = rand() % (r - l + 1) + l;
+    int x = a[p];
+    {int t = a[p]; a[p] = a[r]; a[r] = t;}
+    int i = l, j = r;
+    while(i &lt; j) {
+        while(i &lt; j &amp;&amp; a[i] &lt; x) i++;
+        if(i &lt; j) {
+            a[j] = a[i];
+            j--;
+        }
+        while(i &lt; j &amp;&amp; a[j] &gt; x) j--;
+        if(i &lt; j) {
+            a[i] = a[j];
+            i++;
+        }
+    }
+    a[i] = x;
+    p = i;
+    if(i - l + 1 == k) return a[i];
+    if(i - l + 1 &lt; k) return quick_select( _____________________________ ); //填空
+    else return quick_select(a, l, i - 1, k);
+}
+int main()
+{
+    int a[] = {1, 4, 2, 8, 5, 7, 23, 58, 16, 27, 55, 13, 26, 24, 12};
+    printf(&#34;%d\n&#34;, quick_select(a, 0, 14, 5));
+    return 0;
+}
+</code></pre><p>注意：只填写划线部分缺少的代码，不要抄写已经存在的代码或符号。</p><p>a, i + 1, r, k</p><h2 id=递增三元组>递增三元组<a hidden class=anchor aria-hidden=true href=#递增三元组>#</a></h2><blockquote><p>给定三个整数数组<br>A = [A1, A2, &mldr; AN],<br>B = [B1, B2, &mldr; BN],<br>C = [C1, C2, &mldr; CN]，<br>请你统计有多少个三元组(i, j, k) 满足：</p><ol><li>1 &lt;= i, j, k &lt;= N- Ai &lt; Bj &lt; Ck</li></ol><p>【输入格式】<br>第一行包含一个整数N。<br>第二行包含N个整数A1, A2, &mldr; AN。<br>第三行包含N个整数B1, B2, &mldr; BN。<br>第四行包含N个整数C1, C2, &mldr; CN。</p><p>对于30%的数据，1 &lt;= N &lt;= 100<br>对于60%的数据，1 &lt;= N &lt;= 1000<br>对于100%的数据，1 &lt;= N &lt;= 100000 0 &lt;= Ai, Bi, Ci &lt;= 100000</p><p>【输出格式】<br>一个整数表示答案</p><p>【样例输入】<br>3<br>1 1 1<br>2 2 2<br>3 3 3</p><p>【样例输出】<br>27</p></blockquote><pre tabindex=0><code>#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+using namespace std;
+typedef long long ll;
+const ll N = 3e5 + 7;
+pair&lt;ll, int&gt; a[N];
+inline bool cmp(pair&lt;ll, int&gt; a, pair&lt;ll, int&gt; b) {
+    if (a.first == b.first) return a.second &gt; b.second;//key
+    return a.first &lt; b.first;
+}
+int main(void) {
+    ll n;
+    while (~scanf(&#34;%lld&#34;, &amp;n)) {
+        for (int i = 0; i &lt; n; ++i) 
+            scanf(&#34;%lld&#34;, &amp;a[i].first), a[i].second = 1;
+        for (int i = n; i &lt; n * 2; ++i)
+            scanf(&#34;%lld&#34;, &amp;a[i].first), a[i].second = 2;
+        for (int i = n * 2; i &lt; n * 3; ++i)
+            scanf(&#34;%lld&#34;, &amp;a[i].first), a[i].second = 3;
+        sort(a, a + n * 3, cmp);
+        ll cnt1 = 0, cnt2 = 0, cnt3 = 0;
+        for (int i = 0; i &lt; n * 3; ++i) {
+            if (a[i].second == 1)
+                ++cnt1;
+            else if (a[i].second == 2)
+                cnt2 += cnt1;
+            else if (a[i].second == 3)
+                cnt3 += cnt2;
+        }
+        printf(&#34;%lld\n&#34;, cnt3);
+    }
+    return 0;
+}
+</code></pre><h2 id=螺旋折线>螺旋折线<a hidden class=anchor aria-hidden=true href=#螺旋折线>#</a></h2><blockquote><p>如图p1.png所示的螺旋折线经过平面上所有整点恰好一次。<br><img alt=图片说明 loading=lazy src=/images/9cd45af1d642c604.png><br>对于整点(X, Y)，我们定义它到原点的距离dis(X, Y)是从原点到(X, Y)的螺旋折线段的长度。</p><p>例如dis(0, 1)=3, dis(-2, -1)=9</p><p>给出整点坐标(X, Y)，你能计算出dis(X, Y)吗？</p><p>【输入格式】<br>X和Y</p><p>对于40%的数据，-1000 &lt;= X, Y &lt;= 1000<br>对于70%的数据，-100000 &lt;= X， Y &lt;= 100000<br>对于100%的数据, -1000000000 &lt;= X, Y &lt;= 1000000000</p><p>【输出格式】<br>输出dis(X, Y)</p><p>【样例输入】<br>0 1</p><p>【样例输出】<br>3</p></blockquote><p><img alt=图片说明 loading=lazy src=/images/bbe5cdcf11ed6adb.png></p><p>找坐标轴左边的点到原点的距离</p><pre tabindex=0><code>#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+using namespace std;
+typedef long long ll;
+inline ll len(ll x) { return (1 + x) * x / 2 + (2 + x - 1) * (x / 2); }
+inline ll dis(ll x, ll y) {
+    ll maxl = max(abs(x), abs(y));
+    ll ans = len(maxl * 2 - 1);  //(-x, 0)
+    if (x == 0 &amp;&amp; y == 0) return 0;
+    if (x == -maxl &amp;&amp; y &gt; -maxl)
+        return ans + y;
+    else
+        ans += maxl;
+    if (y == maxl)
+        return ans + (x - (-maxl));
+    else
+        ans += maxl * 2;
+    if (x == maxl)
+        return ans + (maxl - y);
+    else
+        ans += maxl * 2;
+    if (y == -maxl) return ans + (maxl - x);
+}
+int main() {
+    ll x, y;
+    while (~scanf(&#34;%lld %lld&#34;, &amp;x, &amp;y)) {
+        printf(&#34;%lld\n&#34;, dis(x, y));
+    }
+    return 0;
+}
+</code></pre><h2 id=日志统计>日志统计<a hidden class=anchor aria-hidden=true href=#日志统计>#</a></h2><blockquote><p>小明维护着一个程序员论坛。现在他收集了一份"点赞"日志，日志共有N行。其中每一行的格式是：</p><p>ts id</p><p>表示在ts时刻编号id的帖子收到一个"赞"。</p><p>现在小明想统计有哪些帖子曾经是"热帖"。如果一个帖子曾在任意一个长度为D的时间段内收到不少于K个赞，小明就认为这个帖子曾是"热帖"。</p><p>具体来说，如果存在某个时刻T满足该帖在[T, T+D)这段时间内(注意是左闭右开区间)收到不少于K个赞，该帖就曾是"热帖"。</p><p>给定日志，请你帮助小明统计出所有曾是"热帖"的帖子编号。</p><p>【输入格式】<br>第一行包含三个整数N、D和K。<br>以下N行每行一条日志，包含两个整数ts和id。</p><p>对于50%的数据，1 &lt;= K &lt;= N &lt;= 1000<br>对于100%的数据，1 &lt;= K &lt;= N &lt;= 100000 0 &lt;= ts &lt;= 100000 0 &lt;= id &lt;= 100000</p><p>【输出格式】<br>按从小到大的顺序输出热帖id。每个id一行。</p><p>【输入样例】<br>7 10 2<br>0 1<br>0 10<br>10 10<br>10 1<br>9 1<br>100 3<br>100 3</p><p>【输出样例】<br>1<br>3</p></blockquote><pre tabindex=0><code>#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+typedef long long ll;
+const ll mod = 1000000009;
+const int N = 1e5 + 7;
+int main() {
+    ll n, d, k, t, id;
+    while (~scanf(&#34;%lld%lld%lld&#34;, &amp;n, &amp;d, &amp;k)) {
+        vector&lt;int&gt; p[N];
+        for (int i = 0; i &lt; n; ++i)
+            scanf(&#34;%lld%lld&#34;, &amp;t, &amp;id), p[id].push_back(t);
+        for (int i = 0; i &lt; N; ++i) sort(p[i].begin(), p[i].end());
+        for (int c = 0; c &lt; N; ++c) {
+            int m = p[c].size(), cnt = 1;
+            if (!m) continue;
+            if (k == 1) {
+                printf(&#34;%d &#34;, c);
+                continue;
+            }
+            for (int L = 0, R = 1; R &lt; m; ++R) {
+                if (p[c][R] - p[c][L] &lt; d) {
+                    ++cnt;
+                    if (cnt == k) {
+                        printf(&#34;%d\n&#34;, c);
+                        break;
+                    }
+                } else {
+                    ++L;
+                    while (p[c][R] - p[c][L] &gt;= d &amp;&amp; L &lt; R) ++L, --cnt;
+                }
+            }
+        }
+    }
+    return 0;
+}
+</code></pre><h2 id=全球变暖>全球变暖<a hidden class=anchor aria-hidden=true href=#全球变暖>#</a></h2><blockquote><p>你有一张某海域NxN像素的照片，".&ldquo;表示海洋、&rdquo;#&ldquo;表示陆地，如下所示：</p><p>&mldr;&mldr;.<br>.##&mldr;.<br>.##&mldr;.<br>&mldr;.##.<br>..####.<br>&mldr;###.<br>&mldr;&mldr;.</p><p>其中"上下左右"四个方向上连在一起的一片陆地组成一座岛屿。例如上图就有2座岛屿。</p><p>由于全球变暖导致了海面上升，科学家预测未来几十年，岛屿边缘一个像素的范围会被海水淹没。具体来说如果一块陆地像素与海洋相邻(上下左右四个相邻像素中有海洋)，它就会被淹没。</p><p>例如上图中的海域未来会变成如下样子：</p><p>&mldr;&mldr;.<br>&mldr;&mldr;.<br>&mldr;&mldr;.<br>&mldr;&mldr;.<br>&mldr;.#..<br>&mldr;&mldr;.<br>&mldr;&mldr;.</p><p>请你计算：依照科学家的预测，照片中有多少岛屿会被完全淹没。</p><p>【输入格式】<br>第一行包含一个整数N。 (1 &lt;= N &lt;= 1000)<br>以下N行N列代表一张海域照片。</p><p>照片保证第1行、第1列、第N行、第N列的像素都是海洋。</p><p>【输出格式】<br>一个整数表示答案。</p><p>【输入样例】<br>7<br>&mldr;&mldr;.<br>.##&mldr;.<br>.##&mldr;.<br>&mldr;.##.<br>..####.<br>&mldr;###.<br>&mldr;&mldr;.</p><p>【输出样例】<br>1</p></blockquote><pre tabindex=0><code>#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+#include &lt;set&gt;
+#include &lt;vector&gt;
+#define sc(x) scanf(&#34;%d&#34;, &amp;(x))
+const int ax[4] = {1, 0, 0, -1};
+const int ay[4] = {0, -1, 1, 0};
+const int N = 1005;
+char ma[N][N];
+int n, cnt;
+int num[N][N];
+using namespace std;
+bool judge(int x, int y) {
+    if (x &gt; 0 &amp;&amp; x &lt;= N &amp;&amp; y &gt; 0 &amp;&amp; y &lt;= N &amp;&amp; ma[x][y] == &#39;#&#39;) return 1;
+    return 0;
+}
+void color(int x, int y, int c) {
+    num[x][y] = c;
+    for (int i = 0; i &lt; 4; ++i)
+        if (judge(x + ax[i], y + ay[i]) 
+            &amp;&amp; !num[x + ax[i]][y + ay[i]])//如果把这个条件删掉就会MLE，因为就会一直往回走
+            color(x + ax[i], y + ay[i], c);
+}
+int main() {
+    while (~sc(n)) {
+        cnt = 0;
+        memset(num, 0, sizeof(num));
+        for (int i = 1; i &lt;= n; ++i) scanf(&#34;%s&#34;, ma[i] + 1);
+        for (int i = 1; i &lt;= n; ++i)
+            for (int j = 1; j &lt;= n; ++j)
+                if (ma[i][j] == &#39;#&#39; &amp;&amp; !num[i][j]) color(i, j, ++cnt);
+        for (int i = 1; i &lt;= n; ++i)
+            for (int j = 1; j &lt;= n; ++j)
+                if (ma[i][j] == &#39;#&#39;)
+                    for (int k = 0; k &lt; 4; ++k)
+                        if (ma[i + ax[k]][j + ay[k]] == &#39;.&#39;) {
+                            num[i][j] = 0;
+                            break;
+                        }
+        set&lt;int&gt; ans;
+        for (int i = 1; i &lt;= n; ++i)
+            for (int j = 1; j &lt;= n; ++j)
+                if (num[i][j]) ans.insert(num[i][j]);
+        printf(&#34;%d\n&#34;, cnt - ans.size());
+    }
+    return 0;
+}
+</code></pre><h2 id=乘积最大>乘积最大<a hidden class=anchor aria-hidden=true href=#乘积最大>#</a></h2><blockquote><p>给定N个整数A1, A2, &mldr; AN。请你从中选出K个数，使其乘积最大。</p><p>请你求出最大的乘积，由于乘积可能超出整型范围，你只需输出乘积除以1000000009的余数。</p><p>注意，如果X&lt;0， 我们定义X除以1000000009的余数是负(-X)除以1000000009的余数。<br>即：0-((0-x) % 1000000009)</p><p>【输入格式】<br>第一行包含两个整数N和K。<br>以下N行每行一个整数Ai。</p><p>对于40%的数据，1 &lt;= K &lt;= N &lt;= 100<br>对于60%的数据，1 &lt;= K &lt;= 1000<br>对于100%的数据，1 &lt;= K &lt;= N &lt;= 100000 -100000 &lt;= Ai &lt;= 100000</p><p>【输出格式】<br>一个整数，表示答案。</p><p>【输入样例】<br>5 3<br>-100000<br>-10000<br>2<br>100000<br>10000</p><p>【输出样例】<br>999100009</p><p>再例如：<br>【输入样例】<br>5 3<br>-100000<br>-100000<br>-2<br>-100000<br>-100000</p><p>【输出样例】<br>-999999829</p></blockquote><pre tabindex=0><code>#include &lt;algorithm&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+using namespace std;
+typedef long long ll;
+const ll mod = 1000000009;
+const int N = 1e5 + 7;
+ll a[N], n, k;
+int main() {
+    while (~scanf(&#34;%lld%lld&#34;, &amp;n, &amp;k)) {
+        for (int i = 0; i &lt; n; ++i) scanf(&#34;%lld&#34;, &amp;a[i]);
+        sort(a, a + n);
+        ll ans = 1, kk = k;
+        int L = 0, R = n - 1;
+        while (k &gt;= 2) {
+            if (a[L] * a[L + 1] &gt; a[R] * a[R - 1])
+                ans = (ans * ((a[L] * a[L + 1]) % mod) % mod) % mod, L += 2;
+            else
+                ans = (ans * ((a[R] * a[R - 1]) % mod) % mod) % mod, R -= 2;
+            k -= 2;
+        }  // n=1+m
+        if (a[n - 1] &lt; 0) {
+            ll res = 1;
+            for (int i = 0; i &lt; kk; ++i) res = (res * a[n - 1 - i]) % mod;
+            printf(&#34;%lld\n&#34;, res);
+        } else {
+            if (k) ans %= mod, ans *= max(a[L], a[R]), ans %= mod;
+            printf(&#34;%lld\n&#34;, ans);
+        }
+    }
+    return 0;
+}
+/*92%
+-15 -5 -3 -2 0
+*/
+</code></pre><hr><blockquote><p>本文整理自作者牛客博客（https://blog.nowcoder.net/n/c63ea7d21f874a6f90f8de9ff287083f），发布于 2020-09-30。</p></blockquote></div><footer class=post-footer><ul class=post-tags><li><a href=https://bernard035.github.io/tags/%E9%A2%98%E9%9B%86/>题集</a></li><li><a href=https://bernard035.github.io/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/>蓝桥杯</a></li></ul><nav class=paginav><a class=prev href=https://bernard035.github.io/posts/binary-search-20201004/><span class=title>« Prev</span>
+<span>递增三元组 思维 二分</span>
+</a><a class=next href=https://bernard035.github.io/posts/cp-notes-20200922/><span class=title>Next »</span>
+<span>位运算之谜</span></a></nav><ul class=share-buttons><li><a target=_blank rel="noopener noreferrer" aria-label="share 第九届蓝桥杯 CB 个人题解 on x" href="https://x.com/intent/tweet/?text=%e7%ac%ac%e4%b9%9d%e5%b1%8a%e8%93%9d%e6%a1%a5%e6%9d%af%20CB%20%e4%b8%aa%e4%ba%ba%e9%a2%98%e8%a7%a3&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f&amp;hashtags=%e9%a2%98%e9%9b%86%2c%e8%93%9d%e6%a1%a5%e6%9d%af"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446C483.971.0 512 28.03 512 62.554zM269.951 190.75 182.567 75.216H56L207.216 272.95 63.9 436.783h61.366L235.9 310.383l96.667 126.4H456L298.367 228.367l134-153.151H371.033zM127.633 110h36.468l219.38 290.065H349.5z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 第九届蓝桥杯 CB 个人题解 on linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f&amp;title=%e7%ac%ac%e4%b9%9d%e5%b1%8a%e8%93%9d%e6%a1%a5%e6%9d%af%20CB%20%e4%b8%aa%e4%ba%ba%e9%a2%98%e8%a7%a3&amp;summary=%e7%ac%ac%e4%b9%9d%e5%b1%8a%e8%93%9d%e6%a1%a5%e6%9d%af%20CB%20%e4%b8%aa%e4%ba%ba%e9%a2%98%e8%a7%a3&amp;source=https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM160.461 423.278V197.561h-75.04v225.717h75.04zm270.539.0V293.839c0-69.333-37.018-101.586-86.381-101.586-39.804.0-57.634 21.891-67.617 37.266v-31.958h-75.021c.995 21.181.0 225.717.0 225.717h75.02V297.222c0-6.748.486-13.492 2.474-18.315 5.414-13.475 17.767-27.434 38.494-27.434 27.135.0 38.007 20.707 38.007 51.037v120.768H431zM123.448 88.722C97.774 88.722 81 105.601 81 127.724c0 21.658 16.264 39.002 41.455 39.002h.484c26.165.0 42.452-17.344 42.452-39.002-.485-22.092-16.241-38.954-41.943-39.002z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 第九届蓝桥杯 CB 个人题解 on reddit" href="https://reddit.com/submit?url=https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f&title=%e7%ac%ac%e4%b9%9d%e5%b1%8a%e8%93%9d%e6%a1%a5%e6%9d%af%20CB%20%e4%b8%aa%e4%ba%ba%e9%a2%98%e8%a7%a3"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zM446 265.638c0-22.964-18.616-41.58-41.58-41.58-11.211.0-21.361 4.457-28.841 11.666-28.424-20.508-67.586-33.757-111.204-35.278l18.941-89.121 61.884 13.157c.756 15.734 13.642 28.29 29.56 28.29 16.407.0 29.706-13.299 29.706-29.701.0-16.403-13.299-29.702-29.706-29.702-11.666.0-21.657 6.792-26.515 16.578l-69.105-14.69c-1.922-.418-3.939-.042-5.585 1.036-1.658 1.073-2.811 2.761-3.224 4.686l-21.152 99.438c-44.258 1.228-84.046 14.494-112.837 35.232-7.468-7.164-17.589-11.591-28.757-11.591-22.965.0-41.585 18.616-41.585 41.58.0 16.896 10.095 31.41 24.568 37.918-.639 4.135-.99 8.328-.99 12.576.0 63.977 74.469 115.836 166.33 115.836s166.334-51.859 166.334-115.836c0-4.218-.347-8.387-.977-12.493 14.564-6.47 24.735-21.034 24.735-38.001zM326.526 373.831c-20.27 20.241-59.115 21.816-70.534 21.816-11.428.0-50.277-1.575-70.522-21.82-3.007-3.008-3.007-7.882.0-10.889 3.003-2.999 7.882-3.003 10.885.0 12.777 12.781 40.11 17.317 59.637 17.317 19.522.0 46.86-4.536 59.657-17.321 3.016-2.999 7.886-2.995 10.885.008 3.008 3.011 3.003 7.882-.008 10.889zm-5.23-48.781c-16.373.0-29.701-13.324-29.701-29.698.0-16.381 13.328-29.714 29.701-29.714 16.378.0 29.706 13.333 29.706 29.714.0 16.374-13.328 29.698-29.706 29.698zM160.91 295.348c0-16.381 13.328-29.71 29.714-29.71 16.369.0 29.689 13.329 29.689 29.71.0 16.373-13.32 29.693-29.689 29.693-16.386.0-29.714-13.32-29.714-29.693z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 第九届蓝桥杯 CB 个人题解 on facebook" href="https://facebook.com/sharer/sharer.php?u=https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H342.978V319.085h66.6l12.672-82.621h-79.272v-53.617c0-22.603 11.073-44.636 46.58-44.636H425.6v-70.34s-32.71-5.582-63.982-5.582c-65.288.0-107.96 39.569-107.96 111.204v62.971h-72.573v82.621h72.573V512h-191.104c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 第九届蓝桥杯 CB 个人题解 on whatsapp" href="https://api.whatsapp.com/send?text=%e7%ac%ac%e4%b9%9d%e5%b1%8a%e8%93%9d%e6%a1%a5%e6%9d%af%20CB%20%e4%b8%aa%e4%ba%ba%e9%a2%98%e8%a7%a3%20-%20https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f"><svg viewBox="0 0 512 512" height="30" width="30" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554v386.892C512 483.97 483.97 512 449.446 512H62.554c-34.524.0-62.554-28.03-62.554-62.554V62.554c0-34.524 28.029-62.554 62.554-62.554h386.892zm-58.673 127.703c-33.842-33.881-78.847-52.548-126.798-52.568-98.799.0-179.21 80.405-179.249 179.234-.013 31.593 8.241 62.428 23.927 89.612l-25.429 92.884 95.021-24.925c26.181 14.28 55.659 21.807 85.658 21.816h.074c98.789.0 179.206-80.413 179.247-179.243.018-47.895-18.61-92.93-52.451-126.81zM263.976 403.485h-.06c-26.734-.01-52.954-7.193-75.828-20.767l-5.441-3.229-56.386 14.792 15.05-54.977-3.542-5.637c-14.913-23.72-22.791-51.136-22.779-79.287.033-82.142 66.867-148.971 149.046-148.971 39.793.014 77.199 15.531 105.329 43.692 28.128 28.16 43.609 65.592 43.594 105.4-.034 82.149-66.866 148.983-148.983 148.984zm81.721-111.581c-4.479-2.242-26.499-13.075-30.604-14.571-4.105-1.495-7.091-2.241-10.077 2.241-2.986 4.483-11.569 14.572-14.182 17.562-2.612 2.988-5.225 3.364-9.703 1.12-4.479-2.241-18.91-6.97-36.017-22.23C231.8 264.15 222.81 249.484 220.198 245s-.279-6.908 1.963-9.14c2.016-2.007 4.48-5.232 6.719-7.847 2.24-2.615 2.986-4.484 4.479-7.472 1.493-2.99.747-5.604-.374-7.846-1.119-2.241-10.077-24.288-13.809-33.256-3.635-8.733-7.327-7.55-10.077-7.688-2.609-.13-5.598-.158-8.583-.158-2.986.0-7.839 1.121-11.944 5.604-4.105 4.484-15.675 15.32-15.675 37.364.0 22.046 16.048 43.342 18.287 46.332 2.24 2.99 31.582 48.227 76.511 67.627 10.685 4.615 19.028 7.371 25.533 9.434 10.728 3.41 20.492 2.929 28.209 1.775 8.605-1.285 26.499-10.833 30.231-21.295 3.732-10.464 3.732-19.431 2.612-21.298-1.119-1.869-4.105-2.99-8.583-5.232z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 第九届蓝桥杯 CB 个人题解 on telegram" href="https://telegram.me/share/url?text=%e7%ac%ac%e4%b9%9d%e5%b1%8a%e8%93%9d%e6%a1%a5%e6%9d%af%20CB%20%e4%b8%aa%e4%ba%ba%e9%a2%98%e8%a7%a3&amp;url=https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f"><svg viewBox="2 2 28 28" height="30" width="30" fill="currentColor"><path d="M26.49 29.86H5.5a3.37 3.37.0 01-2.47-1 3.35 3.35.0 01-1-2.47V5.48A3.36 3.36.0 013 3 3.37 3.37.0 015.5 2h21A3.38 3.38.0 0129 3a3.36 3.36.0 011 2.46V26.37a3.35 3.35.0 01-1 2.47 3.38 3.38.0 01-2.51 1.02zm-5.38-6.71a.79.79.0 00.85-.66L24.73 9.24a.55.55.0 00-.18-.46.62.62.0 00-.41-.17q-.08.0-16.53 6.11a.59.59.0 00-.41.59.57.57.0 00.43.52l4 1.24 1.61 4.83a.62.62.0 00.63.43.56.56.0 00.4-.17L16.54 20l4.09 3A.9.9.0 0021.11 23.15zM13.8 20.71l-1.21-4q8.72-5.55 8.78-5.55c.15.0.23.0.23.16a.18.18.0 010 .06s-2.51 2.3-7.52 6.8z"/></svg></a></li><li><a target=_blank rel="noopener noreferrer" aria-label="share 第九届蓝桥杯 CB 个人题解 on ycombinator" href="https://news.ycombinator.com/submitlink?t=%e7%ac%ac%e4%b9%9d%e5%b1%8a%e8%93%9d%e6%a1%a5%e6%9d%af%20CB%20%e4%b8%aa%e4%ba%ba%e9%a2%98%e8%a7%a3&u=https%3a%2f%2fbernard035.github.io%2fposts%2fcb-20200930%2f"><svg width="30" height="30" viewBox="0 0 512 512" fill="currentColor"><path d="M449.446.0C483.971.0 512 28.03 512 62.554V449.446C512 483.97 483.97 512 449.446 512H62.554C28.03 512 0 483.97.0 449.446V62.554C0 28.03 28.029.0 62.554.0H449.446zM183.8767 87.9921h-62.034L230.6673 292.4508V424.0079h50.6655V292.4508L390.1575 87.9921H328.1233L256 238.2489z"/></svg></a></li></ul></footer></article></main><footer class=footer><span>&copy; 2026 <a href=https://bernard035.github.io/>Bernard's Blog</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

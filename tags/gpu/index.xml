@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>GPU on Bernard&#39;s Blog</title>
+    <link>https://bernard035.github.io/tags/gpu/</link>
+    <description>Recent content in GPU on Bernard&#39;s Blog</description>
+    <image>
+      <title>Bernard&#39;s Blog</title>
+      <url>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://bernard035.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2026 18:30:00 +0800</lastBuildDate>
+    <atom:link href="https://bernard035.github.io/tags/gpu/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nvCOMP GPU 解压缩实践：性能表征、推理框架接入与地址重映射优化</title>
+      <link>https://bernard035.github.io/posts/nvcomp-gpu-decompression-inference/</link>
+      <pubDate>Thu, 03 Sep 2026 18:30:00 +0800</pubDate>
+      <guid>https://bernard035.github.io/posts/nvcomp-gpu-decompression-inference/</guid>
+      <description>&lt;h1 id=&#34;nvcomp-gpu-解压缩实践性能表征推理框架接入与地址重映射优化&#34;&gt;nvCOMP GPU 解压缩实践：性能表征、推理框架接入与地址重映射优化&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在数据量大的模型推理场景中，压缩数据的解压与搬运往往是隐藏的性能瓶颈。本文记录一次完整的优化实践：以 nvCOMP 将解压下沉到 GPU，先对&lt;strong&gt;压缩协议 × 压缩率 × 数据大小&lt;/strong&gt;做系统性性能表征，再据此接入推理框架，并通过&lt;strong&gt;地址重映射&lt;/strong&gt;以零拷贝方式实现特征变换与广播，最终在 L20 / A10 / A30 三款 GPU 上取得&lt;strong&gt;相对 zstd 基线 &amp;gt;50% 的吞吐提升&lt;/strong&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;一问题大数据量推理场景的-io-瓶颈&#34;&gt;一、问题：大数据量推理场景的 IO 瓶颈&lt;/h2&gt;
+&lt;p&gt;我们的推理场景有一个显著特征：&lt;strong&gt;输入数据量大&lt;/strong&gt;（高分辨率多通道特征 / 大规模稀疏特征），而算子的计算强度并不高。数据从存储到参与计算，经典链路是：&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;压缩数据落盘（zstd） → CPU 解压 → 拷贝到显存（H2D） → kernel 计算
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;用 roofline 式的带宽分析拆解这条链路，各环节的量级差异一目了然：&lt;/p&gt;
+&lt;table&gt;
+	&lt;thead&gt;
+			&lt;tr&gt;
+					&lt;th&gt;环节&lt;/th&gt;
+					&lt;th&gt;典型带宽 / 吞吐&lt;/th&gt;
+					&lt;th&gt;量级&lt;/th&gt;
+			&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+			&lt;tr&gt;
+					&lt;td&gt;NVMe 读取（压缩数据）&lt;/td&gt;
+					&lt;td&gt;3~7 GB/s&lt;/td&gt;
+					&lt;td&gt;大&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;CPU 单核解压（zstd）&lt;/td&gt;
+					&lt;td&gt;~1 GB/s 量级&lt;/td&gt;
+					&lt;td&gt;&lt;strong&gt;最小，瓶颈&lt;/strong&gt;&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;PCIe 4.0 H2D&lt;/td&gt;
+					&lt;td&gt;~25 GB/s&lt;/td&gt;
+					&lt;td&gt;大&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;tr&gt;
+					&lt;td&gt;GPU 显存带宽（A10/A30/L20）&lt;/td&gt;
+					&lt;td&gt;600~933 GB/s&lt;/td&gt;
+					&lt;td&gt;最大&lt;/td&gt;
+			&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;结论很清晰：&lt;strong&gt;CPU 解压是整条流水线最细的管子&lt;/strong&gt;。多线程 zstd 可以扩展到几个 GB/s，但代价是抢占推理服务的 CPU 资源，且解压结果仍要经 PCIe 全量搬运一遍。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
